@@ -1,0 +1,76 @@
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+    background-color: #000;
+    overflow: hidden;
+    position: relative;
+    height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 50px 20px;
+    position: relative;
+    z-index: 1;
+}
+
+header h1 {
+    font-size: 2.5em;
+    margin: 0;
+}
+
+header p {
+    font-size: 1.2em;
+    color: #ccc;
+}
+
+.projects {
+    text-align: center;
+    margin: 20px auto;
+    z-index: 1;
+    position: relative;
+}
+
+.projects h2 {
+    font-size: 2em;
+}
+
+.projects ul {
+    list-style: none;
+    padding: 0;
+}
+
+.projects li {
+    margin: 10px 0;
+}
+
+.projects a {
+    color: #1e90ff;
+    text-decoration: none;
+    font-size: 1.2em;
+}
+
+.projects a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+#backgroundCanvas {
+    position: fixed; /* Fixes the canvas to the viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999; /* Ensures the canvas is above all other elements */
+    pointer-events: none; /* Prevents the canvas from blocking mouse interactions */
+}
