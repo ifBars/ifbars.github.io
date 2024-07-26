@@ -1,39 +1,71 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     margin: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #fff;
     background-color: #000;
     overflow: hidden;
     position: relative;
     height: 100vh;
+    background: radial-gradient(circle at top right, #111, #000);
+}
+
+canvas#backgroundCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1; /* Ensure canvas is below other content */
 }
 
 header {
     text-align: center;
-    padding: 50px 20px;
-    position: relative;
-    z-index: 1;
+    position: absolute; /* Changed to absolute for better positioning */
+    top: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2; /* Ensure header is above the canvas */
+    display: inline-block;
 }
 
 header h1 {
-    font-size: 2.5em;
+    font-size: 3em;
     margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
 }
 
 header p {
-    font-size: 1.2em;
+    font-size: 1.5em;
     color: #ccc;
 }
 
 .projects {
     text-align: center;
     margin: 20px auto;
-    z-index: 1;
-    position: relative;
+    z-index: 2; /* Ensure projects section is above the canvas */
+    position: absolute; /* Changed to absolute for better positioning */
+    top: 120px; /* Adjust as needed to avoid overlap with header */
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-block;
+    opacity: 0; /* Start hidden */
+    transition: opacity 1s ease-in-out; /* Fade-in transition */
+}
+
+.projects.fade-in {
+    opacity: 1; /* Fully visible */
 }
 
 .projects h2 {
-    font-size: 2em;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #1e90ff;
+    display: inline-block;
+    padding-bottom: 5px;
 }
 
 .projects ul {
@@ -48,11 +80,13 @@ header p {
 .projects a {
     color: #1e90ff;
     text-decoration: none;
-    font-size: 1.2em;
+    font-size: 1.3em;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 
 .projects a:hover {
-    text-decoration: underline;
+    color: #ff007f;
+    text-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
 }
 
 footer {
@@ -61,16 +95,26 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 2; /* Ensure footer is above the canvas */
+    color: #ccc;
 }
 
-#backgroundCanvas {
-    position: fixed; /* Fixes the canvas to the viewport */
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999; /* Ensures the canvas is above all other elements */
-    pointer-events: none; /* Prevents the canvas from blocking mouse interactions */
+footer p {
+    margin: 5px 0;
+}
+
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2em;
+    }
+    header p {
+        font-size: 1em;
+    }
+    .projects h2 {
+        font-size: 2em;
+    }
+    .projects a {
+        font-size: 1em;
+    }
 }
