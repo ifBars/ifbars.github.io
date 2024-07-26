@@ -38,9 +38,10 @@ header h1 {
     text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
 }
 
-header p {
+header h2 {
     font-size: 1.5em;
-    color: #ccc;
+    color: #aaa; /* Greyish color */
+    margin: 10px 0 0 0; /* Adjust margin as needed */
 }
 
 .projects {
@@ -91,25 +92,27 @@ header p {
 
 footer {
     text-align: center;
-    padding: 20px;
     position: absolute;
     bottom: 0;
+    left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: radial-gradient(circle at top right, #111, #000); /* Same as the rest of the page */
+    color: #ccc; /* Text color to contrast with the background */
     z-index: 2; /* Ensure footer is above the canvas */
-    color: #ccc;
+    padding: 10px; /* Adjust as needed to fit the text */
+    box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
 footer p {
-    margin: 5px 0;
+    margin: 0; /* Remove default margins */
 }
 
 @media (max-width: 768px) {
     header h1 {
         font-size: 2em;
     }
-    header p {
-        font-size: 1em;
+    header h2 {
+        font-size: 1.2em;
     }
     .projects h2 {
         font-size: 2em;

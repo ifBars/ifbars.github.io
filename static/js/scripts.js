@@ -55,20 +55,34 @@ canvas.addEventListener('mousemove', createParticle);
 
 animate();
 
-const typewriter = document.getElementById('typewriter');
+const nameElement = document.getElementById('typewriter-name');
+const subtitleElement = document.getElementById('typewriter-subtitle');
 const projectsSection = document.querySelector('.projects');
-const text = "Tristen Smith - Self-Taught Software Developer";
-let index = 0;
+const nameText = "Tristen Smith";
+const subtitleText = "Software Developer";
+let nameIndex = 0;
+let subtitleIndex = 0;
 
-function type() {
-    if (index < text.length) {
-        typewriter.innerHTML += text.charAt(index);
-        index++;
-        setTimeout(type, 100);
+function typeName() {
+    if (nameIndex < nameText.length) {
+        nameElement.innerHTML += nameText.charAt(nameIndex);
+        nameIndex++;
+        setTimeout(typeName, 100);
     } else {
-        // Add the fade-in class after typing is done
+        // Start typing the subtitle after the name is done
+        setTimeout(typeSubtitle, 500);
+    }
+}
+
+function typeSubtitle() {
+    if (subtitleIndex < subtitleText.length) {
+        subtitleElement.innerHTML += subtitleText.charAt(subtitleIndex);
+        subtitleIndex++;
+        setTimeout(typeSubtitle, 100);
+    } else {
+        // Add the fade-in class after subtitle typing is done
         projectsSection.classList.add('fade-in');
     }
 }
 
-type();
+typeName();
