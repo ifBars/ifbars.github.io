@@ -58,7 +58,7 @@ animate();
 const nameElement = document.getElementById('typewriter-name');
 const subtitleElement = document.getElementById('typewriter-subtitle');
 const projectsSection = document.querySelector('.projects');
-const nameText = "Tristen Smith";
+const nameText = "IfBars";
 const subtitleText = "Software Developer";
 let nameIndex = 0;
 let subtitleIndex = 0;
@@ -69,8 +69,7 @@ function typeName() {
         nameIndex++;
         setTimeout(typeName, 100);
     } else {
-        // Start typing the subtitle after the name is done
-        setTimeout(typeSubtitle, 500);
+        setTimeout(typeSubtitle, 400);
     }
 }
 
@@ -80,7 +79,6 @@ function typeSubtitle() {
         subtitleIndex++;
         setTimeout(typeSubtitle, 100);
     } else {
-        // Add the fade-in class after subtitle typing is done
         projectsSection.classList.add('fade-in');
     }
 }
