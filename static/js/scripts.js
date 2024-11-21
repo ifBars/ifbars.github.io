@@ -83,7 +83,7 @@ function typeSubtitle() {
         setTimeout(() => {
             githubIcon.classList.remove('hidden');
             githubIcon.classList.add('visible');
-        }, 400);
+        }, 200);
         projectsSection.classList.add('fade-in');
     }
 }
