@@ -57,6 +57,7 @@ animate();
 
 const nameElement = document.getElementById('typewriter-name');
 const subtitleElement = document.getElementById('typewriter-subtitle');
+const githubIcon = document.querySelector('.github-icon');
 const projectsSection = document.querySelector('.projects');
 const nameText = "IfBars";
 const subtitleText = "Software Developer";
