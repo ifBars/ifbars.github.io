@@ -79,11 +79,11 @@ function typeSubtitle() {
         subtitleIndex++;
         setTimeout(typeSubtitle, 100);
     } else {
-        projectsSection.classList.add('fade-in');
         setTimeout(() => {
             githubIcon.classList.remove('hidden');
             githubIcon.classList.add('visible');
         }, 400);
+        projectsSection.classList.add('fade-in');
     }
 }
 

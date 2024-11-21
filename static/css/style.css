@@ -107,34 +107,34 @@ footer p {
     margin: 0; /* Remove default margins */
 }
 
-.github-icon {
-    margin-top: 10px; /* Space between subtitle and icon */
-    text-align: center; /* Center the icon under the subtitle */
-}
 
+/* GitHub icon */
 .github-icon {
     margin-top: 10px;
     text-align: center;
-    opacity: 0; /* Initially hidden */
-    transition: opacity 1.5s ease; /* Smooth fade-in */
-    z-index: 4; /* Ensure GitHub icon is above projects */
-    position: relative;
+    opacity: 0; /* Hidden by default */
+    transition: opacity 1.5s ease; /* Smooth fade-in transition */
+    z-index: 3; /* Ensure it's above the projects section */
 }
 
 .github-icon.visible {
-    opacity: 1; /* Make visible after fade-in */
+    opacity: 1; /* Visible after fade-in */
 }
 
 .github-icon a {
-    color: #555; /* Default icon color */
-    font-size: 48px; /* Adjust size as needed */
-    text-decoration: none; /* Remove underline */
+    color: #555;
+    font-size: 48px;
+    text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
+.github-icon a:visited {
+    color: #555;
+}
+
 .github-icon a:hover {
-    color: #000; /* Change color on hover */
-    transform: scale(1.2); /* Slightly enlarge on hover */
+    color: #000;
+    transform: scale(1.2);
 }
 
 @media (max-width: 768px) {
