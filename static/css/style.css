@@ -112,6 +112,15 @@ footer p {
     text-align: center; /* Center the icon under the subtitle */
 }
 
+.hidden {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.visible {
+    opacity: 1;
+}
+
 .github-icon a {
     color: #555; /* Default icon color */
     font-size: 48px; /* Adjust size as needed */
