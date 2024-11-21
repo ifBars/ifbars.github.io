@@ -26,10 +26,10 @@ function updateParticles() {
     particles.forEach(p => {
         p.x += p.speed * Math.cos(p.direction);
         p.y += p.speed * Math.sin(p.direction);
-        p.size *= 0.95; // Shrink over time
-        p.speed *= 0.98;
+        p.size *= 0.97; // Shrink over time
+        p.speed *= 0.99;
 
-        if (p.size < 0.1 || p.speed < 0.1) {
+        if (p.size < 0.05 || p.speed < 0.05) {
             particles.splice(particles.indexOf(p), 1);
         }
     });
