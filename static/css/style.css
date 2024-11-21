@@ -113,18 +113,18 @@ footer p {
 }
 
 .github-icon a {
-    color: #000; /* Default icon color */
-    font-size: 60px; /* Adjust size as needed */
+    color: #555; /* Default icon color */
+    font-size: 48px; /* Adjust size as needed */
     text-decoration: none; /* Remove underline */
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .github-icon a:visited {
-    color: #000; /* Ensure visited links stay black */
+    color: #555; /* Ensure visited links stay black */
 }
 
 .github-icon a:hover {
-    color: #555; /* Change color on hover */
+    color: #000; /* Change color on hover */
     transform: scale(1.2); /* Slightly enlarge on hover */
 }
 
