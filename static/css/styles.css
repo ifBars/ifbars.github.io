@@ -107,6 +107,23 @@ footer p {
     margin: 0; /* Remove default margins */
 }
 
+.github-icon {
+    margin-top: 10px; /* Space between subtitle and icon */
+    text-align: center; /* Center the icon under the subtitle */
+}
+
+.github-icon a {
+    color: #000; /* Default icon color */
+    font-size: 32px; /* Adjust size as needed */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.github-icon a:hover {
+    color: #555; /* Change color on hover */
+    transform: scale(1.2); /* Slightly enlarge on hover */
+}
+
 @media (max-width: 768px) {
     header h1 {
         font-size: 2em;
