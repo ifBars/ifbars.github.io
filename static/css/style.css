@@ -49,7 +49,7 @@ header h2 {
     margin: 20px auto;
     z-index: 2; /* Ensure projects section is above the canvas */
     position: absolute; /* Changed to absolute for better positioning */
-    top: 120px; /* Adjust as needed to avoid overlap with header */
+    top: 200px; /* Adjust as needed to avoid overlap with header */
     left: 50%;
     transform: translateX(-50%);
     display: inline-block;
