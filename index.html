@@ -10,15 +10,33 @@
     <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 </head>
 <body>
+    <div class="video-container">
+        <video autoplay muted loop id="background-video">
+          <source src="static/videos/background.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+    </div>
     <canvas id="backgroundCanvas"></canvas>
     <header>
         <h1 id="typewriter-name"></h1>
         <h2 id="typewriter-subtitle"></h2>
-        <section class="github-icon hidden">
-            <a href="https://github.com/ifBars" target="_blank">
-                <i class="fab fa-github"></i>
-            </a>
-        </section>
+        <div class="socials-container">
+            <section class="github-icon hidden">
+                <a href="https://github.com/ifBars" target="_blank">
+                    <i class="fab fa-github"></i>
+                </a>
+            </section>
+            <section class="spotify-icon hidden">
+                <a href="https://open.spotify.com/user/31vogks3tg4am4wa3t2yya6nrpmm?si=1279f1a38af04ad0" target="_blank">
+                    <i class="fab fa-spotify"></i>
+                </a>
+            </section>
+            <section class="steam-icon hidden">
+                <a href="https://steamcommunity.com/id/ifbars/" target="_blank">
+                    <i class="fab fa-steam"></i>
+                </a>
+            </section>
+        </div>
     </header>
     <section class="projects">
         <h2>Projects</h2>
@@ -28,6 +46,18 @@
             <li><a href="https://github.com/ifBars/gmod-report-database" target="_blank">GMod DarkRP Report Database</a></li>
         </ul>
     </section>
+    <audio id="audio-player" autoplay></audio>
+
+    <script>
+      const playlist = [
+        { src: "static/audio/Morning Again.mp3", name: "Juice Wrld - Morning Again" },
+        { src: "static/audio/Cavalier.mp3", name: "Juice Wrld - Cavalier" },
+        { src: "static/audio/Sip Slow.mp3", name: "Juice Wrld - Sip Slow" },
+        { src: "static/audio/Unexplainable (feat. The KID LAROI).mp3", name: "Juice Wrld & Kid LAROI - Unexplainable" },
+        { src: "static/audio/Double Date.mp3", name: "Juice Wrld - Double Date" },
+        { src: "static/audio/Swerve.mp3", name: "Juice Wrld - Swerve" },
+      ];
+    </script>
     <script src="static/js/scripts.js"></script>
 </body>
 </html>
