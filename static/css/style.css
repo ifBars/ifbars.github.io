@@ -2,6 +2,38 @@ html {
     scroll-behavior: smooth;
 }
 
+#click-to-enter {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 24px;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 1s ease;
+  transform: translateY(0);
+}
+
+#main-content {
+  display: none;
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  transition: opacity 1s ease;
+}
+
+#main-content.visible {
+  display: block;
+  opacity: 1;
+}
+
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -123,6 +155,11 @@ footer p {
 
 .github-icon, .spotify-icon, .steam-icon {
     text-align: center;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.github-icon:hover, .spotify-icon:hover, .steam-icon:hover {
+    transform: scale(1.2);
 }
 
 .github-icon a, .spotify-icon a, .steam-icon a {

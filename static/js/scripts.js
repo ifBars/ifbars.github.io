@@ -157,3 +157,15 @@ function typeSubtitle() {
 }
 
 typeName();
+
+const clickToEnter = document.getElementById('click-to-enter');
+const mainContent = document.getElementById('main-content');
+
+clickToEnter.addEventListener('click', () => {
+  clickToEnter.style.transform = 'translateY(100%)';
+
+  setTimeout(() => {
+    clickToEnter.style.display = 'none';
+    mainContent.classList.add('visible');
+  }, 1000);
+});
