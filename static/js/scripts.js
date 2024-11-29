@@ -1,4 +1,4 @@
-// paralax video & music code
+// paralax video code
 const video = document.getElementById('background-video');
 document.addEventListener('mousemove', (e) => {
   const { clientX, clientY } = e;
@@ -13,6 +13,7 @@ document.addEventListener('mousemove', (e) => {
   video.style.transform = `scale(1.2) translate(${translateX}%, ${translateY}%)`;
 });
 
+// music code
 const audioPlayer = document.getElementById('audio-player');
 let currentTrackIndex = 0;
 let isAudioPlaying = false;
@@ -51,6 +52,7 @@ function startAudio() {
 document.addEventListener('click', startAudio);
 audioPlayer.addEventListener('ended', playNextTrack);
 
+// particle code
 const canvas = document.getElementById('backgroundCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -123,10 +125,12 @@ canvas.addEventListener('mousemove', createParticle);
 
 animate();
 
+// typewriter code
 const nameElement = document.getElementById('typewriter-name');
 const subtitleElement = document.getElementById('typewriter-subtitle');
 const iconsContainer = document.querySelector('.socials-container');
 const projectsSection = document.querySelector('.projects');
+const volumeControls = document.querySelector('.volume-control');
 const nameText = "IfBars";
 const subtitleText = "Software Developer";
 let nameIndex = 0;
@@ -138,6 +142,7 @@ function typeName() {
         nameIndex++;
         setTimeout(typeName, 100);
     } else {
+        volumeControls.classList.add('fade-in');
         setTimeout(typeSubtitle, 400);
     }
 }
@@ -151,21 +156,57 @@ function typeSubtitle() {
         setTimeout(() => {
             iconsContainer.classList.remove('hidden');
             iconsContainer.classList.add('visible');
-        }, 200);
-        projectsSection.classList.add('fade-in');
+        }, 300);
+        setTimeout(() => {
+            projectsSection.classList.add('fade-in');
+        }, 800);
     }
 }
 
-typeName();
-
+// click to enter code
 const clickToEnter = document.getElementById('click-to-enter');
 const mainContent = document.getElementById('main-content');
 
 clickToEnter.addEventListener('click', () => {
+  clickToEnter.classList.add('clicked');
   clickToEnter.style.transform = 'translateY(100%)';
 
   setTimeout(() => {
     clickToEnter.style.display = 'none';
     mainContent.classList.add('visible');
+    typeName();
   }, 1000);
 });
+
+// volume control code
+const volumeSlider = document.getElementById('volume-slider');
+const volumeIcon = document.getElementById('volume-icon');
+
+audioPlayer.volume = 0.5;
+volumeSlider.value = 0.5;
+
+volumeSlider.addEventListener('input', () => {
+    audioPlayer.volume = volumeSlider.value;
+    updateVolumeIcon();
+});
+
+volumeIcon.addEventListener('click', () => {
+    if (audioPlayer.volume > 0) {
+        audioPlayer.volume = 0;
+        volumeSlider.value = 0;
+    } else {
+        audioPlayer.volume = 0.5;
+        volumeSlider.value = 0.5;
+    }
+    updateVolumeIcon();
+});
+
+function updateVolumeIcon() {
+    if (audioPlayer.volume === 0) {
+        volumeIcon.className = 'fas fa-volume-mute';
+    } else if (audioPlayer.volume <= 0.5) {
+        volumeIcon.className = 'fas fa-volume-down';
+    } else {
+        volumeIcon.className = 'fas fa-volume-up';
+    }
+}
