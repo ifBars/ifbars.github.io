@@ -3,41 +3,41 @@ html {
 }
 
 #click-to-enter {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 24px;
-  font-family: Arial, sans-serif;
-  cursor: pointer;
-  z-index: 10;
-  transition: transform 1s ease, opacity 1s ease;
-  transform: translateY(0);
-  opacity: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 1s ease, opacity 1s ease;
+    transform: translateY(0);
+    opacity: 1;
 }
 
 #click-to-enter.clicked {
-  opacity: 0;
+    opacity: 0;
 }
 
 #main-content {
-  display: none;
-  text-align: center;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  opacity: 0;
-  transition: opacity 1s ease;
+    display: none;
+    text-align: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    opacity: 0;
+    transition: opacity 1s ease;
 }
 
 #main-content.visible {
-  display: block;
-  opacity: 1;
+    display: block;
+    opacity: 1;
 }
 
 body {
@@ -57,7 +57,7 @@ canvas#backgroundCanvas {
     left: 0;
     width: 100vw;
     height: 100vh;
-    z-index: 1; 
+    z-index: 1;
 }
 
 header {
@@ -65,30 +65,30 @@ header {
     border-radius: 5px;
     padding: 10px;
     text-align: center;
-    position: absolute; 
-    top: 20px; 
+    position: absolute;
+    top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 2; 
+    z-index: 2;
     display: inline-block;
 }
 
 header h1 {
     font-size: 3em;
     margin: 0;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
 header h2 {
     font-size: 1.5em;
-    color: #aaa; 
-    margin: 10px 0 0 0; 
+    color: #aaa;
+    margin: 10px 0 0 0;
 }
 
 .projects {
     background: rgba(0, 0, 0, 0.5);
     border-radius: 5px;
-    padding: 10px;
+    padding: 20px;
     text-align: center;
     margin: 20px auto;
     z-index: 2;
@@ -96,9 +96,10 @@ header h2 {
     top: 190px;
     left: 50%;
     transform: translateX(-50%);
-    display: inline-block;
     opacity: 0;
     transition: opacity 1s ease-in-out;
+    width: 90%;
+    max-width: 800px;
 }
 
 .projects.fade-in {
@@ -107,7 +108,21 @@ header h2 {
 
 .projects h2 {
     font-size: 2.5em;
-    margin: 5px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #690000;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.projects-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.project-category h3 {
+    font-size: 2em;
+    margin-bottom: 10px;
     border-bottom: 2px solid #690000;
     display: inline-block;
     padding-bottom: 5px;
@@ -116,6 +131,7 @@ header h2 {
 .projects ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 .projects li {
@@ -140,60 +156,68 @@ footer {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: radial-gradient(circle at top right, #111, #000); 
-    color: #ccc; 
-    z-index: 2; 
-    padding: 10px; 
-    box-sizing: border-box; 
+    background-color: radial-gradient(circle at top right, #111, #000);
+    color: #ccc;
+    z-index: 2;
+    padding: 10px;
+    box-sizing: border-box;
 }
 
 footer p {
-    margin: 0; 
+    margin: 0;
 }
 
 
 .socials-container {
     display: flex;
-    justify-content: center; 
-    gap: 20px; 
-    margin-top: 10px; 
-    opacity: 0; 
-    transition: opacity 1.5s ease; 
+    justify-content: center;
+    gap: 20px;
+    margin-top: 10px;
+    opacity: 0;
+    transition: opacity 1.5s ease;
 }
 
 .socials-container.visible {
-    opacity: 1; 
+    opacity: 1;
 }
 
-.github-icon, .spotify-icon, .steam-icon {
+.github-icon,
+.spotify-icon,
+.steam-icon {
     text-align: center;
     transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.github-icon:hover, .spotify-icon:hover, .steam-icon:hover {
+.github-icon:hover,
+.spotify-icon:hover,
+.steam-icon:hover {
     transform: scale(1.2);
 }
 
-.github-icon a, .spotify-icon a, .steam-icon a {
+.github-icon a,
+.spotify-icon a,
+.steam-icon a {
     color: #555;
     font-size: 48px;
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
 }
 
-.github-icon a:hover, .spotify-icon a:hover, .steam-icon a:hover {
+.github-icon a:hover,
+.spotify-icon a:hover,
+.steam-icon a:hover {
     color: #000;
     transform: scale(1.2);
 }
 
 .video-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw; 
-  height: 100vh; 
-  overflow: hidden;
-  pointer-events: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: none;
 }
 
 .volume-control {
@@ -209,8 +233,10 @@ footer p {
     transition: width 0.3s, padding 0.3s;
     overflow: hidden;
     z-index: 2;
-    width: 30px; /* Initial size for the icon */
-    height: 30px; /* Match the icon size */
+    width: 30px;
+    /* Initial size for the icon */
+    height: 30px;
+    /* Match the icon size */
     opacity: 0;
     transition: opacity 2s ease-in-out;
 }
@@ -220,7 +246,8 @@ footer p {
 }
 
 .volume-control:hover {
-    width: 150px; /* Expand to show slider */
+    width: 150px;
+    /* Expand to show slider */
     padding: 10px;
 }
 
@@ -236,36 +263,42 @@ footer p {
     border-radius: 5px;
     height: 5px;
     outline: none;
-    width: 100px; /* Length of the slider */
-    opacity: 0; /* Hidden by default */
+    width: 100px;
+    /* Length of the slider */
+    opacity: 0;
+    /* Hidden by default */
     transition: opacity 0.3s;
 }
 
 .volume-control:hover #volume-slider {
-    opacity: 1; /* Show slider on hover */
+    opacity: 1;
+    /* Show slider on hover */
 }
 
 #background-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 110%; 
-  height: 110%;
-  object-fit: cover; 
-  transform: scale(1.2); 
-  transition: transform 0.1s ease-out; 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 110%;
+    height: 110%;
+    object-fit: cover;
+    transform: scale(1.2);
+    transition: transform 0.1s ease-out;
 }
 
 @media (max-width: 768px) {
     header h1 {
         font-size: 2em;
     }
+
     header h2 {
         font-size: 1.2em;
     }
+
     .projects h2 {
         font-size: 2em;
     }
+
     .projects a {
         font-size: 1em;
     }
