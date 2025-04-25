@@ -19,11 +19,6 @@ interface Song {
 
 type RepeatMode = 'off' | 'all' | 'one';
 
-// Add a function to simulate audio reactivity
-const generateRandomFrequencies = () => {
-  return Array.from({ length: 20 }, () => Math.random() * 0.7 + 0.3);
-};
-
 export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -56,7 +51,6 @@ export default function MusicPlayer() {
     }
   });
   const [isMuted, setIsMuted] = useState(false);
-  const [audioFrequencies, setAudioFrequencies] = useState(generateRandomFrequencies());
   const [audioData, setAudioData] = useState<number[]>(Array(32).fill(0));
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -588,17 +582,6 @@ export default function MusicPlayer() {
 
   const currentSong = playlist[currentTrackIndex];
 
-  // Update frequencies periodically to simulate reactivity to music
-  useEffect(() => {
-    if (!isPlaying) return;
-    
-    const intervalId = setInterval(() => {
-      setAudioFrequencies(generateRandomFrequencies());
-    }, 850);
-    
-    return () => clearInterval(intervalId);
-  }, [isPlaying]);
-
   // Don't render anything if user hasn't entered
   if (!hasEntered) {
     return (
@@ -665,7 +648,7 @@ export default function MusicPlayer() {
                       />
                     </div>
                     <div className="space-y-2 max-h-60 overflow-y-auto">
-                      {filteredPlaylist.map((song, index) => (
+                      {filteredPlaylist.map((song) => (
                         <div 
                           key={song.id}
                           onClick={() => playSpecificTrack(playlist.findIndex(s => s.id === song.id))}
