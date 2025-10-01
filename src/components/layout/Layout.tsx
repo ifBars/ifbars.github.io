@@ -141,7 +141,6 @@ export default function Layout({ children }: LayoutProps) {
       />
       
       <div className="relative z-20 flex flex-col min-h-screen">
-        <Header />
         <main className="flex-grow">
           {children}
         </main>
