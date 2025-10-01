@@ -35,10 +35,10 @@ export default function Projects() {
       tags: ["Web", "React", "Media"]
     },
     {
-      name: "ScheduleLua Framework",
-      url: "https://github.com/ScheduleLua/ScheduleLua-Framework",
-      description: "A lua modding framework for Schedule 1",
-      tags: ["Lua", "Schedule 1", "Game Modding"]
+      name: "S1API (Forked)",
+      url: "https://github.com/ifBars/S1API",
+      description: "A C# modding framework for Schedule 1",
+      tags: ["C#", "Schedule 1", "Game Modding"]
     },
     {
       name: "Jarvis Discord Bot",
@@ -53,10 +53,10 @@ export default function Projects() {
       tags: ["C++", "Game Hacking", "CS2"]
     },
     {
-      name: "S1API Documentation",
-      url: "https://github.com/ifBars/S1API-docs",
-      description: "The VitePress documentation for S1API, a C# abstraction layer for Schedule 1",
-      tags: ["Vue", "Game Modding", "Schedule 1"]
+      name: "MLVScan",
+      url: "https://www.nexusmods.com/schedule1/mods/957",
+      description: "A security-focused MelonLoader plugin designed to detect and disable potentially malicious mods before they can harm your system",
+      tags: ["MelonLoader", "Game Modding", "Security"]
     }
   ];
 
@@ -82,13 +82,19 @@ export default function Projects() {
     {
       name: "CS2 - Tim Apple",
       url: "https://github.com/gmh5225/tim_apple",
-      description: "A simple ESP for CS2",
+      description: "A simple but clean ESP for CS2 - The original base used for my Cynosys fork",
       tags: ["C++", "Game Hacking", "CS2"]
     },
     {
       name: "Schedule 1 - CustomTV",
       url: "https://github.com/JumbleBumble/CustomTV",
-      description: "Allows you to play custom videos on the TV in Schedule 1",
+      description: "A MelonLoader mod tha allows you to play custom videos on the TV in Schedule 1",
+      tags: ["C#", "Schedule 1", "Game Modding"]
+    },
+    {
+      name: "Empire",
+      url: "https://github.com/pranjalchakraborty/Silkroad_S1API",
+      description: "A MelonLoader mod that adds a dynamic network of customizable NPC buyers to the game",
       tags: ["C#", "Schedule 1", "Game Modding"]
     }
   ];
@@ -168,8 +174,8 @@ export default function Projects() {
                 rel="noopener noreferrer"
                 className="block h-full"
               >
-                <div className="bg-black/60 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden h-full transition-all duration-300 group-hover:border-blue-500/50 group-hover:shadow-[0_0_15px_rgba(60,130,240,0.3)]">
-                  <div className="p-6">
+                <div className="bg-black/60 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden h-full transition-all duration-300 group-hover:border-blue-500/50 group-hover:shadow-[0_0_15px_rgba(60,130,240,0.3)] flex flex-col">
+                  <div className="p-6 flex-1">
                     <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors duration-300">
                       {project.name}
                     </h3>

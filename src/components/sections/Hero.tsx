@@ -2,20 +2,22 @@ import { useState, useEffect, useRef } from 'react';
 import backgroundVideo from '../../assets/videos/background.mp4';
 import CursorParticles from '../CursorParticles';
 import { motion } from 'framer-motion';
+import { usePortfolioStore } from '../../store/usePortfolioStore';
 
 export default function Hero() {
   const [name, setName] = useState('');
   const [subtitle, setSubtitle] = useState('');
   const [socialsVisible, setSocialsVisible] = useState(false);
   const [scrollIndicatorVisible, setScrollIndicatorVisible] = useState(false);
-  const [entered, setEntered] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const hasEntered = usePortfolioStore((state) => state.hasEntered);
+  const enter = usePortfolioStore((state) => state.enter);
   
   const fullName = "IfBars";
   const fullSubtitle = "Software Developer";
 
   useEffect(() => {
-    if (!entered) return;
+    if (!hasEntered) return;
 
     // Reset states
     setName('');
@@ -78,11 +80,11 @@ export default function Hero() {
     };
     
     executeTyping();
-  }, [entered]);
+  }, [hasEntered]);
 
   // Create global mousemove listener for parallax
   useEffect(() => {
-    if (!entered || !videoRef.current) return;
+    if (!hasEntered || !videoRef.current) return;
 
     const handleGlobalMouseMove = (e: MouseEvent) => {
       if (!videoRef.current) return;
@@ -109,22 +111,14 @@ export default function Hero() {
     return () => {
       window.removeEventListener('mousemove', handleGlobalMouseMove);
     };
-  }, [entered]);
+  }, [hasEntered]);
 
   // Handle click to enter
   const handleEnter = () => {
-    setEntered(true);
-    
-    // Store the entered state in localStorage
-    try {
-      localStorage.setItem('hasEntered', 'true');
-    } catch (e) {
-      console.error('Error setting localStorage:', e);
+    if (!hasEntered) {
+      enter();
+      window.dispatchEvent(new Event('portfolio:enter'));
     }
-    
-    // Dispatch a custom event to notify other components
-    const event = new CustomEvent('userEntered');
-    window.dispatchEvent(event);
   };
 
   // Handle scroll to projects
@@ -135,7 +129,7 @@ export default function Hero() {
     }
   };
 
-  if (!entered) {
+  if (!hasEntered) {
     return (
       <div 
         className="fixed inset-0 bg-black flex justify-center items-center text-white text-2xl font-sans cursor-pointer z-50"
@@ -203,6 +197,19 @@ export default function Hero() {
               className="text-gray-500 hover:text-blue-500 transition-transform duration-300 hover:scale-125"
             >
               <i className="fab fa-steam text-4xl"></i>
+            </a>
+            <a 
+              href="https://next.nexusmods.com/profile/IfBars/mods" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-orange-500 transition-transform duration-300 hover:scale-125"
+              aria-label="Nexus Mods Profile"
+            >
+              <img
+                src="/nexuslogo.webp"
+                alt="Nexus Mods"
+                className="w-10 h-10 object-contain filter grayscale brightness-150 opacity-60 transition-all duration-300 hover:grayscale-0 hover:opacity-100 hover:brightness-100"
+              />
             </a>
           </div>
         </div>

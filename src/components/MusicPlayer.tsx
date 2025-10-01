@@ -1,190 +1,249 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume, Volume1, Volume2, VolumeX, Music, Repeat, Repeat1, Shuffle, SkipBack, SkipForward, Play, Pause, ListMusic } from 'lucide-react';
+import { usePortfolioStore } from '../store/usePortfolioStore';
+import { useMusicPlayerStore, getDefaultPlaylist } from '../store/useMusicPlayerStore';
+import type { Song } from '../store/useMusicPlayerStore';
+import { shallow } from 'zustand/shallow';
 
-// Import all audio files
-import morningAgain from '../assets/audio/Morning Again.mp3';
-import cavalier from '../assets/audio/Cavalier.mp3';
-import sipSlow from '../assets/audio/Sip Slow.mp3';
-import unexplainable from '../assets/audio/Unexplainable (feat. The KID LAROI).mp3';
-import doubleDate from '../assets/audio/Double Date.mp3';
-import swerve from '../assets/audio/Swerve.mp3';
-
-interface Song {
-  src: string;
-  name: string;
-  artist: string;
-  id: string;
-}
-
-type RepeatMode = 'off' | 'all' | 'one';
+const mediaElementSourceCache = new WeakMap<HTMLMediaElement, MediaElementAudioSourceNode>();
 
 export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(() => {
-    const savedVolume = localStorage.getItem('musicPlayerVolume');
-    return savedVolume ? parseFloat(savedVolume) : 0.5;
-  });
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(() => {
-    const savedIndex = localStorage.getItem('musicPlayerTrackIndex');
-    return savedIndex ? parseInt(savedIndex) : 0;
-  });
-  const [isExpanded, setIsExpanded] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [showPlaylist, setShowPlaylist] = useState(false);
-  const [isShuffled, setIsShuffled] = useState(() => {
-    return localStorage.getItem('musicPlayerShuffle') === 'true';
-  });
-  const [repeatMode, setRepeatMode] = useState<RepeatMode>(() => {
-    const savedMode = localStorage.getItem('musicPlayerRepeat') as RepeatMode;
-    return savedMode || 'off';
-  });
   const [searchTerm, setSearchTerm] = useState('');
-  const [hasEntered, setHasEntered] = useState(() => {
-    try {
-      return localStorage.getItem('hasEntered') === 'true';
-    } catch (e) {
-      return false;
-    }
-  });
-  const [isMuted, setIsMuted] = useState(false);
   const [audioData, setAudioData] = useState<number[]>(Array(32).fill(0));
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
+  const mediaSourceRef = useRef<MediaElementAudioSourceNode | null>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const originalPlaylistRef = useRef<Song[]>(getDefaultPlaylist());
+  const connectionsActiveRef = useRef(false);
 
-  const [playlist, setPlaylist] = useState<Song[]>(() => {
-    const initial = [
-      { src: morningAgain, name: "Morning Again", artist: "Juice WRLD", id: "1" },
-      { src: cavalier, name: "Cavalier", artist: "Juice WRLD", id: "2" },
-      { src: sipSlow, name: "Sip Slow", artist: "Juice WRLD", id: "3" },
-      { src: unexplainable, name: "Unexplainable", artist: "Juice WRLD & Kid LAROI", id: "4" },
-      { src: doubleDate, name: "Double Date", artist: "Juice WRLD", id: "5" },
-      { src: swerve, name: "Swerve", artist: "Juice WRLD", id: "6" }
-    ];
+  const hasEntered = usePortfolioStore((state) => state.hasEntered);
 
-    // Try to restore the order from localStorage
-    try {
-      const savedOrder = localStorage.getItem('musicPlayerPlaylistOrder');
-      if (savedOrder) {
-        const orderIds = JSON.parse(savedOrder);
-        if (Array.isArray(orderIds)) {
-          // Re-order based on saved order
-          return orderIds.map(id => initial.find(song => song.id === id))
-            .filter(Boolean) as Song[];
-        }
-      }
-    } catch (e) {
-      console.error("Error restoring playlist order:", e);
+  const {
+    playlist,
+    setPlaylist,
+    currentTrackIndex,
+    setCurrentTrackIndex,
+    isShuffled,
+    setIsShuffled,
+    repeatMode,
+    setRepeatMode,
+    volume,
+    setVolume,
+    showPlaylist,
+    isExpanded,
+    setIsExpanded,
+    isPlaying,
+    setIsPlaying,
+    togglePlaylist,
+  } = useMusicPlayerStore((state) => ({
+    playlist: state.playlist,
+    setPlaylist: state.setPlaylist,
+    currentTrackIndex: state.currentTrackIndex,
+    setCurrentTrackIndex: state.setCurrentTrackIndex,
+    isShuffled: state.isShuffled,
+    setIsShuffled: state.setIsShuffled,
+    repeatMode: state.repeatMode,
+    setRepeatMode: state.setRepeatMode,
+    volume: state.volume,
+    setVolume: state.setVolume,
+    showPlaylist: state.showPlaylist,
+    isExpanded: state.isExpanded,
+    setIsExpanded: state.setIsExpanded,
+    isPlaying: state.isPlaying,
+    setIsPlaying: state.setIsPlaying,
+    togglePlaylist: state.togglePlaylist,
+  }), shallow);
+
+  const previousVolumeRef = useRef(volume || 0.5);
+
+  const initializeAudio = useCallback(() => {
+    if (isInitialized || !audioRef.current) {
+      return;
     }
 
-    return initial;
-  });
+    setIsInitialized(true);
+    audioRef.current.load();
 
-  // Original, unshuffled playlist for reference
-  const [originalPlaylist] = useState<Song[]>([...playlist]);
+    const playAttempt = audioRef.current.play();
 
-  // Function to check if user has entered (to use in multiple places)
-  const checkEntered = () => {
-    try {
-      return localStorage.getItem('hasEntered') === 'true';
-    } catch (e) {
-      return false;
+    if (playAttempt !== undefined) {
+      playAttempt
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch((error) => {
+          console.error('Playback failed:', error);
+          setIsPlaying(false);
+
+          setTimeout(() => {
+            if (audioRef.current) {
+              audioRef.current
+                .play()
+                .then(() => setIsPlaying(true))
+                .catch((err) => console.error('Retry playback failed:', err));
+            }
+          }, 1000);
+        });
     }
-  };
+  }, [isInitialized, setIsInitialized, setIsPlaying]);
 
-  // Monitor the entry state and initialize audio when user enters
-  useEffect(() => {
-    // Set up event listener for when user enters
-    const handleUserEntered = () => {
-      console.log('User entered event detected');
-      setHasEntered(true);
-      
-      // Wait a moment to initialize audio
-      setTimeout(() => {
-        initializeAudio();
-      }, 1000);
-    };
-    
-    window.addEventListener('userEntered', handleUserEntered);
-    
-    // Check for changes to localStorage
-    const intervalCheck = setInterval(() => {
-      const entered = checkEntered();
-      if (entered && !hasEntered) {
-        setHasEntered(true);
-        setTimeout(() => {
-          initializeAudio();
-        }, 1000);
-      }
-    }, 500);
-    
-    // Initial check on mount
-    if (checkEntered() && !isInitialized) {
-      setHasEntered(true);
-      setTimeout(() => {
-        initializeAudio();
-      }, 1000);
+  const safelyPlayAudio = useCallback(() => {
+    if (!audioRef.current) return;
+
+    if (audioContextRef.current?.state === 'suspended') {
+      audioContextRef.current.resume();
     }
-    
-    // Cleanup event listeners
-    return () => {
-      window.removeEventListener('userEntered', handleUserEntered);
-      clearInterval(intervalCheck);
-    };
-  }, [hasEntered, isInitialized]);
 
-  // Handle shuffle state
-  useEffect(() => {
-    if (isShuffled) {
-      shufflePlaylist();
+    const playPromise = audioRef.current.play();
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          setIsInitialized(true);
+          setIsPlaying(true);
+        })
+        .catch((err) => {
+          console.error('Play failed:', err);
+          setTimeout(() => {
+            if (audioRef.current) {
+              audioRef.current
+                .play()
+                .then(() => setIsPlaying(true))
+                .catch((e) => console.error('Retry play failed:', e));
+            }
+          }, 100);
+        });
+    }
+  }, [setIsPlaying]);
+
+  const togglePlayPause = useCallback(() => {
+    if (!isInitialized) {
+      initializeAudio();
+      return;
+    }
+
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
     } else {
-      // Restore original order but keep current song as current
+      safelyPlayAudio();
+    }
+  }, [initializeAudio, isInitialized, isPlaying, safelyPlayAudio, setIsPlaying]);
+
+  const playNextTrack = useCallback(() => {
+    if (!playlist.length) return;
+    const nextIndex = (currentTrackIndex + 1) % playlist.length;
+    setCurrentTrackIndex(nextIndex);
+    if (isPlaying && audioRef.current) {
+      setTimeout(() => {
+        safelyPlayAudio();
+      }, 100);
+    }
+  }, [currentTrackIndex, isPlaying, playlist, safelyPlayAudio, setCurrentTrackIndex]);
+
+  const playPrevTrack = useCallback(() => {
+    if (!playlist.length) return;
+    const prevIndex = (currentTrackIndex - 1 + playlist.length) % playlist.length;
+    setCurrentTrackIndex(prevIndex);
+    if (isPlaying && audioRef.current) {
+      setTimeout(() => {
+        safelyPlayAudio();
+      }, 100);
+    }
+  }, [currentTrackIndex, isPlaying, playlist, safelyPlayAudio, setCurrentTrackIndex]);
+
+  useEffect(() => {
+    const handlePortfolioEnter = () => {
+      initializeAudio();
+    };
+
+    window.addEventListener('portfolio:enter', handlePortfolioEnter);
+
+    return () => {
+      window.removeEventListener('portfolio:enter', handlePortfolioEnter);
+    };
+  }, [initializeAudio]);
+
+  const toggleMute = useCallback(() => {
+    if (volume > 0) {
+      previousVolumeRef.current = volume;
+      setVolume(0);
+    } else {
+      const restoredVolume = previousVolumeRef.current > 0 ? previousVolumeRef.current : 0.5;
+      setVolume(restoredVolume);
+    }
+  }, [setVolume, volume]);
+
+  const toggleShuffle = useCallback(() => {
+    const nextIsShuffled = !isShuffled;
+    setIsShuffled(nextIsShuffled);
+
+    if (!playlist.length) {
+      const restoredPlaylist = originalPlaylistRef.current.map((song) => ({ ...song }));
+      setPlaylist(restoredPlaylist);
+      setCurrentTrackIndex(0);
+      return;
+    }
+
+    if (nextIsShuffled) {
       const currentSong = playlist[currentTrackIndex];
-      setPlaylist([...originalPlaylist]);
-      
-      // Find where current song is in original list
-      const newIndex = originalPlaylist.findIndex(song => song.id === currentSong.id);
+      const shuffled = [...playlist];
+
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+
+      const newIndex = shuffled.findIndex((song) => song.id === currentSong.id);
+      if (newIndex !== -1 && newIndex !== 0) {
+        [shuffled[0], shuffled[newIndex]] = [shuffled[newIndex], shuffled[0]];
+      }
+
+      setPlaylist(shuffled);
+      setCurrentTrackIndex(0);
+    } else {
+      const currentSong = playlist[currentTrackIndex];
+      const originalPlaylist = originalPlaylistRef.current;
+      const restoredPlaylist = originalPlaylist.map((song) => ({ ...song }));
+      setPlaylist(restoredPlaylist);
+
+      const newIndex = originalPlaylist.findIndex((song) => song.id === currentSong.id);
       if (newIndex !== -1) {
         setCurrentTrackIndex(newIndex);
       }
     }
-    
-    localStorage.setItem('musicPlayerShuffle', isShuffled.toString());
-  }, [isShuffled]);
+  }, [
+    currentTrackIndex,
+    isShuffled,
+    playlist,
+    setCurrentTrackIndex,
+    setIsShuffled,
+    setPlaylist,
+  ]);
 
-  // Save current track index to localStorage
-  useEffect(() => {
-    localStorage.setItem('musicPlayerTrackIndex', currentTrackIndex.toString());
-    
-    // Also save the current playlist order
-    try {
-      const playlistOrder = playlist.map(song => song.id);
-      localStorage.setItem('musicPlayerPlaylistOrder', JSON.stringify(playlistOrder));
-    } catch (e) {
-      console.error("Error saving playlist order:", e);
+  const toggleRepeat = useCallback(() => {
+    if (repeatMode === 'off') {
+      setRepeatMode('all');
+    } else if (repeatMode === 'all') {
+      setRepeatMode('one');
+    } else {
+      setRepeatMode('off');
     }
-  }, [currentTrackIndex, playlist]);
+  }, [repeatMode, setRepeatMode]);
 
-  // Save volume to localStorage
+  // Track the last non-zero volume level for mute toggling
   useEffect(() => {
-    localStorage.setItem('musicPlayerVolume', volume.toString());
-    
-    // Update muted state based on volume
-    if (volume === 0) {
-      setIsMuted(true);
-    } else if (isMuted) {
-      setIsMuted(false);
+    if (volume > 0) {
+      previousVolumeRef.current = volume;
     }
-  }, [volume, isMuted]);
-
-  // Save repeat mode to localStorage
-  useEffect(() => {
-    localStorage.setItem('musicPlayerRepeat', repeatMode);
-  }, [repeatMode]);
+  }, [volume]);
 
   // Handle audio events
   useEffect(() => {
@@ -222,15 +281,12 @@ export default function MusicPlayer() {
     audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('ended', handleEnded);
 
-    // Set initial volume
-    audio.volume = volume;
-
     return () => {
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, [currentTrackIndex, repeatMode, playlist.length]);
+  }, [currentTrackIndex, playNextTrack, playlist.length, repeatMode, setCurrentTrackIndex, setIsPlaying]);
 
   // Update volume when it changes
   useEffect(() => {
@@ -265,12 +321,12 @@ export default function MusicPlayer() {
         case 'ArrowUp':
           // Increase volume
           e.preventDefault(); // Prevent page scrolling
-          setVolume(prev => Math.min(prev + 0.1, 1));
+          setVolume((prev: number) => Math.min(prev + 0.1, 1));
           break;
         case 'ArrowDown':
           // Decrease volume
           e.preventDefault(); // Prevent page scrolling
-          setVolume(prev => Math.max(prev - 0.1, 0));
+          setVolume((prev: number) => Math.max(prev - 0.1, 0));
           break;
         case 'n':
           playNextTrack();
@@ -285,7 +341,7 @@ export default function MusicPlayer() {
           toggleRepeat();
           break;
         case 'l':
-          setShowPlaylist(prev => !prev);
+          togglePlaylist();
           break;
         case 'm':
           toggleMute();
@@ -297,68 +353,83 @@ export default function MusicPlayer() {
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isExpanded, duration, hasEntered]);
-
-  // Initialize audio when user enters
-  const initializeAudio = () => {
-    console.log('Initializing audio');
-    if (!isInitialized && audioRef.current) {
-      setIsInitialized(true);
-      
-      // Load the audio first
-      audioRef.current.load();
-      
-      // Force a user interaction before playing to deal with autoplay policies
-      const playAttempt = audioRef.current.play();
-      
-      if (playAttempt !== undefined) {
-        playAttempt
-          .then(() => {
-            console.log('Audio started playing successfully');
-            setIsPlaying(true);
-          })
-          .catch(error => {
-            console.error("Playback failed:", error);
-            setIsPlaying(false);
-            // Retry once more after a delay
-            setTimeout(() => {
-              if (audioRef.current) {
-                audioRef.current.play()
-                  .then(() => {
-                    console.log('Audio retry successful');
-                    setIsPlaying(true);
-                  })
-                  .catch(err => {
-                    console.error("Retry playback failed:", err);
-                  });
-              }
-            }, 1000);
-          });
-      }
-    }
-  };
-
+  }, [
+    duration,
+    hasEntered,
+    isExpanded,
+    playNextTrack,
+    playPrevTrack,
+    setVolume,
+    toggleMute,
+    togglePlayPause,
+    togglePlaylist,
+    toggleRepeat,
+    toggleShuffle,
+  ]);
   // Set up audio analyzer when component mounts
   useEffect(() => {
-    if (!hasEntered || !audioRef.current) return;
-    
-    // Create audio context and analyzer
-    const audioContext = new AudioContext();
-    const analyser = audioContext.createAnalyser();
-    analyser.fftSize = 128; // Increase for more frequency resolution
-    
-    // Connect audio element to analyzer
-    const source = audioContext.createMediaElementSource(audioRef.current);
-    source.connect(analyser);
-    analyser.connect(audioContext.destination);
-    
-    // Save references
-    audioContextRef.current = audioContext;
-    analyserRef.current = analyser;
-    
+    const audioElement = audioRef.current;
+
+    if (!hasEntered || !audioElement) return;
+
+    if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
+      audioContextRef.current = new AudioContext();
+    }
+
+    if (!analyserRef.current && audioContextRef.current) {
+      const analyser = audioContextRef.current.createAnalyser();
+      analyser.fftSize = 128;
+      analyserRef.current = analyser;
+    }
+
+    if (!mediaSourceRef.current && audioContextRef.current) {
+      const cachedSource = mediaElementSourceCache.get(audioElement);
+
+      if (cachedSource) {
+        mediaSourceRef.current = cachedSource;
+      } else {
+        const source = audioContextRef.current.createMediaElementSource(audioElement);
+        mediaElementSourceCache.set(audioElement, source);
+        mediaSourceRef.current = source;
+      }
+    }
+
+    if (
+      mediaSourceRef.current &&
+      analyserRef.current &&
+      audioContextRef.current &&
+      !connectionsActiveRef.current
+    ) {
+      mediaSourceRef.current.connect(analyserRef.current);
+      analyserRef.current.connect(audioContextRef.current.destination);
+      connectionsActiveRef.current = true;
+    }
+
     return () => {
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
+      if (connectionsActiveRef.current) {
+        try {
+          if (mediaSourceRef.current && analyserRef.current) {
+            mediaSourceRef.current.disconnect(analyserRef.current);
+          } else if (mediaSourceRef.current) {
+            mediaSourceRef.current.disconnect();
+          }
+        } catch (err) {
+          console.error('Error disconnecting media source:', err);
+        }
+
+        try {
+          analyserRef.current?.disconnect();
+        } catch (err) {
+          console.error('Error disconnecting analyser:', err);
+        }
+
+        connectionsActiveRef.current = false;
+      }
+
+      if (audioContextRef.current?.state === 'running') {
+        audioContextRef.current
+          .suspend()
+          .catch((err) => console.error('Error suspending audio context:', err));
       }
     };
   }, [hasEntered]);
@@ -373,7 +444,7 @@ export default function MusicPlayer() {
     
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
     // Keep previous frame data for smoothing
-    let prevData = Array(analyser.frequencyBinCount).fill(0);
+    const prevData = Array(analyser.frequencyBinCount).fill(0);
     
     const updateAudioData = () => {
       // Get frequency data
@@ -432,88 +503,9 @@ export default function MusicPlayer() {
     };
   }, [isPlaying]);
 
-  // Function to safely play audio
-  const safelyPlayAudio = () => {
-    if (!audioRef.current) return;
-    
-    // Resume audio context if it was suspended
-    if (audioContextRef.current?.state === 'suspended') {
-      audioContextRef.current.resume();
-    }
-    
-    const playPromise = audioRef.current.play();
-    if (playPromise !== undefined) {
-      playPromise
-        .then(() => {
-          setIsPlaying(true);
-        })
-        .catch(err => {
-          console.error("Play failed:", err);
-          setTimeout(() => {
-            if (audioRef.current) {
-              audioRef.current.play()
-                .then(() => setIsPlaying(true))
-                .catch(e => console.error("Retry play failed:", e));
-            }
-          }, 100);
-        });
-    }
-  };
-
-  // Modified togglePlayPause to use the safe play function
-  const togglePlayPause = () => {
-    if (!isInitialized) {
-      initializeAudio();
-      return;
-    }
-
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        safelyPlayAudio();
-      }
-    }
-  };
-
-  // Updated playNextTrack to use safe play
-  const playNextTrack = () => {
-    setCurrentTrackIndex((prev) => (prev + 1) % playlist.length);
-    if (isPlaying && audioRef.current) {
-      setTimeout(() => {
-        safelyPlayAudio();
-      }, 100);
-    }
-  };
-
-  // Updated playPrevTrack to use safe play
-  const playPrevTrack = () => {
-    setCurrentTrackIndex((prev) => (prev - 1 + playlist.length) % playlist.length);
-    if (isPlaying && audioRef.current) {
-      setTimeout(() => {
-        safelyPlayAudio();
-      }, 100);
-    }
-  };
-
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-  };
-
-  const toggleMute = () => {
-    if (volume > 0 && !isMuted) {
-      // Store the current volume to restore later
-      localStorage.setItem('previousVolume', volume.toString());
-      setVolume(0);
-      setIsMuted(true);
-    } else {
-      // Restore the previous volume or set to 0.5 if none
-      const previousVolume = localStorage.getItem('previousVolume');
-      setVolume(previousVolume ? parseFloat(previousVolume) : 0.5);
-      setIsMuted(false);
-    }
   };
 
   const formatTime = (time: number) => {
@@ -528,40 +520,6 @@ export default function MusicPlayer() {
     if (audioRef.current) {
       audioRef.current.currentTime = newTime;
     }
-  };
-
-  const shufflePlaylist = () => {
-    // Keep track of the current song
-    const currentSong = playlist[currentTrackIndex];
-    
-    // Create a copy and shuffle it
-    const newPlaylist = [...playlist];
-    for (let i = newPlaylist.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newPlaylist[i], newPlaylist[j]] = [newPlaylist[j], newPlaylist[i]];
-    }
-    
-    // Make sure the current song stays as current
-    const newIndex = newPlaylist.findIndex(song => song.id === currentSong.id);
-    if (newIndex !== -1 && newIndex !== 0) {
-      // Swap current song to first position
-      [newPlaylist[0], newPlaylist[newIndex]] = [newPlaylist[newIndex], newPlaylist[0]];
-    }
-    
-    setPlaylist(newPlaylist);
-    setCurrentTrackIndex(0); // Reset to beginning of shuffled playlist (where current song is)
-  };
-
-  const toggleShuffle = () => {
-    setIsShuffled(prev => !prev);
-  };
-
-  const toggleRepeat = () => {
-    setRepeatMode(current => {
-      if (current === 'off') return 'all';
-      if (current === 'all') return 'one';
-      return 'off';
-    });
   };
 
   // Updated playSpecificTrack to use safe play
@@ -616,7 +574,7 @@ export default function MusicPlayer() {
               <div className={`p-5 w-80 ${showPlaylist ? 'h-96 overflow-y-auto' : ''}`}>
                   <div className="flex justify-between items-center mb-4">
                   <button 
-                    onClick={() => setShowPlaylist(prev => !prev)}
+                    onClick={togglePlaylist}
                     className="text-gray-400 hover:text-white transition-colors"
                     title="Toggle playlist view"
                   >
