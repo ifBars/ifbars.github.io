@@ -7,6 +7,9 @@ import sipSlow from '../assets/audio/Sip Slow.mp3';
 import unexplainable from '../assets/audio/Unexplainable (feat. The KID LAROI).mp3';
 import doubleDate from '../assets/audio/Double Date.mp3';
 import swerve from '../assets/audio/Swerve.mp3';
+import time from '../assets/audio/Time.mp3';
+import threeEightSpecial from '../assets/audio/38 Special.mp3';
+import merica from '../assets/audio/Mercia.mp3';
 
 export interface Song {
   src: string;
@@ -26,6 +29,9 @@ const createDefaultPlaylist = (): Song[] => [
   { src: unexplainable, name: 'Unexplainable', artist: 'Juice WRLD & Kid LAROI', id: '4' },
   { src: doubleDate, name: 'Double Date', artist: 'Juice WRLD', id: '5' },
   { src: swerve, name: 'Swerve', artist: 'Juice WRLD', id: '6' },
+  { src: time, name: 'Time', artist: 'Juice WRLD', id: '7' },
+  { src: threeEightSpecial, name: '38 Special', artist: 'Juice WRLD', id: '8' },
+  { src: merica, name: 'Mercia', artist: 'Juice WRLD', id: '9' },
 ];
 
 interface MusicPlayerState {
