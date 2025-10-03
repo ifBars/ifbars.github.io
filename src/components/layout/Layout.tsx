@@ -1,5 +1,4 @@
 import { ReactNode, useEffect, useRef } from 'react';
-import Header from './Header';
 import Footer from './Footer';
 
 interface LayoutProps {
