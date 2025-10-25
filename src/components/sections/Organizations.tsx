@@ -25,7 +25,7 @@ export default function Organizations() {
   const organizations: Organization[] = [
     {
       name: "AccuralAI",
-      url: "https://github.com/AccuralAI",
+      url: "https://accural-ai.web.app/",
       description: "AccuralAI is an open-source organization focused on achieving better AI through many small, measurable improvements that accrue over time—shipping pragmatic research, libraries, and evaluation tools for results that matter outside the lab.",
       role: "Founder & Lead Developer",
       tags: ["AI", "Open Source", "Machine Learning", "Performance Optimization"]
@@ -57,7 +57,7 @@ export default function Organizations() {
           </h2>
           <div className="h-1 w-20 bg-gradient-to-r from-blue-500 to-purple-600 mx-auto"></div>
           <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
-            Open source organizations I lead and contribute to
+            Open source organizations I contribute to
           </p>
         </div>
         
