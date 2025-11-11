@@ -211,6 +211,15 @@ export default function Hero() {
                 className="w-10 h-10 object-contain filter grayscale brightness-150 opacity-60 transition-all duration-300 hover:grayscale-0 hover:opacity-100 hover:brightness-100"
               />
             </a>
+            <a 
+              href="https://ko-fi.com/ifbars" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gray-500 hover:text-[#FF5E5B] transition-transform duration-300 hover:scale-125"
+              aria-label="Ko-fi"
+            >
+              <i className="fas fa-mug-hot text-4xl"></i>
+            </a>
           </div>
         </div>
         
