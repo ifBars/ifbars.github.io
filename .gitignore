@@ -12,8 +12,10 @@ dist
 dist-ssr
 *.local
 AGENTS.md
+CLAUDE.md
 
 # Editor directories and files
+.claude/
 .vscode/*
 !.vscode/extensions.json
 .idea

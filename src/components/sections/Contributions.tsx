@@ -5,16 +5,15 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface Organization {
+interface Project {
   name: string;
   url: string;
   description: string;
-  role: string;
   tags: string[];
-  logo?: string;
+  image?: string;
 }
 
-export default function Organizations() {
+export default function Contributions() {
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -25,12 +24,11 @@ export default function Organizations() {
     const section = sectionRef.current;
     const heading = section.querySelector('.section-heading');
     const divider = section.querySelector('.section-divider');
-    const description = section.querySelector('.section-description');
-    const orgCards = section.querySelectorAll('.org-card');
+    const contributionCards = section.querySelectorAll('.contribution-card');
 
     // Initial state - hide elements
-    gsap.set([heading, divider, description], { opacity: 0, y: 40 });
-    gsap.set(orgCards, { opacity: 0, y: 60, scale: 0.95 });
+    gsap.set([heading, divider], { opacity: 0, y: 40 });
+    gsap.set(contributionCards, { opacity: 0, y: 60, scale: 0.95 });
 
     // Create scroll-triggered timeline
     const tl = gsap.timeline({
@@ -43,7 +41,7 @@ export default function Organizations() {
       },
     });
 
-    // Animate heading, divider, and description
+    // Animate heading and divider
     tl.to(heading, {
       opacity: 1,
       y: 0,
@@ -56,13 +54,7 @@ export default function Organizations() {
         duration: 0.4,
         ease: 'power3.out',
       }, '-=0.3')
-      .to(description, {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        ease: 'power3.out',
-      }, '-=0.2')
-      .to(orgCards, {
+      .to(contributionCards, {
         opacity: 1,
         y: 0,
         scale: 1,
@@ -76,13 +68,42 @@ export default function Organizations() {
     };
   }, []);
 
-  const organizations: Organization[] = [
+  const contributions: Project[] = [
     {
-      name: "AccuralAI",
-      url: "https://accural-ai.web.app/",
-      description: "AccuralAI is an open-source organization focused on achieving better AI through many small, measurable improvements that accrue over time—shipping pragmatic research, libraries, and evaluation tools for results that matter outside the lab.",
-      role: "Founder & Lead Developer",
-      tags: ["AI", "Open Source", "Machine Learning", "Performance Optimization"]
+      name: "Marvel Rivals Jarvis AI",
+      url: "https://github.com/PatchiPup/Jarvis-Mark-II",
+      description: "AI assistant for Marvel Rivals game with voice command capabilities",
+      tags: ["Python", "AI", "Marvel Rivals"]
+    },
+    {
+      name: "RatScanner",
+      url: "https://github.com/RatScanner/RatScanner",
+      description: "Item value scanner for Escape from Tarkov to assist with inventory management",
+      tags: ["C#", "OCR", "Game Tools"]
+    },
+    {
+      name: "CS2 - External ESP",
+      url: "https://github.com/IMXNOOBX/cs2-external-esp",
+      description: "One of the first to become popular, External ESP tool for CS2 with player visualization features",
+      tags: ["C++", "Game Hacking", "CS2"]
+    },
+    {
+      name: "CS2 - Tim Apple",
+      url: "https://github.com/gmh5225/tim_apple",
+      description: "A simple but clean ESP for CS2 - The original base used for my Cynosys fork",
+      tags: ["C++", "Game Hacking", "CS2"]
+    },
+    {
+      name: "Schedule 1 - CustomTV",
+      url: "https://github.com/JumbleBumble/CustomTV",
+      description: "A MelonLoader mod tha allows you to play custom videos on the TV in Schedule 1",
+      tags: ["C#", "Schedule 1", "Game Modding"]
+    },
+    {
+      name: "Empire",
+      url: "https://github.com/pranjalchakraborty/Silkroad_S1API",
+      description: "A MelonLoader mod for Schedule 1 that adds a dynamic network of customizable NPC buyers to the game",
+      tags: ["C#", "Schedule 1", "Game Modding"]
     }
   ];
 
@@ -103,66 +124,56 @@ export default function Organizations() {
   };
 
   return (
-    <section ref={sectionRef} id="organizations" className="py-16 relative z-10">
+    <section ref={sectionRef} id="contributions" className="py-16 relative z-10">
       <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <h2 className="section-heading font-serif-heading text-4xl md:text-5xl font-semibold text-white mb-4">
-            Organizations
+            Contributions
           </h2>
           <div className="section-divider h-px w-20 bg-[#D4AF37] mx-auto"></div>
-          <p className="section-description font-serif-body text-neutral-400 mt-4 max-w-2xl mx-auto">
-            Open source organizations I contribute to
-          </p>
         </div>
 
-        {/* Organizations Display */}
+        {/* Contributions Display */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate={visible ? "show" : "hidden"}
-          className="grid grid-cols-1 lg:grid-cols-1 gap-6 max-w-4xl mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6"
         >
-          {organizations.map((org, index) => (
+          {contributions.map((project, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="group org-card"
+              className="group contribution-card"
             >
               <a 
-                href={org.url} 
+                href={project.url} 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="block h-full"
               >
                 <div className="bg-black/40 backdrop-blur-sm border border-neutral-800 rounded-xl overflow-hidden h-full transition-all duration-300 group-hover:border-[#D4AF37]/60 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] flex flex-col">
-                  <div className="p-8 flex-1">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <h3 className="font-serif-heading text-3xl font-semibold text-white mb-2 group-hover:text-[#D4AF37] transition-colors duration-300">
-                          {org.name}
-                        </h3>
-                        <p className="text-[#D4AF37] font-serif-body font-medium text-sm mb-3">
-                          {org.role}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="font-serif-body text-neutral-400 mb-6 text-base leading-relaxed">
-                      {org.description}
+                  <div className="p-6 flex-1">
+                    <h3 className="font-serif-heading text-2xl font-semibold text-white mb-2 group-hover:text-[#D4AF37] transition-colors duration-300">
+                      {project.name}
+                    </h3>
+                    <p className="font-serif-body text-neutral-400 mb-4 text-sm leading-relaxed">
+                      {project.description}
                     </p>
                     <div className="flex flex-wrap gap-2">
-                      {org.tags.map((tag, tagIndex) => (
+                      {project.tags.map((tag, tagIndex) => (
                         <span 
                           key={tagIndex} 
-                          className="bg-neutral-800/60 border border-white/5 text-xs font-serif-body px-3 py-1 rounded text-neutral-300"
+                          className="bg-neutral-800/60 border border-white/5 text-xs font-serif-body px-2.5 py-0.5 rounded text-neutral-300"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
                   </div>
-                  <div className="px-8 py-4 border-t border-neutral-800 bg-black/30 flex justify-between items-center">
-                    <span className="font-serif-body text-xs text-neutral-500">View Organization</span>
+                  <div className="px-6 py-4 border-t border-neutral-800 bg-black/30 flex justify-between items-center">
+                    <span className="font-serif-body text-xs text-neutral-500">View Project</span>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-neutral-500 group-hover:text-[#D4AF37] transition-all duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
@@ -176,3 +187,4 @@ export default function Organizations() {
     </section>
   );
 }
+

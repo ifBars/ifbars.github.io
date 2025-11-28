@@ -22,7 +22,10 @@ export default function MusicPlayer() {
   const originalPlaylistRef = useRef<Song[]>(getDefaultPlaylist());
   const connectionsActiveRef = useRef(false);
 
-  const hasEntered = usePortfolioStore((state) => state.hasEntered);
+  const { hasEntered, introComplete } = usePortfolioStore((state) => ({
+    hasEntered: state.hasEntered,
+    introComplete: state.introComplete,
+  }));
 
   const {
     playlist,
@@ -540,8 +543,8 @@ export default function MusicPlayer() {
 
   const currentSong = playlist[currentTrackIndex];
 
-  // Don't render anything if user hasn't entered
-  if (!hasEntered) {
+  // Don't render anything if intro hasn't completed
+  if (!introComplete) {
     return (
       <audio 
         ref={audioRef} 
@@ -560,7 +563,7 @@ export default function MusicPlayer() {
         preload="metadata"
       />
 
-        <div className="fixed top-8 left-8 z-50">
+        <div className="fixed bottom-8 right-8 z-40 flex flex-col items-end gap-3">
           <AnimatePresence mode="wait">
             {isExpanded ? (
               <motion.div
@@ -569,23 +572,23 @@ export default function MusicPlayer() {
                 animate={{ opacity: 1, height: 'auto', width: 'auto' }}
                 exit={{ opacity: 0, height: 0, width: 0 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className="bg-black/70 backdrop-blur-md rounded-xl shadow-lg border border-gray-800 overflow-hidden"
+                className="bg-black/80 backdrop-blur-xl rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.55)] border border-white/10 overflow-hidden"
               >
-              <div className={`p-5 w-80 ${showPlaylist ? 'h-96 overflow-y-auto' : ''}`}>
+              <div className={`p-5 w-[22rem] ${showPlaylist ? 'max-h-[26rem] overflow-y-auto' : ''}`}>
                   <div className="flex justify-between items-center mb-4">
                   <button 
                     onClick={togglePlaylist}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-neutral-500 hover:text-[#D4AF37] transition-colors"
                     title="Toggle playlist view"
                   >
                     <ListMusic className="h-5 w-5" />
                   </button>
                     <div className="text-center flex-1">
-                      <h3 className="text-white font-medium">Music Player</h3>
+                      <h3 className="text-white font-medium tracking-wide">Music Player</h3>
                     </div>
                     <button 
                       onClick={() => setIsExpanded(false)} 
-                      className="text-gray-400 hover:text-white transition-colors"
+                      className="text-neutral-500 hover:text-white transition-colors"
                     title="Collapse player"
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -602,7 +605,7 @@ export default function MusicPlayer() {
                         placeholder="Search songs..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full p-2 bg-gray-800 text-white border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full p-2 bg-white/5 text-white border border-white/10 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/60"
                       />
                     </div>
                     <div className="space-y-2 max-h-60 overflow-y-auto">
@@ -612,8 +615,8 @@ export default function MusicPlayer() {
                           onClick={() => playSpecificTrack(playlist.findIndex(s => s.id === song.id))}
                           className={`p-2 rounded-md cursor-pointer flex items-center justify-between ${
                             currentSong.id === song.id 
-                              ? 'bg-blue-900/50 border border-blue-500' 
-                              : 'hover:bg-gray-800'
+                              ? 'bg-[#D4AF37]/10 border border-[#D4AF37]/40' 
+                              : 'hover:bg-white/5'
                           }`}
                         >
                           <div className="flex-1">
@@ -623,17 +626,17 @@ export default function MusicPlayer() {
                           {currentSong.id === song.id && isPlaying && (
                             <div className="flex space-x-0.5 items-center">
                               <motion.div 
-                                className="bg-blue-500 w-1 h-3 rounded-full"
+                                className="bg-[#D4AF37] w-1 h-3 rounded-full"
                                 animate={{ height: [3, 6, 3] }}
                                 transition={{ repeat: Infinity, duration: 0.8, ease: "easeInOut" }}
                               />
                               <motion.div 
-                                className="bg-blue-500 w-1 h-4 rounded-full"
+                                className="bg-[#D4AF37] w-1 h-4 rounded-full"
                                 animate={{ height: [4, 8, 4] }}
                                 transition={{ repeat: Infinity, duration: 1, ease: "easeInOut", delay: 0.2 }}
                               />
                               <motion.div 
-                                className="bg-blue-500 w-1 h-2 rounded-full"
+                                className="bg-[#D4AF37] w-1 h-2 rounded-full"
                                 animate={{ height: [2, 5, 2] }}
                                 transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut", delay: 0.1 }}
                               />
@@ -662,7 +665,7 @@ export default function MusicPlayer() {
                       max={duration || 100}
                       value={currentTime}
                       onChange={handleProgressChange}
-                      className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                      className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]"
                     />
                   </div>
 
@@ -673,15 +676,15 @@ export default function MusicPlayer() {
                           onClick={toggleShuffle}
                           className={`p-1.5 rounded-md transition-colors ${
                             isShuffled 
-                              ? 'bg-blue-500/30 text-blue-400 border border-blue-500/50' 
-                              : 'text-gray-400 hover:text-white hover:bg-gray-700/40'
+                              ? 'bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/50' 
+                              : 'text-neutral-400 hover:text-white hover:bg-white/5'
                           }`}
                           title="Shuffle"
                         >
                           <Shuffle className="h-5 w-5" strokeWidth={isShuffled ? 2.5 : 2} />
                         </button>
                         {isShuffled && (
-                          <span className="absolute -top-1 -right-1 text-xs bg-blue-500 text-white rounded-full w-3 h-3 flex items-center justify-center">
+                          <span className="absolute -top-1 -right-1 text-xs bg-[#D4AF37] text-black rounded-full w-3 h-3 flex items-center justify-center">
                             ⤭
                           </span>
                         )}
@@ -689,7 +692,7 @@ export default function MusicPlayer() {
                       
                     <button 
                       onClick={playPrevTrack}
-                      className="text-gray-400 hover:text-white transition-colors"
+                      className="text-neutral-400 hover:text-white transition-colors"
                         title="Previous track"
                     >
                         <SkipBack className="h-6 w-6" />
@@ -697,7 +700,7 @@ export default function MusicPlayer() {
                     
                     <button 
                       onClick={togglePlayPause}
-                      className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-3 focus:outline-none transition-colors"
+                      className="bg-[#D4AF37] hover:bg-[#c79c2c] text-black rounded-full p-3 focus:outline-none transition-colors shadow-[0_10px_30px_rgba(212,175,55,0.35)]"
                         title={isPlaying ? "Pause" : "Play"}
                     >
                       {isPlaying ? (
@@ -709,7 +712,7 @@ export default function MusicPlayer() {
                     
                     <button 
                       onClick={playNextTrack}
-                      className="text-gray-400 hover:text-white transition-colors"
+                      className="text-neutral-400 hover:text-white transition-colors"
                         title="Next track"
                       >
                         <SkipForward className="h-6 w-6" />
@@ -720,10 +723,10 @@ export default function MusicPlayer() {
                           onClick={toggleRepeat}
                           className={`p-1.5 rounded-md transition-colors ${
                             repeatMode === 'off'
-                              ? 'text-gray-400 hover:text-white hover:bg-gray-700/40'
+                              ? 'text-neutral-400 hover:text-white hover:bg-white/5'
                               : repeatMode === 'one'
-                                ? 'bg-blue-500/30 text-blue-400 border border-blue-500/50'
-                                : 'bg-blue-500/20 text-blue-400 border border-blue-500/40'
+                                ? 'bg-[#D4AF37]/20 text-[#D4AF37] border border-[#D4AF37]/50'
+                                : 'bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/40'
                           }`}
                           title={`Repeat mode: ${repeatMode}`}
                         >
@@ -734,11 +737,11 @@ export default function MusicPlayer() {
                           )}
                     </button>
                         {repeatMode !== 'off' && (
-                          <span className="absolute -top-1 -right-1 text-xs bg-blue-500 text-white rounded-full w-3 h-3 flex items-center justify-center">
+                          <span className="absolute -top-1 -right-1 text-xs bg-[#D4AF37] text-black rounded-full w-3 h-3 flex items-center justify-center">
                             {repeatMode === 'one' ? '1' : '∞'}
                           </span>
                         )}
-                      </div>
+                    </div>
                   </div>
                   </>
                 )}
@@ -746,7 +749,7 @@ export default function MusicPlayer() {
                   {/* Volume control - only show when playlist is not visible */}
                   {!showPlaylist && (
                     <div className="flex items-center space-x-2 mt-2">
-                      <button onClick={toggleMute} className="text-gray-400 hover:text-white">
+                      <button onClick={toggleMute} className="text-neutral-400 hover:text-white">
                         {volume === 0 ? (
                           <VolumeX className="h-5 w-5" />
                         ) : volume < 0.33 ? (
@@ -764,14 +767,14 @@ export default function MusicPlayer() {
                         step="0.01"
                         value={volume}
                         onChange={handleVolumeChange}
-                        className="w-full h-1 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                        className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]"
                       />
                     </div>
                   )}
                 
                 {/* Keyboard shortcuts info - only show in main player view */}
                 {!showPlaylist && (
-                  <div className="mt-2 text-xs text-gray-500">
+                  <div className="mt-2 text-xs text-neutral-500">
                     <p>Keyboard shortcuts: Space (play/pause), ←→ (seek), ↑↓ (volume), N (next), P (prev), R (repeat), S (shuffle), L (playlist), M (mute)</p>
                   </div>
                 )}
@@ -786,7 +789,7 @@ export default function MusicPlayer() {
                 onClick={() => setIsExpanded(true)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-              className="bg-black/70 backdrop-blur-md text-white p-0 rounded-full shadow-lg border border-gray-800 group flex items-center justify-center relative overflow-hidden w-16 h-16"
+              className="bg-black/80 backdrop-blur-md text-white p-0 rounded-full shadow-[0_12px_32px_rgba(0,0,0,0.5)] border border-white/10 group flex items-center justify-center relative overflow-hidden w-16 h-16"
             >
               <div className="relative w-full h-full flex items-center justify-center">
                 {isPlaying && (
@@ -838,7 +841,7 @@ export default function MusicPlayer() {
                     
                     {/* Bass impact ring */}
                     <motion.div
-                      className="absolute inset-0 rounded-full border-2 border-blue-400/10"
+                      className="absolute inset-0 rounded-full border-2 border-[#D4AF37]/10"
                       animate={{ 
                         scale: [
                           1,
@@ -857,7 +860,7 @@ export default function MusicPlayer() {
                     <div 
                       className="absolute inset-0 rounded-full"
                       style={{
-                        background: 'radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(16,24,39,0) 70%)',
+                        background: 'radial-gradient(circle, rgba(212,175,55,0.22) 0%, rgba(16,24,39,0) 70%)',
                       }}
                     />
                   </>

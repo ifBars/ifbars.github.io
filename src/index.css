@@ -1,5 +1,59 @@
 @import "tailwindcss";
 
+/* Color Variables */
+:root {
+  --gold: #D4AF37;
+  --silver: #C0C0C0;
+  --bg: #050505;
+}
+
+/* Typography Classes */
+.font-serif-heading {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-serif-body {
+  font-family: 'Merriweather', serif;
+}
+
+/* Selection */
+::selection {
+  background: rgba(212, 175, 55, 0.3);
+  color: white;
+}
+
+/* Utilities */
+.text-gold {
+  color: var(--gold);
+}
+
+.text-silver {
+  color: var(--silver);
+}
+
+.hover-gold:hover {
+  color: var(--gold);
+  transition: color 0.3s ease;
+}
+
+/* Smooth fade up animation */
+.fade-up {
+  animation: fadeUp 1s ease-out forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+
+@keyframes fadeUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
