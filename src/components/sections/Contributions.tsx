@@ -96,7 +96,7 @@ export default function Contributions() {
     {
       name: "Schedule 1 - CustomTV",
       url: "https://github.com/JumbleBumble/CustomTV",
-      description: "A MelonLoader mod tha allows you to play custom videos on the TV in Schedule 1",
+      description: "A MelonLoader mod that allows you to play custom videos on the TV in Schedule 1",
       tags: ["C#", "Schedule 1", "Game Modding"]
     },
     {
