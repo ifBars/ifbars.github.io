@@ -25,3 +25,5 @@ CLAUDE.md
 *.njsproj
 *.sln
 *.sw?
+bun.lock
+package-lock.json

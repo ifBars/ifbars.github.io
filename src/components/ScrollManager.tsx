@@ -1,45 +1,35 @@
-import { useEffect, useRef } from 'react';
-import Lenis from 'lenis';
+import { useEffect } from 'react';
+import { useLenis } from 'lenis/react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ScrollManager() {
-  const lenisRef = useRef<Lenis | null>(null);
+  const lenis = useLenis();
 
   useEffect(() => {
-    // Initialize Lenis for smooth scrolling
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      orientation: 'vertical',
-      gestureOrientation: 'vertical',
-      smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
-      infinite: false,
-    });
-
-    lenisRef.current = lenis;
-
-    // Update ScrollTrigger on Lenis scroll
-    lenis.on('scroll', ScrollTrigger.update);
-
-    // RAF loop for Lenis
-    const raf = (time: number) => {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    };
-    requestAnimationFrame(raf);
+    if (!lenis) return;
 
     // Sync GSAP ScrollTrigger with Lenis
-    gsap.ticker.add((time) => {
-      lenis.raf(time * 1000);
-    });
+    lenis.on('scroll', ScrollTrigger.update);
 
+    // Drive Lenis with GSAP Ticker
+    // The time passed to the ticker callback is in seconds, Lenis needs milliseconds
+    const update = (time: number) => {
+      lenis.raf(time * 1000);
+    };
+
+    gsap.ticker.add(update);
     gsap.ticker.lagSmoothing(0);
 
+    return () => {
+      gsap.ticker.remove(update);
+      // We don't need to destroy lenis as it's managed by ReactLenis
+    };
+  }, [lenis]);
+
+  useEffect(() => {
     // Setup scroll-jacking for each section
     const sections = ['#hero', '#projects', '#contributions', '#organizations'];
 
@@ -73,11 +63,7 @@ export default function ScrollManager() {
     });
 
     return () => {
-      lenis.destroy();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, []);
 

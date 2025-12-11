@@ -48,7 +48,7 @@ export default function Header() {
           Focus Areas
         </span>
         <span className="font-serif-body text-xs text-white leading-tight">
-          C#, Game Dev, AI
+          C#, React, TS
         </span>
       </div>
 
@@ -73,22 +73,13 @@ export default function Header() {
               01
             </span>
             <span className="relative">
-              Projects
-              <span className="absolute bottom-0 left-0 w-0 h-px bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
-            </span>
-          </a>
-          <a href="#contributions" className="group flex items-center gap-2 font-serif-heading text-sm text-white hover-gold transition-all duration-300">
-            <span className="opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 text-[#D4AF37] text-xs font-mono">
-              02
-            </span>
-            <span className="relative">
-              Contributions
+              My Work
               <span className="absolute bottom-0 left-0 w-0 h-px bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
             </span>
           </a>
           <a href="https://github.com/ifBars" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 font-serif-heading text-sm text-white hover-gold transition-all duration-300">
             <span className="opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 text-[#D4AF37] text-xs font-mono">
-              03
+              02
             </span>
             <span className="relative">
               GitHub

@@ -1,21 +1,15 @@
-import { useEffect, useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import ProjectCard, { Project } from '../ProjectCard';
+import ProjectModal from '../ProjectModal';
 
 gsap.registerPlugin(ScrollTrigger);
 
-interface Project {
-  name: string;
-  url: string;
-  description: string;
-  tags: string[];
-  image?: string;
-}
-
 export default function Contributions() {
-  const [visible, setVisible] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   // Scroll-triggered animations
   useEffect(() => {
@@ -37,7 +31,6 @@ export default function Contributions() {
         start: 'top 80%',
         end: 'center center',
         scrub: 1.5,
-        onEnter: () => setVisible(true),
       },
     });
 
@@ -71,57 +64,47 @@ export default function Contributions() {
   const contributions: Project[] = [
     {
       name: "Marvel Rivals Jarvis AI",
-      url: "https://github.com/PatchiPup/Jarvis-Mark-II",
+      sourceUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
+      projectUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
       description: "AI assistant for Marvel Rivals game with voice command capabilities",
       tags: ["Python", "AI", "Marvel Rivals"]
     },
     {
       name: "RatScanner",
-      url: "https://github.com/RatScanner/RatScanner",
+      sourceUrl: "https://github.com/RatScanner/RatScanner",
+      projectUrl: "https://github.com/RatScanner/RatScanner",
       description: "Item value scanner for Escape from Tarkov to assist with inventory management",
       tags: ["C#", "OCR", "Game Tools"]
     },
     {
       name: "CS2 - External ESP",
-      url: "https://github.com/IMXNOOBX/cs2-external-esp",
+      sourceUrl: "https://github.com/IMXNOOBX/cs2-external-esp",
+      projectUrl: "https://github.com/IMXNOOBX/cs2-external-esp",
       description: "One of the first to become popular, External ESP tool for CS2 with player visualization features",
       tags: ["C++", "Game Hacking", "CS2"]
     },
     {
       name: "CS2 - Tim Apple",
-      url: "https://github.com/gmh5225/tim_apple",
+      sourceUrl: "https://github.com/gmh5225/tim_apple",
+      projectUrl: "https://github.com/gmh5225/tim_apple",
       description: "A simple but clean ESP for CS2 - The original base used for my Cynosys fork",
       tags: ["C++", "Game Hacking", "CS2"]
     },
     {
       name: "Schedule 1 - CustomTV",
-      url: "https://github.com/JumbleBumble/CustomTV",
+      sourceUrl: "https://github.com/JumbleBumble/CustomTV",
+      projectUrl: "https://github.com/JumbleBumble/CustomTV",
       description: "A MelonLoader mod that allows you to play custom videos on the TV in Schedule 1",
       tags: ["C#", "Schedule 1", "Game Modding"]
     },
     {
       name: "Empire",
-      url: "https://github.com/pranjalchakraborty/Silkroad_S1API",
+      sourceUrl: "https://github.com/pranjalchakraborty/Silkroad_S1API",
+      projectUrl: "https://github.com/pranjalchakraborty/Silkroad_S1API",
       description: "A MelonLoader mod for Schedule 1 that adds a dynamic network of customizable NPC buyers to the game",
       tags: ["C#", "Schedule 1", "Game Modding"]
     }
   ];
-
-  // Animation variants for staggered animations
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 100 } }
-  };
 
   return (
     <section ref={sectionRef} id="contributions" className="py-16 relative z-10">
@@ -134,56 +117,26 @@ export default function Contributions() {
         </div>
 
         {/* Contributions Display */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={visible ? "show" : "hidden"}
+        <div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6"
         >
           {contributions.map((project, index) => (
-            <motion.div
+            <ProjectCard
               key={index}
-              variants={itemVariants}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className="group contribution-card"
-            >
-              <a 
-                href={project.url} 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block h-full"
-              >
-                <div className="bg-black/40 backdrop-blur-sm border border-neutral-800 rounded-xl overflow-hidden h-full transition-all duration-300 group-hover:border-[#D4AF37]/60 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] flex flex-col">
-                  <div className="p-6 flex-1">
-                    <h3 className="font-serif-heading text-2xl font-semibold text-white mb-2 group-hover:text-[#D4AF37] transition-colors duration-300">
-                      {project.name}
-                    </h3>
-                    <p className="font-serif-body text-neutral-400 mb-4 text-sm leading-relaxed">
-                      {project.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag, tagIndex) => (
-                        <span 
-                          key={tagIndex} 
-                          className="bg-neutral-800/60 border border-white/5 text-xs font-serif-body px-2.5 py-0.5 rounded text-neutral-300"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="px-6 py-4 border-t border-neutral-800 bg-black/30 flex justify-between items-center">
-                    <span className="font-serif-body text-xs text-neutral-500">View Project</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-neutral-500 group-hover:text-[#D4AF37] transition-all duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </div>
-                </div>
-              </a>
-            </motion.div>
+              project={project}
+              onClick={() => setSelectedProject(project)}
+              className="contribution-card"
+            />
           ))}
-        </motion.div>
+        </div>
       </div>
+
+      {/* Project Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal selectedProject={selectedProject} onClose={() => setSelectedProject(null)} />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

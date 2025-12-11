@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="w-full max-w-[1800px] mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-4 gap-8 text-xs z-20 relative border-t border-white/5 mt-auto">
+    <footer className="w-full max-w-[1800px] mx-auto p-4 md:p-6 grid grid-cols-1 md:grid-cols-4 gap-8 text-xs z-10 relative border-t border-white/5 mt-auto">
       {/* Column 1: Description */}
       <div className="flex flex-col gap-4">
         <p className="font-serif-body text-neutral-400 leading-relaxed max-w-xs">
@@ -38,14 +38,6 @@ export default function Footer() {
             <i className="fas fa-arrow-up-right text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
           </a>
         </div>
-      </div>
-
-      {/* Column 4: Copyright */}
-      <div className="flex flex-col justify-end items-start md:items-end gap-1 text-neutral-600">
-        <span className="font-serif-heading text-lg text-white">© {new Date().getFullYear()}</span>
-        <span className="font-serif-body text-[10px] uppercase tracking-wider">
-          IfBars
-        </span>
       </div>
     </footer>
   );
