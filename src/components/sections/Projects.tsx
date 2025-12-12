@@ -83,7 +83,7 @@ export default function Projects() {
       sourceUrl: "https://github.com/ifBars/MLVScan",
       projectUrl: "https://www.nexusmods.com/schedule1/mods/957",
       description: "Security-first MelonLoader plugin that scans and disables malicious mods before they can run.",
-      subDescription: "Trusted by 20,000+ users across NexusMods and Thunderstore.",
+      subDescription: "Trusted by 25,000+ users across NexusMods and Thunderstore.",
       tags: ["C#", "Game Modding", "Security"]
     },
     {
