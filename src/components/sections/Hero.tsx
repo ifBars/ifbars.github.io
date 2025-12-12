@@ -47,7 +47,7 @@ export default function Hero() {
             </p>
           </div>
           <p className="font-serif-body text-sm md:text-base text-neutral-300 max-w-3xl fade-up delay-200">
-            I create modding frameworks and tools for game communities, build React/TypeScript web apps, and develop APIs and developer tooling. My work spans C# game mods (MelonLoader), web frontends, serverless APIs, and documentation systems—all with a focus on extensibility, stability, and developer experience.
+            I create modding frameworks and tools for game communities, build React/TypeScript web apps, and develop APIs and developer tooling. My work spans between C# Unity game mods, web apps, serverless APIs, and more, all with a focus on extensibility, stability, and user experience.
           </p>
         </div>
 
