@@ -75,7 +75,7 @@ export default function Projects() {
       sourceUrl: "https://github.com/RatScanner/RatScanner",
       projectUrl: "https://ratscanner.com/",
       description: "Escape from Tarkov item value scanner that accelerates loot decisions.",
-      subDescription: "Contributed OCR and UX tweaks to speed up reads and reduce false positives during raids.",
+      subDescription: "Added a tray icon context menu to provide better user experience.",
       tags: ["C#", "OCR", "Game Tools"]
     },
     {
@@ -91,7 +91,7 @@ export default function Projects() {
       sourceUrl: "https://github.com/ifBars/VRChat-ProTVConvertor",
       projectUrl: "https://protv-convertor.onrender.com/",
       description: "Pipeline for converting youtube playlists into VRChat ProTV-friendly formats.",
-      subDescription: "Automates transcoding and packaging so creators can drop videos into VRChat worlds without compatibility headaches.",
+      subDescription: "Used by lots of VRChat world developers.",
       tags: ["C#", "Python", "VRChat", "Media"]
     },
     {
@@ -107,7 +107,7 @@ export default function Projects() {
       sourceUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
       projectUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
       description: "Voice-driven AI assistant for Marvel Rivals.",
-      subDescription: "Extended the feature set with command routing, richer responses, and stability fixes to keep squads informed mid-match.",
+      subDescription: "Extended the feature set with command routing, richer responses, and a complete codebase refactor for scalability.",
       tags: ["Python", "AI", "Marvel Rivals"]
     },
     {
@@ -123,7 +123,7 @@ export default function Projects() {
       sourceUrl: "https://github.com/gmh5225/tim_apple",
       projectUrl: "https://github.com/gmh5225/tim_apple",
       description: "Clean, minimal ESP base for CS2 and foundation for my Cynosys fork.",
-      subDescription: "Delivered refactors and readability improvements that made downstream feature work faster.",
+      subDescription: "Delivered refactors and readability improvements, and bug fixes to ensure compatibility with all screen sizes.",
       tags: ["C++", "Game Hacking", "CS2"]
     }
   ];
