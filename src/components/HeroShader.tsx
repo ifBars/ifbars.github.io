@@ -144,7 +144,6 @@ const fragmentShader = `
 const NeonGooMesh = memo(() => {
   const meshRef = useRef<Mesh>(null);
   const { size } = useThree();
-  const mouse = useMemo(() => new Vector2(0.5, 0.5), []);
 
   const uniforms = useMemo(
     () => ({
