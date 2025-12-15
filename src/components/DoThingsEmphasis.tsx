@@ -184,7 +184,6 @@ export default function DoThingsEmphasis() {
             
             {/* Terminal label */}
             <div className="flex items-center gap-2 mb-2.5">
-              <span className="text-[10px] text-[#D4AF37]/70 font-semibold uppercase tracking-wider">shipping log</span>
               <span className="flex-1 h-px bg-gradient-to-r from-[#D4AF37]/20 to-transparent" />
             </div>
             
