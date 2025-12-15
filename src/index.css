@@ -64,6 +64,96 @@
   animation: blink 1s step-end infinite;
 }
 
+/* Animated emphasis for "make them do things" */
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.3),
+                 0 0 16px rgba(212, 175, 55, 0.2),
+                 0 0 24px rgba(212, 175, 55, 0.1);
+    color: rgba(255, 255, 255, 0.9);
+  }
+  50% {
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.5),
+                 0 0 24px rgba(212, 175, 55, 0.3),
+                 0 0 36px rgba(212, 175, 55, 0.15);
+    color: rgba(255, 255, 255, 1);
+  }
+}
+
+.animate-text-glow {
+  animation: textGlow 3s ease-in-out infinite;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+/* Terminal tooltip animations */
+@keyframes tooltipEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.animate-tooltip-enter {
+  animation: tooltipEnter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Global Animation Utilities */
+
+/* Focus states with subtle glow for accessibility */
+.focus-gold:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.4), 0 0 12px rgba(212, 175, 55, 0.15);
+  transition: box-shadow 0.2s ease;
+}
+
+/* Animated underline for links */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* Button press feedback */
+.press-effect:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease;
+}
+
+/* Smooth hover transitions */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+
 /* Hide native scrollbar but allow scrolling */
 html.lenis, html.lenis body {
   height: auto;

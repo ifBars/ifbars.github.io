@@ -12,12 +12,12 @@ export default function Footer() {
       <div className="flex flex-col gap-4">
         <h3 className="font-serif-heading text-white text-sm">Tech Stack</h3>
         <div className="grid grid-cols-2 gap-2 text-neutral-500 font-serif-body">
-          <span>C#</span>
-          <span>React</span>
-          <span>TypeScript</span>
-          <span>Three.js</span>
-          <span>Python</span>
-          <span>C++</span>
+          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">C#</span>
+          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">React</span>
+          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">TypeScript</span>
+          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">Three.js</span>
+          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">Python</span>
+          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">C++</span>
         </div>
       </div>
 
@@ -25,17 +25,17 @@ export default function Footer() {
       <div className="flex flex-col gap-4">
         <h3 className="font-serif-heading text-white text-sm">Connect</h3>
         <div className="flex flex-col gap-2 font-serif-body">
-          <a href="https://github.com/ifBars" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-[#D4AF37] transition-colors flex items-center gap-2 group">
-            GitHub
-            <i className="fas fa-arrow-up-right text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
+          <a href="https://github.com/ifBars" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-2 group focus-gold rounded-sm px-1 -mx-1 py-0.5 -my-0.5">
+            <span className="link-underline">GitHub</span>
+            <i className="fas fa-arrow-up-right text-[10px] opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity"></i>
           </a>
-          <a href="https://next.nexusmods.com/profile/IfBars/mods" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-[#D4AF37] transition-colors flex items-center gap-2 group">
-            Nexus Mods
-            <i className="fas fa-arrow-up-right text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
+          <a href="https://next.nexusmods.com/profile/IfBars/mods" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-2 group focus-gold rounded-sm px-1 -mx-1 py-0.5 -my-0.5">
+            <span className="link-underline">Nexus Mods</span>
+            <i className="fas fa-arrow-up-right text-[10px] opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity"></i>
           </a>
-          <a href="https://ko-fi.com/ifbars" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-[#D4AF37] transition-colors flex items-center gap-2 group">
-            Ko-fi
-            <i className="fas fa-arrow-up-right text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
+          <a href="https://ko-fi.com/ifbars" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-[#D4AF37] transition-colors inline-flex items-center gap-2 group focus-gold rounded-sm px-1 -mx-1 py-0.5 -my-0.5">
+            <span className="link-underline">Ko-fi</span>
+            <i className="fas fa-arrow-up-right text-[10px] opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-opacity"></i>
           </a>
         </div>
       </div>

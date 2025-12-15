@@ -135,7 +135,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                                         href={selectedProject.projectUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="group flex items-center justify-between px-5 py-3.5 bg-[#D4AF37] text-black font-serif-body font-bold text-sm rounded-xl hover:bg-[#c4a030] transition-all shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:-translate-y-0.5"
+                                        className="group flex items-center justify-between px-5 py-3.5 bg-[#D4AF37] text-black font-serif-body font-bold text-sm rounded-xl hover:bg-[#c4a030] transition-all shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:-translate-y-0.5 press-effect focus-gold"
                                     >
                                         <span>Visit Project</span>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -148,7 +148,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                                         href={selectedProject.sourceUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="group flex items-center justify-center gap-2 px-5 py-3.5 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-neutral-300 font-mono text-sm rounded-xl transition-all hover:text-white"
+                                        className="group flex items-center justify-center gap-2 px-5 py-3.5 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-neutral-300 font-mono text-sm rounded-xl transition-all hover:text-white press-effect focus-gold"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-neutral-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />

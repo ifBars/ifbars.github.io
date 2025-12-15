@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { useGithubStats } from '../hooks/useGithubStats';
 
 export interface Project {
@@ -21,13 +20,12 @@ export default function ProjectCard({ project, onClick, className = '' }: Projec
     const { stars, loading } = useGithubStats(project.sourceUrl, project.name);
 
     return (
-        <motion.div
-            whileHover={{ y: -5, transition: { duration: 0.2 } }}
-            className={`group cursor-pointer ${className}`}
+        <div
+            className={`group cursor-pointer transition-transform duration-200 ease-out hover:-translate-y-[5px] ${className}`}
             onClick={onClick}
         >
             <div className="block h-full">
-                <div className="bg-black/40 backdrop-blur-sm border border-neutral-800 rounded-xl overflow-hidden h-full transition-all duration-300 group-hover:border-[#D4AF37]/60 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] flex flex-col">
+                <div className="bg-black/40 backdrop-blur-sm border border-neutral-800 rounded-xl overflow-hidden h-full transition-all duration-300 group-hover:border-[#D4AF37]/60 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] flex flex-col press-effect focus-gold">
                     <div className="p-6 flex-1">
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="font-serif-heading text-2xl font-semibold text-white group-hover:text-[#D4AF37] transition-colors duration-300">
@@ -49,7 +47,7 @@ export default function ProjectCard({ project, onClick, className = '' }: Projec
                             {project.tags.map((tag, tagIndex) => (
                                 <span
                                     key={tagIndex}
-                                    className="bg-neutral-800/60 border border-white/5 text-xs font-serif-body px-2.5 py-0.5 rounded text-neutral-300"
+                                    className="bg-neutral-800/60 border border-white/5 text-xs font-serif-body px-2.5 py-0.5 rounded text-neutral-300 transition-all duration-300 group-hover:border-[#D4AF37]/40 group-hover:text-neutral-200 group-hover:-translate-y-0.5 cursor-default"
                                 >
                                     {tag}
                                 </span>
@@ -64,6 +62,6 @@ export default function ProjectCard({ project, onClick, className = '' }: Projec
                     </div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 }

@@ -24,7 +24,7 @@ export default function Header() {
     <header className="w-full max-w-[1800px] mx-auto px-4 md:px-6 lg:px-8 py-2 md:py-3 grid grid-cols-1 md:grid-cols-12 gap-x-4 gap-y-2 items-center z-50 relative border-b border-white/5">
       {/* Logo Area */}
       <div className="md:col-span-2 flex flex-col fade-up">
-        <a href="#" className="font-serif-heading text-xl md:text-2xl lg:text-3xl tracking-tight text-white hover:text-[#D4AF37] transition-colors duration-500 font-semibold leading-tight">
+        <a href="#" className="font-serif-heading text-xl md:text-2xl lg:text-3xl tracking-tight text-white hover:text-[#D4AF37] hover:tracking-wider transition-all duration-500 font-semibold leading-tight focus-gold rounded-sm px-1 -mx-1">
           IFBARS
         </a>
       </div>
@@ -35,7 +35,7 @@ export default function Header() {
           Current Status
         </span>
         <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse flex-shrink-0"></span>
+          <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse flex-shrink-0 shadow-[0_0_8px_rgba(212,175,55,0.5)]"></span>
           <span className="font-serif-body text-xs text-white leading-tight">
             Open to Opportunities
           </span>
@@ -68,22 +68,22 @@ export default function Header() {
       {/* Menu */}
       <div className="md:col-span-4 flex justify-start md:justify-end items-start md:items-center fade-up delay-300">
         <nav className="flex flex-row md:flex-col items-start md:items-end gap-3 md:gap-1.5 w-full md:w-auto">
-          <a href="#projects" className="group flex items-center gap-2 font-serif-heading text-sm text-white hover-gold transition-all duration-300">
-            <span className="opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 text-[#D4AF37] text-xs font-mono">
+          <a href="#projects" className="group flex items-center gap-2 font-serif-heading text-sm text-white hover-gold transition-all duration-300 focus-gold rounded-sm px-1 -mx-1 py-0.5 -my-0.5">
+            <span className="opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 transition-all duration-300 text-[#D4AF37] text-xs font-mono">
               01
             </span>
             <span className="relative">
               My Work
-              <span className="absolute bottom-0 left-0 w-0 h-px bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-px bg-[#D4AF37] group-hover:w-full group-focus-visible:w-full transition-all duration-300"></span>
             </span>
           </a>
-          <a href="https://github.com/ifBars" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 font-serif-heading text-sm text-white hover-gold transition-all duration-300">
-            <span className="opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 text-[#D4AF37] text-xs font-mono">
+          <a href="https://github.com/ifBars" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-2 font-serif-heading text-sm text-white hover-gold transition-all duration-300 focus-gold rounded-sm px-1 -mx-1 py-0.5 -my-0.5">
+            <span className="opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 transition-all duration-300 text-[#D4AF37] text-xs font-mono">
               02
             </span>
             <span className="relative">
               GitHub
-              <span className="absolute bottom-0 left-0 w-0 h-px bg-[#D4AF37] group-hover:w-full transition-all duration-300"></span>
+              <span className="absolute bottom-0 left-0 w-0 h-px bg-[#D4AF37] group-hover:w-full group-focus-visible:w-full transition-all duration-300"></span>
             </span>
           </a>
         </nav>
