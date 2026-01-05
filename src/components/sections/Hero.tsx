@@ -44,7 +44,7 @@ export default function Hero() {
                 Hi, I'm IfBars.
               </h1>
               <p className="font-serif-heading text-xl sm:text-2xl md:text-3xl text-white/80 italic fade-up delay-200">
-                Self-taught developer creating projects I'm passionate about.
+                Self-taught developer driven by passion.
               </p>
             </div>
             <p className="font-serif-body text-sm md:text-base text-neutral-300 max-w-2xl fade-up delay-200">
