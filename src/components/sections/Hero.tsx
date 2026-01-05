@@ -38,20 +38,19 @@ export default function Hero() {
           </span>
         </div>
 
-        <div className="flex flex-col gap-4 md:gap-6">
-          <div className="leading-[0.95]">
-            <h1 className="font-serif-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white fade-up delay-100 drop-shadow-[0_18px_48px_rgba(0,0,0,0.65)]">
-              Hi, I'm IfBars.
-            </h1>
-            <p className="font-serif-heading text-xl sm:text-2xl md:text-3xl text-white/80 italic fade-up delay-200">
-              I build game mods, security tooling, and unique web apps.
+          <div className="flex flex-col gap-4 md:gap-6">
+            <div className="leading-[0.95]">
+              <h1 className="font-serif-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white fade-up delay-100 drop-shadow-[0_18px_48px_rgba(0,0,0,0.65)]">
+                Hi, I'm IfBars.
+              </h1>
+              <p className="font-serif-heading text-xl sm:text-2xl md:text-3xl text-white/80 italic fade-up delay-200">
+                I build game mods, security tooling, and unique web apps.
+              </p>
+            </div>
+            <p className="font-serif-body text-sm md:text-base text-neutral-300 max-w-2xl fade-up delay-200">
+              I build high-performance game mods and security tooling used by 30,000+ users. Specializing in C# reverse engineering, scalable systems, and <DoThingsEmphasis />.
             </p>
           </div>
-          <p className="font-serif-body text-sm md:text-base text-neutral-300 max-w-2xl fade-up delay-200">
-            I started programming in 2013 as a kid who had a huge passion for computers and wanted to learn how to{' '}
-            <DoThingsEmphasis />. 12 years later, younger me would be proud of what I've accomplished.
-          </p>
-        </div>
 
         <div className="flex flex-wrap items-center gap-4 md:gap-6 pointer-events-auto">
           <div className="hero-explore">

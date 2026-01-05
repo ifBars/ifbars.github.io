@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 interface GithubStats {
     stars: number;
     created: string;
+    lastUpdated: string;
     contributors: string[];
     loading: boolean;
 }
@@ -14,6 +15,7 @@ export function useGithubStats(sourceUrl?: string, projectName: string = '') {
     const [stats, setStats] = useState<GithubStats>({
         stars: 0,
         created: '',
+        lastUpdated: '',
         contributors: [],
         loading: true
     });
@@ -24,6 +26,7 @@ export function useGithubStats(sourceUrl?: string, projectName: string = '') {
         const fallbackStats: GithubStats = {
             stars: fallbackStars,
             created: "Mar 01, 2024",
+            lastUpdated: "Recently",
             contributors: ["https://github.com/ifBars.png"],
             loading: false
         };
@@ -56,9 +59,32 @@ export function useGithubStats(sourceUrl?: string, projectName: string = '') {
                 const repoData = await repoRes.json();
 
                 // Fetch contributors
-                // Only fetch contributors if we don't have them cached (though we cache the whole object)
                 const contribsRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contributors?per_page=5`);
                 const contribsData = contribsRes.ok ? await contribsRes.json() : [];
+
+                // Calculate relative time for last update
+                const lastPushed = new Date(repoData.pushed_at);
+                const now = new Date();
+                const diffMs = now.getTime() - lastPushed.getTime();
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+                
+                let lastUpdatedStr = '';
+                if (diffDays === 0) {
+                    lastUpdatedStr = 'Today';
+                } else if (diffDays === 1) {
+                    lastUpdatedStr = 'Yesterday';
+                } else if (diffDays < 7) {
+                    lastUpdatedStr = `${diffDays} days ago`;
+                } else if (diffDays < 30) {
+                    const weeks = Math.floor(diffDays / 7);
+                    lastUpdatedStr = `${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+                } else if (diffDays < 365) {
+                    const months = Math.floor(diffDays / 30);
+                    lastUpdatedStr = `${months} ${months === 1 ? 'month' : 'months'} ago`;
+                } else {
+                    const years = Math.floor(diffDays / 365);
+                    lastUpdatedStr = `${years} ${years === 1 ? 'year' : 'years'} ago`;
+                }
 
                 const newStats: GithubStats = {
                     stars: repoData.stargazers_count,
@@ -67,6 +93,7 @@ export function useGithubStats(sourceUrl?: string, projectName: string = '') {
                         day: '2-digit',
                         year: 'numeric'
                     }),
+                    lastUpdated: lastUpdatedStr,
                     contributors: Array.isArray(contribsData) ? contribsData.map((c: any) => c.avatar_url) : fallbackStats.contributors,
                     loading: false
                 };

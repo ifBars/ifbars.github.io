@@ -27,3 +27,5 @@ CLAUDE.md
 *.sw?
 bun.lock
 package-lock.json
+documentation/
+portfolio-polishing-plan.md

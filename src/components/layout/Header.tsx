@@ -22,15 +22,8 @@ export default function Header() {
 
   return (
     <header className="w-full max-w-[1800px] mx-auto px-4 md:px-6 lg:px-8 py-2 md:py-3 grid grid-cols-1 md:grid-cols-12 gap-x-4 gap-y-2 items-center z-50 relative border-b border-white/5">
-      {/* Logo Area */}
-      <div className="md:col-span-2 flex flex-col fade-up">
-        <a href="#" className="font-serif-heading text-xl md:text-2xl lg:text-3xl tracking-tight text-white hover:text-[#D4AF37] hover:tracking-wider transition-all duration-500 font-semibold leading-tight focus-gold rounded-sm px-1 -mx-1">
-          IFBARS
-        </a>
-      </div>
-
       {/* Role / Status */}
-      <div className="hidden md:flex md:col-span-2 flex-col gap-1 fade-up delay-100">
+      <div className="hidden md:flex md:col-span-3 flex-col gap-1 fade-up">
         <span className="font-serif-heading text-xs uppercase tracking-widest text-neutral-400">
           Current Status
         </span>
@@ -43,7 +36,7 @@ export default function Header() {
       </div>
 
       {/* Focus Areas */}
-      <div className="hidden md:flex md:col-span-2 flex-col gap-1 fade-up delay-200">
+      <div className="hidden md:flex md:col-span-2 flex-col gap-1 fade-up delay-100">
         <span className="font-serif-heading text-xs uppercase tracking-widest text-neutral-400">
           Focus Areas
         </span>
@@ -53,7 +46,7 @@ export default function Header() {
       </div>
 
       {/* Location */}
-      <div className="hidden md:flex md:col-span-2 flex-col gap-1 fade-up delay-200">
+      <div className="hidden md:flex md:col-span-3 flex-col gap-1 fade-up delay-100">
         <span className="font-serif-heading text-xs uppercase tracking-widest text-neutral-400">
           Location
         </span>
@@ -66,7 +59,7 @@ export default function Header() {
       </div>
 
       {/* Menu */}
-      <div className="md:col-span-4 flex justify-start md:justify-end items-start md:items-center fade-up delay-300">
+      <div className="md:col-span-4 flex justify-start md:justify-end items-start md:items-center fade-up delay-200">
         <nav className="flex flex-row md:flex-col items-start md:items-end gap-3 md:gap-1.5 w-full md:w-auto">
           <a href="#projects" className="group flex items-center gap-2 font-serif-heading text-sm text-white hover-gold transition-all duration-300 focus-gold rounded-sm px-1 -mx-1 py-0.5 -my-0.5">
             <span className="opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 transition-all duration-300 text-[#D4AF37] text-xs font-mono">

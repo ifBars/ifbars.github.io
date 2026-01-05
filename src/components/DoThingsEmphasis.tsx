@@ -60,49 +60,17 @@ export default function DoThingsEmphasis() {
   const reducedMotion = usePrefersReducedMotion();
   const id = useId();
   const tooltipId = `${id}-do-things-tooltip`;
-  const timeoutRef = useRef<number | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const tooltipRef = useRef<HTMLSpanElement>(null);
 
   const [locked, setLocked] = useState(false);
   const [active, setActive] = useState(false);
-  const [lineIndex, setLineIndex] = useState(0);
-  const [charIndex, setCharIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [position, setPosition] = useState({ left: 0, top: 0 });
 
   const entry = useMemo(() => {
-    if (reducedMotion) return TERMINAL_ENTRIES[0];
-    return TERMINAL_ENTRIES[lineIndex] ?? TERMINAL_ENTRIES[0];
-  }, [lineIndex, reducedMotion]);
-  const command = entry.command;
-
-  useEffect(() => {
-    if (timeoutRef.current) {
-      window.clearTimeout(timeoutRef.current);
-      timeoutRef.current = null;
-    }
-
-    if (!active || reducedMotion) return;
-
-    if (charIndex < command.length) {
-      timeoutRef.current = window.setTimeout(() => {
-        setCharIndex((prev) => prev + 1);
-      }, 40);
-      return;
-    }
-
-    timeoutRef.current = window.setTimeout(() => {
-      setCharIndex(0);
-      setLineIndex((prev) => (prev + 1) % TERMINAL_ENTRIES.length);
-    }, 5000);
-  }, [active, charIndex, command.length, reducedMotion]);
-
-  useEffect(() => {
-    if (!active) {
-      setCharIndex(0);
-      setLineIndex(0);
-    }
-  }, [active]);
+    return TERMINAL_ENTRIES[currentIndex] ?? TERMINAL_ENTRIES[0];
+  }, [currentIndex]);
 
   const updatePosition = () => {
     if (buttonRef.current) {
@@ -116,7 +84,6 @@ export default function DoThingsEmphasis() {
 
   useEffect(() => {
     if (active) {
-      // Use requestAnimationFrame to ensure DOM is ready
       requestAnimationFrame(() => {
         updatePosition();
       });
@@ -133,13 +100,17 @@ export default function DoThingsEmphasis() {
 
   const show = () => {
     setActive(true);
-    // Calculate position immediately
     requestAnimationFrame(() => {
       updatePosition();
     });
   };
+  
   const hideIfUnlocked = () => {
     if (!locked) setActive(false);
+  };
+
+  const cycleEntry = () => {
+    setCurrentIndex((prev) => (prev + 1) % TERMINAL_ENTRIES.length);
   };
 
   const glowClass = reducedMotion ? '' : 'animate-text-glow';
@@ -156,14 +127,20 @@ export default function DoThingsEmphasis() {
           onFocus={show}
           onBlur={hideIfUnlocked}
           onClick={() => {
-            setLocked((prev) => !prev);
-            setActive(true);
+            if (locked) {
+              setLocked(false);
+              setActive(false);
+            } else {
+              setLocked(true);
+              setActive(true);
+            }
           }}
+          onDoubleClick={cycleEntry}
           aria-describedby={tooltipId}
           aria-expanded={active}
-          title="Hover or click"
+          title="Click to pin, double-click to cycle projects"
         >
-          make them do things
+          making things work
         </button>
       </span>
 
@@ -191,11 +168,8 @@ export default function DoThingsEmphasis() {
             <div className="flex items-center gap-1 mb-3">
               <span className="text-[#D4AF37]/90 font-semibold select-none">&gt;</span>
               <span className="text-neutral-100 font-medium tracking-wide">
-                {reducedMotion ? command : command.slice(0, charIndex)}
+                {entry.command}
               </span>
-              {!reducedMotion && (
-                <span className="inline-block w-0.5 h-4 bg-[#D4AF37] animate-blink ml-0.5" />
-              )}
             </div>
             
             {/* Proof */}
@@ -225,18 +199,20 @@ export default function DoThingsEmphasis() {
             {/* Footer hint */}
             <div className="flex items-center justify-between pt-1.5 border-t border-white/5">
               <span className="text-[9px] text-neutral-500/80 italic">
-                {locked ? 'click to close' : 'click to pin'}
+                {locked ? 'click to close • double-click to cycle' : 'click to pin'}
               </span>
-              <span className="flex gap-1">
-                {[0, 1, 2].map((i) => (
-                  <span
-                    key={i}
-                    className="w-1 h-1 rounded-full bg-[#D4AF37]/40"
-                    style={{
-                      animation: reducedMotion ? 'none' : `pulse 1.5s ease-in-out infinite ${i * 0.2}s`,
-                    }}
-                  />
-                ))}
+              <span className="flex items-center gap-1.5">
+                <span className="text-[9px] text-neutral-600">{currentIndex + 1}/{TERMINAL_ENTRIES.length}</span>
+                <span className="flex gap-1">
+                  {TERMINAL_ENTRIES.map((_, i) => (
+                    <span
+                      key={i}
+                      className={`w-1 h-1 rounded-full transition-colors duration-300 ${
+                        i === currentIndex ? 'bg-[#D4AF37]' : 'bg-[#D4AF37]/20'
+                      }`}
+                    />
+                  ))}
+                </span>
               </span>
             </div>
           </div>
