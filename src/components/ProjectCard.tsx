@@ -3,11 +3,14 @@ import { useGithubStats } from '../hooks/useGithubStats';
 export interface Project {
     name: string;
     projectUrl?: string;
-    sourceUrl?: string;
+    sourceUrl?: string | { label: string; url: string; description?: string; }[];
     description: string;
     tags: string[];
     image?: string;
+    demoImage?: string;
+    youtubeVideos?: string[];
     subDescription?: string;
+    isContribution?: boolean;
 }
 
 interface ProjectCardProps {
@@ -17,15 +20,39 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project, onClick, className = '' }: ProjectCardProps) {
-    const { stars, lastUpdated, loading } = useGithubStats(project.sourceUrl, project.name);
+    const sourceUrl = typeof project.sourceUrl === 'string' 
+        ? project.sourceUrl 
+        : project.sourceUrl?.[0]?.url;
+    const { stars, lastUpdated, loading } = useGithubStats(sourceUrl, project.name);
 
     return (
         <div
             className={`group cursor-pointer transition-transform duration-200 ease-out hover:-translate-y-[5px] ${className}`}
             onClick={onClick}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onClick();
+                }
+            }}
+            aria-label={`View details for ${project.name}`}
         >
             <div className="block h-full">
                 <div className="bg-black/40 backdrop-blur-sm border border-neutral-800 rounded-xl overflow-hidden h-full transition-all duration-300 group-hover:border-[#D4AF37]/60 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] flex flex-col press-effect focus-gold">
+                    {/* Project Image */}
+                    {project.image && (
+                        <div className="relative w-full h-48 overflow-hidden bg-neutral-900/50">
+                            <img 
+                                src={project.image} 
+                                alt={`${project.name} preview`}
+                                className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                        </div>
+                    )}
+                    
                     <div className="p-6 flex-1">
                         <div className="flex justify-between items-start mb-2">
                             <h3 className="font-serif-heading text-2xl font-semibold text-white group-hover:text-[#D4AF37] transition-colors duration-300">

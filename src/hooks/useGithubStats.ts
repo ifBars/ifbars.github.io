@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 interface GithubStats {
     stars: number;
+    forks: number;
     created: string;
     lastUpdated: string;
     contributors: string[];
@@ -14,6 +15,7 @@ const cache: Record<string, GithubStats> = {};
 export function useGithubStats(sourceUrl?: string, projectName: string = '') {
     const [stats, setStats] = useState<GithubStats>({
         stars: 0,
+        forks: 0,
         created: '',
         lastUpdated: '',
         contributors: [],
@@ -25,6 +27,7 @@ export function useGithubStats(sourceUrl?: string, projectName: string = '') {
         const fallbackStars = projectName.length * 42 + 120; // Deterministic fallback
         const fallbackStats: GithubStats = {
             stars: fallbackStars,
+            forks: Math.floor(fallbackStars * 0.15),
             created: "Mar 01, 2024",
             lastUpdated: "Recently",
             contributors: ["https://github.com/ifBars.png"],
@@ -88,6 +91,7 @@ export function useGithubStats(sourceUrl?: string, projectName: string = '') {
 
                 const newStats: GithubStats = {
                     stars: repoData.stargazers_count,
+                    forks: repoData.forks_count,
                     created: new Date(repoData.created_at).toLocaleDateString('en-US', {
                         month: 'short',
                         day: '2-digit',

@@ -68,7 +68,8 @@ export default function Projects() {
       projectUrl: "https://www.nexusmods.com/schedule1/mods/1194",
       description: "The unofficial C# modding framework for Schedule 1.",
       subDescription: "Used in most Schedule 1 mods, downloaded by users 25,000+ times.",
-      tags: ["C#", "Schedule 1", "Game Modding"]
+      tags: ["C#", "Schedule 1", "Game Modding"],
+      image: "/s1api.png"
     },
     {
       name: "RatScanner",
@@ -76,15 +77,34 @@ export default function Projects() {
       projectUrl: "https://ratscanner.com/",
       description: "Escape from Tarkov item value scanner that accelerates loot decisions.",
       subDescription: "Added a tray icon context menu to provide better user experience.",
-      tags: ["C#", "OCR", "Game Tools"]
+      tags: ["C#", "OCR", "Game Tools"],
+      image: "/ratscanner.png",
+      demoImage: "/ratscanner-demo.gif"
     },
     {
       name: "MLVScan",
-      sourceUrl: "https://github.com/ifBars/MLVScan",
+      sourceUrl: [
+        {
+          label: "MLVScan (MelonLoader Plugin)",
+          url: "https://github.com/ifBars/MLVScan",
+          description: "Security plugin for MelonLoader"
+        },
+        {
+          label: "MLVScan.Core (Core Engine)",
+          url: "https://github.com/ifBars/MLVScan.Core",
+          description: "Cross-platform malware detection engine"
+        },
+        {
+          label: "MLVScan.Web (Browser Version)",
+          url: "https://github.com/ifBars/MLVScan.Web",
+          description: "Blazor WASM app for in-browser analysis"
+        }
+      ],
       projectUrl: "https://www.nexusmods.com/schedule1/mods/957",
       description: "Security-first MelonLoader plugin that scans and disables malicious mods before they can run.",
-      subDescription: "Trusted by 25,000+ users across NexusMods and Thunderstore.",
-      tags: ["C#", "Game Modding", "Security"]
+      subDescription: "Trusted by 30,000+ users across NexusMods and Thunderstore. Built on MLVScan.Core, a cross-platform detection engine that powers both the MelonLoader plugin and web-based scanner.",
+      tags: ["C#", "Game Modding", "Security"],
+      image: "/mlvscan.png"
     },
     {
       name: "ProTVConvertor",
@@ -92,7 +112,8 @@ export default function Projects() {
       projectUrl: "https://protv-convertor.onrender.com/",
       description: "Pipeline for converting youtube playlists into VRChat ProTV-friendly formats.",
       subDescription: "Used by lots of VRChat world developers.",
-      tags: ["C#", "Python", "VRChat", "Media"]
+      tags: ["C#", "Python", "VRChat", "Media"],
+      image: "/protvconvertor.png"
     },
     {
       name: "CS2 External ESP",
@@ -100,31 +121,41 @@ export default function Projects() {
       projectUrl: "https://github.com/IMXNOOBX/cs2-external-esp",
       description: "One of the first widely adopted external ESPs for CS2 with player visualization.",
       subDescription: "I made over 100 commits to this project, including major feature additions and improvements to the codebase, around it's time of release.",
-      tags: ["C++", "Game Hacking", "CS2"]
+      tags: ["C++", "Game Hacking", "CS2"],
+      image: "/cs2-external-esp.png",
+      isContribution: true
     },
     {
       name: "Marvel Rivals Jarvis AI",
       sourceUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
       projectUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
       description: "Voice-driven AI assistant for Marvel Rivals.",
-      subDescription: "Extended the feature set with command routing, richer responses, and a complete codebase refactor for scalability.",
-      tags: ["Python", "AI", "Marvel Rivals"]
+      subDescription: "I contributed to this project by extending the feature set with command routing, richer responses, and a complete codebase refactor for scalability.",
+      tags: ["Python", "AI", "Marvel Rivals"],
+      image: "/jarvis-ai.png",
+      youtubeVideos: [
+        "https://www.youtube.com/watch?v=CQFnD5ddRFc",
+        "https://www.youtube.com/watch?v=G376sv2jNhw"
+      ],
+      isContribution: true
     },
     {
-      name: "S1 Dedicated Servers",
-      sourceUrl: "https://github.com/ifBars/S1DedicatedServers",
-      projectUrl: "https://ifbars.github.io/S1DedicatedServersWiki/",
-      description: "MelonLoader mod that allows dedicated server hosting for Schedule 1, a game built for P2P only.",
-      subDescription: "Open-sourced the first fully functional dedicated server option for Schedule 1, enabling stable multiplayer at scale.",
-      tags: ["C#", "Game Modding", "MelonLoader"]
+      name: "Fluxel",
+      sourceUrl: "https://github.com/ifBars/Fluxel",
+      projectUrl: "https://github.com/ifBars/Fluxel",
+      description: "Tauri-based lightweight IDE built as a side hobby project.",
+      subDescription: "A modern, fast IDE built with Rust and Tauri, featuring LSP integration, syntax highlighting, and project management.",
+      tags: ["Rust", "Tauri", "TypeScript", "IDE"],
+      image: "/fluxel.png"
     },
     {
-      name: "Tim Apple",
-      sourceUrl: "https://github.com/gmh5225/tim_apple",
-      projectUrl: "https://github.com/gmh5225/tim_apple",
-      description: "Clean, minimal ESP base for CS2 and foundation for my Cynosys fork.",
-      subDescription: "Delivered refactors and readability improvements, and bug fixes to ensure compatibility with all screen sizes.",
-      tags: ["C++", "Game Hacking", "CS2"]
+      name: "BigWillyMod",
+      sourceUrl: "https://github.com/ifBars/BigWillyMod",
+      projectUrl: "https://www.nexusmods.com/schedule1/mods/1413",
+      description: "Schedule 1 mod featuring Big Willy NPC, custom quests, and live stream integrations.",
+      subDescription: "A comprehensive mod adding an interactive NPC, quest system with graffiti mechanics, and Twitch live stream detection.",
+      tags: ["C#", "Schedule 1", "Game Modding"],
+      image: "/bigwilly.png"
     }
   ];
 

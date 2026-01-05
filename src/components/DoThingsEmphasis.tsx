@@ -138,6 +138,7 @@ export default function DoThingsEmphasis() {
           onDoubleClick={cycleEntry}
           aria-describedby={tooltipId}
           aria-expanded={active}
+          aria-label="Interactive project showcase button - click to pin, double-click to cycle through featured projects"
           title="Click to pin, double-click to cycle projects"
         >
           making things work

@@ -57,6 +57,7 @@ export default function Hero() {
             <button
               onClick={scrollToProjects}
               className="group relative inline-flex items-center gap-3 px-6 py-3 border border-neutral-800 hover:border-[#D4AF37]/60 rounded-full bg-black/40 backdrop-blur-md transition-all duration-500 overflow-hidden cursor-pointer shadow-[0_12px_40px_rgba(0,0,0,0.45)] press-effect focus-gold"
+              aria-label="Scroll to projects section"
             >
               <span className="absolute inset-0 bg-white/5 scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500" />
               <span className="font-serif-body text-xs text-neutral-300 group-hover:text-white relative z-10 tracking-wide">

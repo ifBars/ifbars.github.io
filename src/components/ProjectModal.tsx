@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion } from 'framer-motion';
 import { useLenis } from 'lenis/react';
@@ -12,7 +12,11 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ selectedProject, onClose }: ProjectModalProps) {
     const lenis = useLenis();
-    const repoStats = useGithubStats(selectedProject.sourceUrl, selectedProject.name);
+    const primarySourceUrl = typeof selectedProject.sourceUrl === 'string' 
+        ? selectedProject.sourceUrl 
+        : selectedProject.sourceUrl?.[0]?.url;
+    const repoStats = useGithubStats(primarySourceUrl, selectedProject.name);
+    const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
     useEffect(() => {
         if (lenis) lenis.stop();
@@ -30,6 +34,25 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
         };
     }, [lenis, onClose]);
 
+    const getYouTubeEmbedUrl = (url: string) => {
+        const videoId = url.split('v=')[1]?.split('&')[0];
+        return `https://www.youtube.com/embed/${videoId}`;
+    };
+
+    const nextVideo = () => {
+        if (selectedProject.youtubeVideos) {
+            setCurrentVideoIndex((prev) => (prev + 1) % selectedProject.youtubeVideos!.length);
+        }
+    };
+
+    const prevVideo = () => {
+        if (selectedProject.youtubeVideos) {
+            setCurrentVideoIndex((prev) => 
+                prev === 0 ? selectedProject.youtubeVideos!.length - 1 : prev - 1
+            );
+        }
+    };
+
     if (typeof document === 'undefined') return null;
 
     return createPortal(
@@ -43,6 +66,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
             <div
                 className="absolute inset-0 bg-black/90 backdrop-blur-md"
                 onClick={onClose}
+                aria-label="Close modal"
             />
 
             <motion.div
@@ -52,6 +76,9 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                 transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
                 className="relative w-full max-w-4xl bg-[#0a0a0a] border border-neutral-800 rounded-3xl shadow-2xl overflow-hidden z-20 flex flex-col"
                 onClick={(e) => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="project-modal-title"
             >
                 {/* ESC Hint */}
                 <motion.div
@@ -89,7 +116,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                             <span className="px-2 py-0.5 rounded-full bg-neutral-800/80 border border-neutral-700/50 text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Public</span>
                         </div>
 
-                        <h2 className="font-serif-heading text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+                        <h2 id="project-modal-title" className="font-serif-heading text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
                             {selectedProject.name}
                         </h2>
                     </div>
@@ -100,6 +127,13 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                         {/* Left Column: Description (Span 2) */}
                         <div className="md:col-span-2 space-y-6">
                             <div className="prose prose-invert max-w-none">
+                                {selectedProject.isContribution && (
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <span className="px-2 py-1 rounded-md bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono uppercase tracking-wider">
+                                            Contribution
+                                        </span>
+                                    </div>
+                                )}
                                 <h3 className="text-xl font-serif-heading text-neutral-200 mb-3">
                                     {selectedProject.description}
                                 </h3>
@@ -107,6 +141,60 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                                     {selectedProject.subDescription || selectedProject.description}
                                 </p>
                             </div>
+
+                            {/* YouTube Video Carousel */}
+                            {selectedProject.youtubeVideos && selectedProject.youtubeVideos.length > 0 && (
+                                <div className="rounded-xl overflow-hidden border border-neutral-800/50 bg-neutral-900/30 max-w-md">
+                                    <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                                        <iframe
+                                            src={getYouTubeEmbedUrl(selectedProject.youtubeVideos[currentVideoIndex])}
+                                            title={`${selectedProject.name} video ${currentVideoIndex + 1}`}
+                                            className="absolute top-0 left-0 w-full h-full"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        />
+                                    </div>
+                                    {selectedProject.youtubeVideos.length > 1 && (
+                                        <div className="flex items-center justify-between px-3 py-2 bg-black/40 border-t border-neutral-800/50">
+                                            <button
+                                                onClick={prevVideo}
+                                                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-neutral-800/50 hover:bg-neutral-700/50 text-neutral-300 hover:text-white transition-all text-xs font-mono"
+                                                aria-label="Previous video"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                                </svg>
+                                                Prev
+                                            </button>
+                                            <span className="text-xs font-mono text-neutral-500">
+                                                {currentVideoIndex + 1} / {selectedProject.youtubeVideos.length}
+                                            </span>
+                                            <button
+                                                onClick={nextVideo}
+                                                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-neutral-800/50 hover:bg-neutral-700/50 text-neutral-300 hover:text-white transition-all text-xs font-mono"
+                                                aria-label="Next video"
+                                            >
+                                                Next
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
+                            {/* Demo Image/GIF - positioned inline with description */}
+                            {!selectedProject.youtubeVideos && (selectedProject.demoImage || selectedProject.image) && (
+                                <div className="rounded-xl overflow-hidden border border-neutral-800/50 bg-neutral-900/30">
+                                    <img 
+                                        src={selectedProject.demoImage || selectedProject.image} 
+                                        alt={`${selectedProject.name} demo`}
+                                        className="w-full h-auto object-contain"
+                                        style={{ maxHeight: '300px' }}
+                                    />
+                                </div>
+                            )}
 
                             {/* Tags Row */}
                             <div className="flex flex-wrap gap-2 pt-2">
@@ -144,17 +232,56 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                                     </a>
                                 )}
                                 {selectedProject.sourceUrl && (
-                                    <a
-                                        href={selectedProject.sourceUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="group flex items-center justify-center gap-2 px-5 py-3.5 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-neutral-300 font-mono text-sm rounded-xl transition-all hover:text-white press-effect focus-gold"
-                                    >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-neutral-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                                        </svg>
-                                        <span>View Source</span>
-                                    </a>
+                                    <>
+                                        {typeof selectedProject.sourceUrl === 'string' ? (
+                                            <a
+                                                href={selectedProject.sourceUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="group flex items-center justify-center gap-2 px-5 py-3.5 bg-neutral-900 border border-neutral-800 hover:border-neutral-700 text-neutral-300 font-mono text-sm rounded-xl transition-all hover:text-white press-effect focus-gold"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-neutral-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                                </svg>
+                                                <span>View Source</span>
+                                            </a>
+                                        ) : (
+                                            <div className="flex flex-col gap-2">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                                                    </svg>
+                                                    <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500">Ecosystem Repos</span>
+                                                </div>
+                                                <div className="grid grid-cols-1 gap-1.5">
+                                                    {selectedProject.sourceUrl.map((repo, idx) => (
+                                                        <a
+                                                            key={idx}
+                                                            href={repo.url}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className="group flex items-center justify-between gap-2 px-3 py-2 bg-neutral-900/50 border border-neutral-800 hover:border-[#D4AF37]/40 rounded-lg transition-all hover:bg-neutral-900 press-effect focus-gold"
+                                                            title={repo.description}
+                                                        >
+                                                            <div className="flex flex-col min-w-0 flex-1">
+                                                                <span className="text-xs font-mono text-white group-hover:text-[#D4AF37] transition-colors truncate">
+                                                                    {repo.label}
+                                                                </span>
+                                                                {repo.description && (
+                                                                    <span className="text-[10px] text-neutral-600 truncate">
+                                                                        {repo.description}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-neutral-600 group-hover:text-[#D4AF37] transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                            </svg>
+                                                        </a>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </>
                                 )}
                             </div>
 
@@ -174,11 +301,20 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                                             <span>{repoStats.loading ? '...' : repoStats.stars}</span>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col col-span-2">
+                                    <div className="flex flex-col">
                                         <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider mb-1">Last Updated</span>
                                         <div className="flex items-center gap-1.5">
                                             <div className="w-1.5 h-1.5 rounded-full bg-green-500/60 animate-pulse" />
                                             <span className="text-sm text-neutral-300 font-mono">{repoStats.loading ? '...' : repoStats.lastUpdated}</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col items-end">
+                                        <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider">Forks</span>
+                                        <div className="flex items-center gap-1.5 text-sm text-[#8BE9FD] font-mono font-medium">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 fill-current" viewBox="0 0 20 20">
+                                                <path fillRule="evenodd" d="M7.707 3.293a1 1 0 010 1.414L5.414 7H11a7 7 0 017 7v2a1 1 0 11-2 0v-2a5 5 0 00-5-5H5.414l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                                            </svg>
+                                            <span>{repoStats.loading ? '...' : repoStats.forks}</span>
                                         </div>
                                     </div>
                                 </div>
