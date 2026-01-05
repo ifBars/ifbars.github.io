@@ -12,12 +12,12 @@ export default function Footer() {
       <div className="flex flex-col gap-4">
         <h3 className="font-serif-heading text-white text-sm">Tech Stack</h3>
         <div className="grid grid-cols-2 gap-2 text-neutral-500 font-serif-body">
-          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">C#</span>
-          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">React</span>
-          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">TypeScript</span>
-          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">Three.js</span>
-          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">Python</span>
-          <span className="inline-block hover:text-[#D4AF37] hover:-translate-y-0.5 transition-all duration-300 cursor-default">C++</span>
+          <span>C#</span>
+          <span>React</span>
+          <span>TypeScript</span>
+          <span>Three.js</span>
+          <span>Python</span>
+          <span>C++</span>
         </div>
       </div>
 

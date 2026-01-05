@@ -41,7 +41,7 @@ export default function Header() {
           Focus Areas
         </span>
         <span className="font-serif-body text-xs text-white leading-tight">
-          C#, React, TS
+          C#, TS, React
         </span>
       </div>
 

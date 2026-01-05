@@ -70,10 +70,9 @@ export default function Hero() {
             {['Game Modding', 'Web & React', 'APIs & Tools'].map((pill) => (
               <span
                 key={pill}
-                className="relative group overflow-hidden px-3 py-2 rounded-full bg-white/5 border border-white/5 backdrop-blur-sm text-neutral-300 transition-colors duration-500 hover:border-[#D4AF37]/60"
+                className="px-3 py-2 rounded-full bg-white/5 border border-white/5 backdrop-blur-sm text-neutral-300"
               >
-                <span className="absolute inset-0 bg-white/10 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-                <span className="relative z-10 group-hover:text-white transition-colors duration-500">{pill}</span>
+                {pill}
               </span>
             ))}
           </div>

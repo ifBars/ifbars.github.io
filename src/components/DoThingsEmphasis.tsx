@@ -67,6 +67,7 @@ export default function DoThingsEmphasis() {
   const [active, setActive] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [position, setPosition] = useState({ left: 0, top: 0 });
+  const clickTimeoutRef = useRef<number | null>(null);
 
   const entry = useMemo(() => {
     return TERMINAL_ENTRIES[currentIndex] ?? TERMINAL_ENTRIES[0];
@@ -127,15 +128,34 @@ export default function DoThingsEmphasis() {
           onFocus={show}
           onBlur={hideIfUnlocked}
           onClick={() => {
-            if (locked) {
-              setLocked(false);
-              setActive(false);
-            } else {
-              setLocked(true);
-              setActive(true);
+            // Clear any pending single-click action
+            if (clickTimeoutRef.current) {
+              window.clearTimeout(clickTimeoutRef.current);
+              clickTimeoutRef.current = null;
+              return;
             }
+            
+            // Delay single-click action to see if double-click is coming
+            clickTimeoutRef.current = window.setTimeout(() => {
+              if (locked) {
+                setLocked(false);
+                setActive(false);
+              } else {
+                setLocked(true);
+                setActive(true);
+              }
+              clickTimeoutRef.current = null;
+            }, 250);
           }}
-          onDoubleClick={cycleEntry}
+          onDoubleClick={(e) => {
+            e.preventDefault();
+            // Clear the single-click timeout
+            if (clickTimeoutRef.current) {
+              window.clearTimeout(clickTimeoutRef.current);
+              clickTimeoutRef.current = null;
+            }
+            cycleEntry();
+          }}
           aria-describedby={tooltipId}
           aria-expanded={active}
           aria-label="Interactive project showcase button - click to pin, double-click to cycle through featured projects"
