@@ -31,20 +31,13 @@ export default function Hero() {
       <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-[#050505]/85 via-[#050505]/55 to-transparent pointer-events-none" />
 
       <div className={`relative z-10 flex flex-col items-start text-left gap-8 w-full max-w-2xl md:max-w-3xl transition-opacity duration-1000 ${contentVisible ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="flex items-center gap-3 pointer-events-none">
-          <span className="h-px w-8 bg-[#D4AF37]/50" />
-          <span className="uppercase tracking-[0.25em] text-[10px] md:text-xs text-neutral-300 font-serif-body fade-up delay-100">
-            Software Developer
-          </span>
-        </div>
-
           <div className="flex flex-col gap-4 md:gap-6">
             <div className="leading-[0.95]">
               <h1 className="font-serif-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white fade-up delay-100 drop-shadow-[0_18px_48px_rgba(0,0,0,0.65)]">
                 Hi, I'm IfBars.
               </h1>
               <p className="font-serif-heading text-xl sm:text-2xl md:text-3xl text-white/80 italic fade-up delay-200">
-                Self-taught developer driven by passion.
+                Self-taught software developer driven by passion.
               </p>
             </div>
             <p className="font-serif-body text-sm md:text-base text-neutral-300 max-w-2xl fade-up delay-200">
