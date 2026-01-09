@@ -14,7 +14,23 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
     const lenis = useLenis();
     const primarySourceUrl = typeof selectedProject.sourceUrl === 'string' 
         ? selectedProject.sourceUrl 
-        : selectedProject.sourceUrl?.[0]?.url;
+        : selectedProject.sourceUrl?.[0]?.url || '';
+    
+    const getRepoPath = (url: string) => {
+        if (!url) return { owner: 'ifBars', repo: selectedProject.name.toLowerCase().replace(/\s+/g, '-') };
+        try {
+            const urlObj = new URL(url);
+            const pathParts = urlObj.pathname.split('/').filter(Boolean);
+            return {
+                owner: pathParts[0],
+                repo: pathParts[1] || selectedProject.name.toLowerCase().replace(/\s+/g, '-')
+            };
+        } catch {
+            return { owner: 'ifBars', repo: selectedProject.name.toLowerCase().replace(/\s+/g, '-') };
+        }
+    };
+    
+    const repoPath = getRepoPath(primarySourceUrl);
     const repoStats = useGithubStats(primarySourceUrl, selectedProject.name);
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
@@ -109,9 +125,9 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                     <div className="mb-8">
                         <div className="flex items-center gap-3 mb-4 opacity-75">
                             <div className="flex items-center gap-2 font-mono text-xs md:text-sm tracking-wide">
-                                <span className="text-[#FF79C6]">ifBars</span>
+                                <span className="text-[#FF79C6]">{repoPath.owner}</span>
                                 <span className="text-neutral-600">/</span>
-                                <span className="text-[#50FA7B]">{selectedProject.name.toLowerCase().replace(/\s+/g, '-')}</span>
+                                <span className="text-[#50FA7B]">{repoPath.repo}</span>
                             </div>
                             <span className="px-2 py-0.5 rounded-full bg-neutral-800/80 border border-neutral-700/50 text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Public</span>
                         </div>

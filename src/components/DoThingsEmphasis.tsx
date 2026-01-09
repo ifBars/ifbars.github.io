@@ -132,7 +132,7 @@ export default function DoThingsEmphasis() {
     if (active && !locked) {
       const timer = setInterval(() => {
         nextEntry();
-      }, 3000); // Rotate every 3 seconds if not locked
+      }, 5000); // Rotate every 3 seconds if not locked
       return () => clearInterval(timer);
     }
   }, [active, locked]);
