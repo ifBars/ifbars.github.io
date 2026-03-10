@@ -113,6 +113,43 @@
   animation: tooltipEnter 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
+.work-with-me-shell {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 24px rgba(0, 0, 0, 0.32);
+}
+
+.work-with-me-border {
+  pointer-events: none;
+}
+
+.work-with-me-border-base,
+.work-with-me-border-mask {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.work-with-me-border-base {
+  stroke: rgba(38, 38, 38, 0.94);
+  stroke-width: 1.8;
+}
+
+.work-with-me-border-mask {
+  stroke: white;
+  stroke-width: 5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-with-me-border-glow {
+    display: none;
+  }
+}
+
 /* Global Animation Utilities */
 
 /* Focus states with subtle glow for accessibility */
