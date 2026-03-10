@@ -15,6 +15,9 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
     const primarySourceUrl = typeof selectedProject.sourceUrl === 'string' 
         ? selectedProject.sourceUrl 
         : selectedProject.sourceUrl?.[0]?.url || '';
+    const projectLinks = typeof selectedProject.projectUrl === 'string'
+        ? [{ label: 'Visit Project', url: selectedProject.projectUrl }]
+        : selectedProject.projectUrl || [];
     
     const getRepoPath = (url: string) => {
         if (!url) return { owner: 'ifBars', repo: selectedProject.name.toLowerCase().replace(/\s+/g, '-') };
@@ -234,18 +237,54 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                         <div className="flex flex-col gap-6">
                             {/* Action Buttons */}
                             <div className="flex flex-col gap-3">
-                                {selectedProject.projectUrl && (
-                                    <a
-                                        href={selectedProject.projectUrl}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="group flex items-center justify-between px-5 py-3.5 bg-[#D4AF37] text-black font-serif-body font-bold text-sm rounded-xl hover:bg-[#c4a030] transition-all shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:-translate-y-0.5 press-effect focus-gold"
-                                    >
-                                        <span>Visit Project</span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                        </svg>
-                                    </a>
+                                {projectLinks.length > 0 && (
+                                    projectLinks.length === 1 ? (
+                                        <a
+                                            href={projectLinks[0].url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="group flex items-center justify-between px-5 py-3.5 bg-[#D4AF37] text-black font-serif-body font-bold text-sm rounded-xl hover:bg-[#c4a030] transition-all shadow-[0_0_20px_rgba(212,175,55,0.15)] hover:shadow-[0_0_30px_rgba(212,175,55,0.3)] hover:-translate-y-0.5 press-effect focus-gold"
+                                        >
+                                            <span>{projectLinks[0].label}</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </a>
+                                    ) : (
+                                        <div className="flex flex-col gap-2">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-[#D4AF37]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 010 5.656l-3 3a4 4 0 11-5.656-5.656l1.5-1.5m7.156-1.5l1.5-1.5a4 4 0 115.656 5.656l-3 3a4 4 0 01-5.656 0" />
+                                                </svg>
+                                                <span className="text-[10px] font-mono uppercase tracking-wider text-neutral-500">Project Links</span>
+                                            </div>
+                                            <div className="grid grid-cols-1 gap-1.5">
+                                                {projectLinks.map((link, idx) => (
+                                                    <a
+                                                        key={idx}
+                                                        href={link.url}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className={`group flex items-center justify-between gap-2 px-3 py-2 rounded-lg transition-all press-effect focus-gold ${idx === 0 ? 'bg-[#D4AF37] text-black hover:bg-[#c4a030]' : 'bg-neutral-900/50 border border-neutral-800 hover:border-[#D4AF37]/40 hover:bg-neutral-900'}`}
+                                                    >
+                                                        <div className="flex flex-col min-w-0 flex-1">
+                                                            <span className={`text-xs font-mono transition-colors truncate ${idx === 0 ? 'text-black' : 'text-white group-hover:text-[#D4AF37]'}`}>
+                                                                {link.label}
+                                                            </span>
+                                                            {link.description && (
+                                                                <span className={`text-[10px] truncate ${idx === 0 ? 'text-black/70' : 'text-neutral-600'}`}>
+                                                                    {link.description}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className={`h-3 w-3 transition-colors flex-shrink-0 ${idx === 0 ? 'text-black/70' : 'text-neutral-600 group-hover:text-[#D4AF37]'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                                        </svg>
+                                                    </a>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )
                                 )}
                                 {selectedProject.sourceUrl && (
                                     <>

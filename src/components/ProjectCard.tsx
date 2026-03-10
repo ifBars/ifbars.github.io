@@ -2,7 +2,7 @@ import { useGithubStats } from '../hooks/useGithubStats';
 
 export interface Project {
     name: string;
-    projectUrl?: string;
+    projectUrl?: string | { label: string; url: string; description?: string; }[];
     sourceUrl?: string | { label: string; url: string; description?: string; }[];
     description: string;
     tags: string[];

@@ -79,28 +79,24 @@ export default function Projects() {
       subDescription: "Added a tray icon context menu to provide better user experience.",
       tags: ["C#", "OCR", "Game Tools"],
       image: "/ratscanner.png",
-      demoImage: "/ratscanner-demo.gif"
+      demoImage: "/ratscanner-demo.gif",
+      isContribution: true
     },
     {
       name: "MLVScan",
-      sourceUrl: [
+      sourceUrl: "https://github.com/ifBars/MLVScan",
+      projectUrl: [
         {
-          label: "MLVScan (MelonLoader Plugin)",
-          url: "https://github.com/ifBars/MLVScan",
-          description: "Security plugin for MelonLoader"
+          label: "MLVScan (Website)",
+          url: "https://mlvscan.com/",
+          description: "In-browser malware scanning"
         },
         {
-          label: "MLVScan.Core (Core Engine)",
-          url: "https://github.com/ifBars/MLVScan.Core",
-          description: "Cross-platform malware detection engine"
-        },
-        {
-          label: "MLVScan.Web (Browser Version)",
-          url: "https://github.com/ifBars/MLVScan.Web",
-          description: "Blazor WASM app for in-browser analysis"
+          label: "MLVScan (NexusMods)",
+          url: "https://www.nexusmods.com/schedule1/mods/957",
+          description: "MelonLoader plugin downloads and likes"
         }
       ],
-      projectUrl: "https://www.nexusmods.com/schedule1/mods/957",
       description: "Security-first MelonLoader plugin that scans and disables malicious mods before they can run.",
       subDescription: "Trusted by 30,000+ users across NexusMods and Thunderstore. Built on MLVScan.Core, a cross-platform detection engine that powers both the MelonLoader plugin and web-based scanner.",
       tags: ["C#", "Game Modding", "Security"],
@@ -140,13 +136,13 @@ export default function Projects() {
       isContribution: true
     },
     {
-      name: "Fluxel",
-      sourceUrl: "https://github.com/ifBars/Fluxel",
-      projectUrl: "https://github.com/ifBars/Fluxel",
-      description: "Tauri-based lightweight IDE built as a side hobby project.",
-      subDescription: "A modern, fast IDE built with Rust and Tauri, featuring LSP integration, syntax highlighting, and project management.",
-      tags: ["Rust", "Tauri", "TypeScript", "IDE"],
-      image: "/fluxel.png"
+      name: "S1DedicatedServers",
+      sourceUrl: "https://github.com/ifBars/S1DedicatedServers",
+      projectUrl: "https://github.com/ifBars/S1DedicatedServers",
+      description: "A dedicated server framework for Schedule I.",
+      subDescription: "A comprehensive dedicated server solution enabling persistent multiplayer sessions for Schedule I.",
+      tags: ["C#", "Schedule 1", "Multiplayer", "Game Server"],
+      image: "/s1dedicatedservers.png"
     },
     {
       name: "BigWillyMod",

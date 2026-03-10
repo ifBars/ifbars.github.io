@@ -2,6 +2,7 @@ import Layout from './components/layout/Layout';
 import { ReactLenis } from 'lenis/react';
 import Hero from './components/sections/Hero';
 import Projects from './components/sections/Projects';
+import WorkWithMe from './components/sections/WorkWithMe';
 import { usePortfolioStore } from './store/usePortfolioStore';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           style={{ transitionDelay: introComplete ? '0.3s' : '0s' }}
         >
           <Projects />
+          <WorkWithMe />
         </div>
       </Layout>
     </ReactLenis>
