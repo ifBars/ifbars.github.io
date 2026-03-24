@@ -1,9 +1,38 @@
 import { useGithubStats } from '../hooks/useGithubStats';
+import { useDownloadStats } from '../hooks/useDownloadStats';
+import { formatCompactNumber, formatFullNumber } from '../utils/numberFormat';
+
+export interface ProjectLink {
+    label: string;
+    url: string;
+    description?: string;
+}
+
+export type ProjectStatSource =
+    | {
+        kind: 'nexus';
+        gameId: string;
+        modId: string;
+        label?: string;
+    }
+    | {
+        kind: 'thunderstore';
+        community: string;
+        namespace: string;
+        packageName: string;
+        label?: string;
+    }
+    | {
+        kind: 'github-release';
+        owner: string;
+        repo: string;
+        label?: string;
+    };
 
 export interface Project {
     name: string;
-    projectUrl?: string | { label: string; url: string; description?: string; }[];
-    sourceUrl?: string | { label: string; url: string; description?: string; }[];
+    projectUrl?: string | ProjectLink[];
+    sourceUrl?: string | ProjectLink[];
     description: string;
     tags: string[];
     image?: string;
@@ -11,6 +40,7 @@ export interface Project {
     youtubeVideos?: string[];
     subDescription?: string;
     isContribution?: boolean;
+    statSources?: ProjectStatSource[];
 }
 
 interface ProjectCardProps {
@@ -24,6 +54,11 @@ export default function ProjectCard({ project, onClick, className = '' }: Projec
         ? project.sourceUrl 
         : project.sourceUrl?.[0]?.url;
     const { stars, lastUpdated, loading } = useGithubStats(sourceUrl, project.name);
+    const downloadStats = useDownloadStats(project.statSources);
+    const showDownloads = downloadStats.loading || Boolean(downloadStats.totalDownloads);
+    const downloadTooltip = downloadStats.sources
+        .map(source => `${source.label}: ${formatFullNumber(source.downloads)}`)
+        .join('\n');
 
     return (
         <div
@@ -40,10 +75,13 @@ export default function ProjectCard({ project, onClick, className = '' }: Projec
             aria-label={`View details for ${project.name}`}
         >
             <div className="block h-full">
-                <div className="bg-black/40 backdrop-blur-sm border border-neutral-800 rounded-xl overflow-hidden h-full transition-all duration-300 group-hover:border-[#D4AF37]/60 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] flex flex-col press-effect focus-gold">
+                <div
+                    data-project-card-surface
+                    className="bg-black/40 backdrop-blur-sm border border-neutral-800 rounded-xl overflow-hidden h-full transition-all duration-300 group-hover:border-[#D4AF37]/60 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.2)] flex flex-col press-effect focus-gold"
+                >
                     {/* Project Image */}
                     {project.image && (
-                        <div className="relative w-full h-48 overflow-hidden bg-neutral-900/50">
+                        <div data-project-card-media className="relative w-full h-48 overflow-hidden bg-neutral-900/50">
                             <img 
                                 src={project.image} 
                                 alt={`${project.name} preview`}
@@ -53,30 +91,43 @@ export default function ProjectCard({ project, onClick, className = '' }: Projec
                         </div>
                     )}
                     
-                    <div className="p-6 flex-1">
-                        <div className="flex justify-between items-start mb-2">
-                            <h3 className="font-serif-heading text-2xl font-semibold text-white group-hover:text-[#D4AF37] transition-colors duration-300">
-                                {project.name}
-                            </h3>
-                            <div className="flex items-center gap-2">
-                                {!loading && stars > 0 && (
-                                    <div className="flex items-center gap-1 bg-neutral-900/50 px-2 py-1 rounded-md border border-neutral-800">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-[#D4AF37] fill-current" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <span className="text-xs font-mono text-neutral-400">{stars}</span>
-                                    </div>
-                                )}
-                            </div>
+                    <div data-project-card-body className="p-6 flex-1">
+                        <h3 className="min-w-0 font-serif-heading text-2xl font-semibold text-white group-hover:text-[#D4AF37] transition-colors duration-300 leading-tight">
+                            {project.name}
+                        </h3>
+                        <div className="mt-3 mb-3 flex flex-wrap items-center gap-2">
+                            {showDownloads && (
+                                <div
+                                    className="flex items-center gap-1.5 rounded-md border border-neutral-800 bg-neutral-900/50 px-2 py-1"
+                                    title={downloadTooltip || 'Download stats loading'}
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-[#8BE9FD]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 3v12m0 0l4-4m-4 4l-4-4m-5 8h18" />
+                                    </svg>
+                                    <span className="text-xs font-mono text-neutral-300">
+                                        {downloadStats.loading || downloadStats.totalDownloads === null
+                                            ? '...'
+                                            : `${formatCompactNumber(downloadStats.totalDownloads)} DLs`}
+                                    </span>
+                                </div>
+                            )}
+                            {!loading && stars > 0 && (
+                                <div className="flex items-center gap-1 bg-neutral-900/50 px-2 py-1 rounded-md border border-neutral-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-[#D4AF37] fill-current" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                    <span className="text-xs font-mono text-neutral-400">{stars}</span>
+                                </div>
+                            )}
+                            {!loading && lastUpdated && (
+                                <div className="flex items-center gap-1.5 rounded-md border border-neutral-800 bg-black/20 px-2.5 py-1">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-green-500/60 animate-pulse" />
+                                    <span className="text-[10px] font-mono text-neutral-500">
+                                        Updated {lastUpdated}
+                                    </span>
+                                </div>
+                            )}
                         </div>
-                        {!loading && lastUpdated && (
-                            <div className="flex items-center gap-1.5 mb-3">
-                                <div className="w-1.5 h-1.5 rounded-full bg-green-500/60 animate-pulse" />
-                                <span className="text-[10px] font-mono text-neutral-500">
-                                    Updated {lastUpdated}
-                                </span>
-                            </div>
-                        )}
                         <p className="font-serif-body text-neutral-400 mb-4 text-sm leading-relaxed">
                             {project.description}
                         </p>

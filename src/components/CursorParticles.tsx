@@ -17,11 +17,12 @@ interface Particle {
   direction: number;
 }
 
+const PARTICLE_COLORS = ['#ffffff', '#ff4040', '#4080ff', '#40ff40'];
+const PARTICLE_SPLIT_CHANCE = 0.015;
+
 export default function CursorParticles() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
-  const colors = ['#ffffff', '#ff4040', '#4080ff', '#40ff40'];
-  const splitChance = 0.015;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -67,7 +68,7 @@ export default function CursorParticles() {
       
       // Create multiple particles at once
       for (let i = 0; i < 3; i++) {
-        const color = colors[Math.floor(Math.random() * colors.length)];
+        const color = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
         // Bigger particles
         const size = Math.random() * 8 + 3;
         const speed = Math.random() * 2 + 1;
@@ -92,7 +93,7 @@ export default function CursorParticles() {
         p.speed *= 0.99;
 
         // Check if particle should split
-        if (Math.random() < splitChance && p.size > 2) {
+        if (Math.random() < PARTICLE_SPLIT_CHANCE && p.size > 2) {
           const newSize = p.size * 0.7;
           const newSpeed = p.speed * 0.9;
           const direction1 = p.direction + (Math.random() * 0.5 - 0.25);
@@ -158,7 +159,7 @@ export default function CursorParticles() {
     const handleClick = (e: MouseEvent) => {
       // Create more particles on click
       for (let i = 0; i < 10; i++) {
-        const color = colors[Math.floor(Math.random() * colors.length)];
+        const color = PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)];
         const size = Math.random() * 10 + 5;
         const speed = Math.random() * 3 + 2;
         const direction = Math.random() * 2 * Math.PI;

@@ -28,4 +28,5 @@ CLAUDE.md
 bun.lock
 package-lock.json
 documentation/
-portfolio-polishing-plan.md
+.agents/
+skills-lock.json

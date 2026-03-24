@@ -38,7 +38,8 @@ export default function CustomScrollbar() {
 
     // Handle dragging
     useEffect(() => {
-        if (!thumbRef.current || !trackRef.current || !lenis) return;
+        const thumb = thumbRef.current;
+        if (!thumb || !trackRef.current || !lenis) return;
 
         let startY = 0;
         let startScroll = 0;
@@ -81,10 +82,10 @@ export default function CustomScrollbar() {
             window.removeEventListener('pointerup', onPointerUp);
         };
 
-        thumbRef.current.addEventListener('pointerdown', onPointerDown);
+        thumb.addEventListener('pointerdown', onPointerDown);
 
         return () => {
-            thumbRef.current?.removeEventListener('pointerdown', onPointerDown);
+            thumb.removeEventListener('pointerdown', onPointerDown);
             window.removeEventListener('pointermove', onPointerMove);
             window.removeEventListener('pointerup', onPointerUp);
         };

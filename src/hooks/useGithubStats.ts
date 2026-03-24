@@ -17,6 +17,10 @@ interface CachedStats extends GithubStats {
     timestamp: number;
 }
 
+interface Contributor {
+    avatar_url: string;
+}
+
 // Track which repos are currently being fetched to prevent duplicate requests
 const pendingFetches = new Map<string, Promise<GithubStats>>();
 
@@ -47,8 +51,14 @@ function getCachedStats(url: string): GithubStats | null {
     
     // Check if cache is still valid (within 12 hours)
     if (Date.now() - cached.timestamp < CACHE_DURATION) {
-        const { timestamp, ...stats } = cached;
-        return stats;
+        return {
+            stars: cached.stars,
+            forks: cached.forks,
+            created: cached.created,
+            lastUpdated: cached.lastUpdated,
+            contributors: cached.contributors,
+            loading: cached.loading
+        };
     }
     
     return null;
@@ -104,7 +114,7 @@ export function useGithubStats(sourceUrl?: string, projectName: string = '') {
 
             // Fetch contributors
             const contribsRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/contributors?per_page=5`);
-            const contribsData = contribsRes.ok ? await contribsRes.json() : [];
+            const contribsData: Contributor[] = contribsRes.ok ? await contribsRes.json() : [];
 
             // Calculate relative time for last update
             const lastPushed = new Date(repoData.pushed_at);
@@ -139,7 +149,7 @@ export function useGithubStats(sourceUrl?: string, projectName: string = '') {
                     year: 'numeric'
                 }),
                 lastUpdated: lastUpdatedStr,
-                contributors: Array.isArray(contribsData) ? contribsData.map((c: any) => c.avatar_url) : fallbackStats.contributors,
+                contributors: Array.isArray(contribsData) ? contribsData.map(contributor => contributor.avatar_url) : fallbackStats.contributors,
                 loading: false
             };
         };

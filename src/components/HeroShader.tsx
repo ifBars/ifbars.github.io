@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Mesh, ShaderMaterial, Vector2, Vector3 } from 'three';
 
@@ -14,6 +14,7 @@ const vertexShader = `
 const fragmentShader = `
   uniform float u_time;
   uniform vec2 u_resolution;
+  uniform vec2 u_cursor_offset;
   uniform vec3 u_accent;
   uniform vec3 u_background;
   varying vec2 vUv;
@@ -32,28 +33,31 @@ const fragmentShader = `
   }
 
   float getDist(vec3 p, float t) {
-    vec3 offsetP = p - vec3(1.85, 0.0, 0.0);
     vec3 blob1 = vec3(
-      sin(t * 0.5) * 1.6,
+      2.1 + sin(t * 0.5) * 1.6,
       cos(t * 0.4) * 1.2,
       sin(t * 0.3 + 1.0) * 0.9 + 5.0
     );
 
     vec3 blob2 = vec3(
-      cos(t * 0.6 + 2.0) * 1.35,
+      2.1 + cos(t * 0.6 + 2.0) * 1.35,
       sin(t * 0.35 + 1.5) * 1.35,
       cos(t * 0.45) * 1.0 + 5.3
     );
 
     vec3 blob3 = vec3(
-      sin(t * 0.45 + 4.0) * 1.2,
+      2.1 + sin(t * 0.45 + 4.0) * 1.2,
       cos(t * 0.55 + 3.0) * 1.05,
       sin(t * 0.5 + 2.5) * 0.6 + 4.35
     );
 
-    float d1 = sdSphere(offsetP - blob1, 0.95 + sin(t * 1.1) * 0.15);
-    float d2 = sdSphere(offsetP - blob2, 0.85 + cos(t * 0.9) * 0.12);
-    float d3 = sdSphere(offsetP - blob3, 1.15 + sin(t * 1.3 + 1.0) * 0.18);
+    blob1.xy += u_cursor_offset * vec2(1.0, 0.9);
+    blob2.xy += u_cursor_offset * vec2(0.82, 1.05);
+    blob3.xy += u_cursor_offset * vec2(1.08, 0.95);
+
+    float d1 = sdSphere(p - blob1, 0.95 + sin(t * 1.1) * 0.15);
+    float d2 = sdSphere(p - blob2, 0.85 + cos(t * 0.9) * 0.12);
+    float d3 = sdSphere(p - blob3, 1.15 + sin(t * 1.3 + 1.0) * 0.18);
 
     float d = smin(d1, d2, 0.8);
     d = smin(d, d3, 0.8);
@@ -141,28 +145,37 @@ const fragmentShader = `
   }
 `;
 
-const NeonGooMesh = memo(() => {
+interface PointerInteraction {
+  targetOffset: Vector2;
+}
+
+const NeonGooMesh = memo(({ interactionRef }: { interactionRef: React.RefObject<PointerInteraction> }) => {
   const meshRef = useRef<Mesh>(null);
   const { size } = useThree();
 
-  const uniforms = useMemo(
-    () => ({
-      u_time: { value: 0 },
-      u_resolution: { value: new Vector2(size.width, size.height) },
-      u_accent: { value: new Vector3(0.95, 0.8, 0.36) },
-      u_background: { value: new Vector3(0.04, 0.03, 0.02) },
-    }),
-    []
-  );
+  const uniformsRef = useRef({
+    u_time: { value: 0 },
+    u_resolution: { value: new Vector2(size.width, size.height) },
+    u_cursor_offset: { value: new Vector2(0, 0) },
+    u_accent: { value: new Vector3(0.95, 0.8, 0.36) },
+    u_background: { value: new Vector3(0.0196, 0.0196, 0.0196) },
+  });
+  const uniforms = uniformsRef.current;
 
   useEffect(() => {
     uniforms.u_resolution.value.set(size.width, size.height);
-  }, [size, uniforms]);
+  }, [size.height, size.width, uniforms]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (meshRef.current) {
       const material = meshRef.current.material as ShaderMaterial;
+      const interaction = interactionRef.current;
+      const offsetEase = 1 - Math.exp(-delta * 3);
+
       material.uniforms.u_time.value = state.clock.getElapsedTime();
+      if (interaction) {
+        material.uniforms.u_cursor_offset.value.lerp(interaction.targetOffset, offsetEase);
+      }
     }
   });
 
@@ -180,15 +193,58 @@ const NeonGooMesh = memo(() => {
 
 export default function HeroShader() {
   const [isReady, setIsReady] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const interactionRef = useRef<PointerInteraction>({
+    targetOffset: new Vector2(0, 0),
+  });
 
   useEffect(() => {
     const timer = window.setTimeout(() => setIsReady(true), 120);
     return () => window.clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (!window.matchMedia('(pointer: fine)').matches) {
+      return;
+    }
+
+    const updatePointer = (event: PointerEvent) => {
+      const container = containerRef.current;
+      if (!container) {
+        return;
+      }
+
+      const rect = container.getBoundingClientRect();
+      const isInside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+
+      if (!isInside) {
+        return;
+      }
+
+      const normalizedX = (event.clientX - rect.left) / rect.width;
+      const normalizedY = (event.clientY - rect.top) / rect.height;
+      const pointerUvX = (normalizedX * 2 - 1) * (rect.width / rect.height);
+      const pointerUvY = (0.5 - normalizedY) * 2;
+
+      interactionRef.current.targetOffset.set(pointerUvX * 0.18, pointerUvY * 0.14);
+    };
+
+    window.addEventListener('pointermove', updatePointer);
+    window.addEventListener('pointerdown', updatePointer);
+
+    return () => {
+      window.removeEventListener('pointermove', updatePointer);
+      window.removeEventListener('pointerdown', updatePointer);
+    };
+  }, []);
+
   return (
-    <div className="absolute inset-0 -z-10 pointer-events-none translate-x-10 md:translate-x-20 opacity-70">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(212,175,55,0.08),transparent_45%),radial-gradient(circle_at_80%_40%,rgba(255,255,255,0.04),transparent_40%)]" />
+    <div ref={containerRef} className="absolute inset-0 -z-10 pointer-events-none">
+      <div className="absolute inset-0 opacity-70 bg-[radial-gradient(circle_at_20%_20%,rgba(212,175,55,0.08),transparent_45%),radial-gradient(circle_at_80%_40%,rgba(255,255,255,0.04),transparent_40%)]" />
       <Canvas
         style={{
           position: 'absolute',
@@ -208,9 +264,8 @@ export default function HeroShader() {
         }}
         dpr={Math.min(window.devicePixelRatio, 2)}
       >
-        <NeonGooMesh />
+        <NeonGooMesh interactionRef={interactionRef} />
       </Canvas>
     </div>
   );
 }
-

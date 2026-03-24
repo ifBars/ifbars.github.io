@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { useLenis } from 'lenis/react';
 import { Project } from './ProjectCard';
 import { useGithubStats } from '../hooks/useGithubStats';
+import { useDownloadStats } from '../hooks/useDownloadStats';
+import { formatFullNumber } from '../utils/numberFormat';
 
 interface ProjectModalProps {
     selectedProject: Project;
@@ -35,6 +37,9 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
     
     const repoPath = getRepoPath(primarySourceUrl);
     const repoStats = useGithubStats(primarySourceUrl, selectedProject.name);
+    const downloadStats = useDownloadStats(selectedProject.statSources);
+    const showDownloadStats = downloadStats.loading || Boolean(downloadStats.totalDownloads);
+    const showDownloadBreakdown = downloadStats.sources.length > 1;
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
     useEffect(() => {
@@ -342,39 +347,88 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
 
                             {/* Stats Card */}
                             <div className="bg-neutral-900/50 rounded-2xl border border-white/5 p-5 space-y-4">
-                                <div className="grid grid-cols-2 gap-4 pb-4 border-b border-white/5">
-                                    <div className="flex flex-col">
-                                        <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider">Created</span>
-                                        <span className="text-sm text-neutral-200 font-mono">{repoStats.loading ? '...' : repoStats.created}</span>
-                                    </div>
-                                    <div className="flex flex-col items-end">
+                                <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                                    {showDownloadStats && (
+                                        <div className="flex flex-col">
+                                            <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider">Downloads</span>
+                                            <div className="mt-1 flex items-center gap-1.5 text-sm text-[#8BE9FD] font-mono font-medium">
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M12 3v12m0 0l4-4m-4 4l-4-4m-5 8h18" />
+                                                </svg>
+                                                <span>
+                                                    {downloadStats.loading || downloadStats.totalDownloads === null
+                                                        ? '...'
+                                                        : formatFullNumber(downloadStats.totalDownloads)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    )}
+                                    <div className={`flex flex-col ${showDownloadStats ? 'items-end' : ''}`}>
                                         <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider">Stars</span>
-                                        <div className="flex items-center gap-1.5 text-sm text-[#FFB86C] font-mono font-medium">
+                                        <div className="mt-1 flex items-center gap-1.5 text-sm text-[#FFB86C] font-mono font-medium">
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 fill-current" viewBox="0 0 20 20">
                                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                             </svg>
                                             <span>{repoStats.loading ? '...' : repoStats.stars}</span>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col">
-                                        <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider mb-1">Last Updated</span>
-                                        <div className="flex items-center gap-1.5">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-green-500/60 animate-pulse" />
-                                            <span className="text-sm text-neutral-300 font-mono">{repoStats.loading ? '...' : repoStats.lastUpdated}</span>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-col items-end">
-                                        <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider">Forks</span>
-                                        <div className="flex items-center gap-1.5 text-sm text-[#8BE9FD] font-mono font-medium">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 fill-current" viewBox="0 0 20 20">
-                                                <path fillRule="evenodd" d="M7.707 3.293a1 1 0 010 1.414L5.414 7H11a7 7 0 017 7v2a1 1 0 11-2 0v-2a5 5 0 00-5-5H5.414l2.293 2.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
-                                            </svg>
-                                            <span>{repoStats.loading ? '...' : repoStats.forks}</span>
-                                        </div>
-                                    </div>
                                 </div>
 
-                                <div>
+                                <div className="pt-4 border-t border-white/5 space-y-3">
+                                    <div className="space-y-2.5">
+                                        <div className="flex items-center justify-between gap-4">
+                                            <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider">Updated</span>
+                                            <div className="flex min-w-0 items-center justify-end gap-1.5">
+                                                <div className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-green-500/60 animate-pulse" />
+                                                <span className="text-[13px] text-neutral-300 font-mono text-right">
+                                                    {repoStats.loading ? '...' : repoStats.lastUpdated}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center justify-between gap-4">
+                                            <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider">Created</span>
+                                            <span className="text-[13px] text-neutral-200 font-mono text-right">
+                                                {repoStats.loading ? '...' : repoStats.created}
+                                            </span>
+                                        </div>
+
+                                        {(repoStats.loading || repoStats.forks > 0) && (
+                                            <div className="flex items-center justify-between gap-4">
+                                                <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider">Forks</span>
+                                                <div className="flex items-center gap-1.5 text-[13px] text-neutral-300 font-mono">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-neutral-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M7 7h10M7 12h7m-7 5h10" />
+                                                    </svg>
+                                                    <span>{repoStats.loading ? '...' : repoStats.forks}</span>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {showDownloadBreakdown && (
+                                        <div className="space-y-2">
+                                            <span className="block text-[10px] font-mono uppercase tracking-wider text-neutral-500">
+                                                Sources
+                                            </span>
+                                            <div className="space-y-1.5">
+                                                {downloadStats.sources.map(source => (
+                                                    <div
+                                                        key={source.label}
+                                                        className="flex items-center justify-between gap-4 text-sm font-mono"
+                                                    >
+                                                        <span className="text-neutral-500">
+                                                            {source.label}
+                                                        </span>
+                                                        <span className="text-neutral-300">
+                                                            {formatFullNumber(source.downloads)}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <span className="text-[10px] text-neutral-500 font-mono uppercase tracking-wider block mb-2">Contributors</span>
                                     <div className="flex items-center gap-3">
                                         <div className="flex -space-x-2">
