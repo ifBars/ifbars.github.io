@@ -24,11 +24,16 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="h-[calc(100vh-70px)] md:h-[calc(100vh-75px)] relative flex flex-col justify-center items-start px-6 md:px-16 lg:px-24 pb-8 overflow-hidden">
+    <section id="hero" className="h-[calc(100vh-70px)] md:h-[calc(100vh-75px)] relative flex flex-col justify-center items-start px-6 md:px-16 lg:px-24 pb-8 overflow-x-clip">
       <HeroShader />
 
-      <div className={`absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-[#050505] transition-opacity duration-700 ${contentVisible ? 'opacity-100' : 'opacity-0'}`} />
-      <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-[#050505]/85 via-[#050505]/55 to-transparent pointer-events-none" />
+      <div
+        className={`absolute inset-x-0 top-0 bg-gradient-to-b from-[#050505]/40 via-transparent to-[#050505]/70 transition-opacity duration-700 pointer-events-none ${contentVisible ? 'opacity-100' : 'opacity-0'}`}
+        style={{ bottom: '-30vh' }}
+      />
+      <div
+        className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-[#050505]/70 via-[#050505]/30 to-transparent pointer-events-none"
+      />
 
       <div className={`relative z-10 flex flex-col items-start text-left gap-8 w-full max-w-2xl md:max-w-3xl transition-opacity duration-1000 ${contentVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="flex flex-col gap-4 md:gap-6">

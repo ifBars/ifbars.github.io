@@ -2,7 +2,7 @@ export default function WorkWithMe() {
   const borderPath = 'M 600 1 H 1167 A 32 32 0 0 1 1199 33 V 387 A 32 32 0 0 1 1167 419 H 33 A 32 32 0 0 1 1 387 V 33 A 32 32 0 0 1 33 1 H 600';
 
   return (
-    <section id="work-with-me" className="py-20 relative z-10">
+    <section id="work-with-me" className="py-10 relative z-10">
       <div className="container max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="work-with-me-shell rounded-[2rem]">
           <svg
