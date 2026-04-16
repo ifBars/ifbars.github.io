@@ -355,7 +355,7 @@ export default function Projects() {
   ];
 
   return (
-    <section ref={sectionRef} id="projects" className="py-16 relative z-10 overflow-hidden">
+    <section ref={sectionRef} id="projects" className="py-10 relative z-10 overflow-hidden">
       <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
           <h2 className="section-heading font-serif-heading text-4xl md:text-5xl font-semibold text-white mb-4">

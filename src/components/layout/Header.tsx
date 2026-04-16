@@ -1,7 +1,27 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+
+function getTimeDiff(): string | null {
+  try {
+    const now = new Date();
+    const pacific = new Date(now.toLocaleString('en-US', { timeZone: 'America/Los_Angeles' }));
+    const local = new Date(now.toLocaleString('en-US'));
+    const diffMinutes = Math.round((local.getTime() - pacific.getTime()) / 60000);
+    const hours = Math.round(diffMinutes / 60);
+    if (hours === 0) return "You're in the same timezone";
+    const ahead = hours > 0;
+    const absH = Math.abs(hours);
+    const hStr = absH === 1 ? '1 hour' : `${absH} hours`;
+    return ahead ? `You are ${hStr} ahead` : `You are ${hStr} behind`;
+  } catch {
+    return null;
+  }
+}
 
 export default function Header() {
   const [californiaTime, setCaliforniaTime] = useState('--:--');
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+
+  const timeDiff = useMemo(getTimeDiff, []);
 
   useEffect(() => {
     const updateTime = () => {
@@ -35,31 +55,30 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Focus Areas */}
-      <div className="hidden md:flex md:col-span-2 flex-col gap-1 fade-up delay-100">
-        <span className="font-serif-heading text-xs uppercase tracking-widest text-neutral-400">
-          Focus Areas
-        </span>
-        <span className="font-serif-body text-xs text-white leading-tight">
-          C#, TS, React
-        </span>
-      </div>
-
-      {/* Location */}
-      <div className="hidden md:flex md:col-span-3 flex-col gap-1 fade-up delay-100">
+      <div className="hidden md:flex md:col-span-4 flex-col gap-1 fade-up">
         <span className="font-serif-heading text-xs uppercase tracking-widest text-neutral-400">
           Location
         </span>
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-serif-body text-xs text-white leading-tight">
+        <div
+          className="relative flex items-center gap-2 flex-wrap"
+          onMouseEnter={() => setTooltipVisible(true)}
+          onMouseLeave={() => setTooltipVisible(false)}
+        >
+          <i className="fas fa-location-dot text-[10px] text-[#D4AF37]/60" />
+          <span className="font-serif-body text-xs text-white leading-tight cursor-default">
             California
           </span>
           <span className="text-neutral-500 text-xs font-light font-mono">{californiaTime}</span>
+          {timeDiff && tooltipVisible && (
+            <div className="animate-tooltip-enter absolute top-full left-0 mt-2.5 px-3 py-2 rounded-lg bg-neutral-900/95 border border-white/10 backdrop-blur-md shadow-[0_8px_24px_rgba(0,0,0,0.5)] whitespace-nowrap">
+              <span className="font-serif-body text-[11px] text-neutral-300">{timeDiff}</span>
+              <div className="absolute -top-1 left-4 w-2 h-2 bg-neutral-900/95 border-l border-t border-white/10 rotate-45" />
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Menu */}
-      <div className="md:col-span-4 flex justify-start md:justify-end items-start md:items-center fade-up delay-200">
+      <div className="md:col-span-5 flex justify-start md:justify-end items-start md:items-center fade-up delay-200">
         <nav className="flex flex-row md:flex-col items-start md:items-end gap-3 md:gap-1.5 w-full md:w-auto">
           <a href="#projects" className="group flex items-center gap-2 font-serif-heading text-sm text-white hover-gold transition-all duration-300 focus-gold rounded-sm px-1 -mx-1 py-0.5 -my-0.5">
             <span className="opacity-0 -translate-x-2 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 transition-all duration-300 text-[#D4AF37] text-xs font-mono">

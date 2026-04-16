@@ -2,7 +2,7 @@ export default function WorkWithMe() {
   const borderPath = 'M 600 1 H 1167 A 32 32 0 0 1 1199 33 V 387 A 32 32 0 0 1 1167 419 H 33 A 32 32 0 0 1 1 387 V 33 A 32 32 0 0 1 33 1 H 600';
 
   return (
-    <section id="work-with-me" className="py-20 relative z-10">
+    <section id="work-with-me" className="py-10 relative z-10">
       <div className="container max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="work-with-me-shell rounded-[2rem]">
           <svg
@@ -37,18 +37,18 @@ export default function WorkWithMe() {
             </g>
           </svg>
           <div className="relative z-10 px-6 py-10 md:px-10 md:py-14">
-            <div className="max-w-3xl space-y-6">
+            <div className="space-y-6">
               <div className="space-y-3">
                 <h2 className="font-serif-heading text-3xl font-semibold text-white md:text-5xl">
                   Work With Me
                 </h2>
               </div>
 
-              <p className="max-w-2xl font-serif-body text-sm leading-relaxed text-neutral-300 md:text-base">
+              <p className="font-serif-body text-sm leading-relaxed text-neutral-300 md:text-base">
                 I like building things that have to actually work - security tooling, reverse engineering-heavy systems, game modding infrastructure, and focused web products.
               </p>
 
-              <p className="max-w-2xl font-serif-body text-sm leading-relaxed text-neutral-400 md:text-base">
+              <p className="font-serif-body text-sm leading-relaxed text-neutral-400 md:text-base">
                 If you&apos;re working on something weird, useful, or difficult to get right, I&apos;m probably interested.
               </p>
 
