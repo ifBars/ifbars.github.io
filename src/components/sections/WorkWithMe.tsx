@@ -37,18 +37,18 @@ export default function WorkWithMe() {
             </g>
           </svg>
           <div className="relative z-10 px-6 py-10 md:px-10 md:py-14">
-            <div className="max-w-3xl space-y-6">
+            <div className="space-y-6">
               <div className="space-y-3">
                 <h2 className="font-serif-heading text-3xl font-semibold text-white md:text-5xl">
                   Work With Me
                 </h2>
               </div>
 
-              <p className="max-w-2xl font-serif-body text-sm leading-relaxed text-neutral-300 md:text-base">
+              <p className="font-serif-body text-sm leading-relaxed text-neutral-300 md:text-base">
                 I like building things that have to actually work - security tooling, reverse engineering-heavy systems, game modding infrastructure, and focused web products.
               </p>
 
-              <p className="max-w-2xl font-serif-body text-sm leading-relaxed text-neutral-400 md:text-base">
+              <p className="font-serif-body text-sm leading-relaxed text-neutral-400 md:text-base">
                 If you&apos;re working on something weird, useful, or difficult to get right, I&apos;m probably interested.
               </p>
 
