@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import HeroShader from '../HeroShader';
+import HeroProfileCard from '../HeroProfileCard';
 import { usePortfolioStore } from '../../store/usePortfolioStore';
 import DoThingsEmphasis from '../DoThingsEmphasis';
 
@@ -35,6 +36,12 @@ export default function Hero() {
         className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-[#050505]/70 via-[#050505]/30 to-transparent pointer-events-none"
       />
 
+      <div className="absolute inset-y-0 right-0 flex items-center justify-end pr-6 md:pr-16 lg:pr-24 xl:pr-32 pointer-events-none z-10">
+        <div className={`pointer-events-auto transition-opacity duration-1000 delay-500 ${contentVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+          <HeroProfileCard />
+        </div>
+      </div>
+
       <div className={`relative z-10 flex flex-col items-start text-left gap-8 w-full max-w-2xl md:max-w-3xl transition-opacity duration-1000 ${contentVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="flex flex-col gap-4 md:gap-6">
           <div className="leading-[0.95]">
@@ -46,7 +53,7 @@ export default function Hero() {
             </p>
           </div>
           <p className="font-serif-body text-sm md:text-base text-neutral-300 max-w-2xl fade-up delay-200">
-            I build high-performance game mods and security tooling used by 100,000+ users. Specializing in C# reverse engineering, scalable systems, and <DoThingsEmphasis />.
+            I build high-performance game mods and security tooling used by 150,000+ users. Specializing in C# reverse engineering, scalable systems, and <DoThingsEmphasis />.
           </p>
         </div>
 
