@@ -53,7 +53,7 @@ export default function Hero() {
             </p>
           </div>
           <p className="font-serif-body text-sm md:text-base text-neutral-300 max-w-2xl fade-up delay-200">
-            I build high-performance game mods and security tooling used by 150,000+ users. Specializing in C# reverse engineering, scalable systems, and <DoThingsEmphasis />.
+            I build high-performance game mods and security tooling used by 150,000+ users, with projects that have grown into real-world infrastructure. Specializing in C# reverse engineering, scalable systems, and <DoThingsEmphasis />.
           </p>
         </div>
 
