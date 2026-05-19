@@ -129,7 +129,7 @@ export default function Projects() {
     };
   }, []);
 
-  const bestWork: Project[] = [
+  const ownedProjects: Project[] = [
     {
       name: "S1API",
       sourceUrl: "https://github.com/ifBars/S1API",
@@ -186,6 +186,23 @@ export default function Projects() {
           namespace: "ifBars",
           packageName: "MLVScan",
           label: "Thunderstore"
+        }
+      ]
+    },
+    {
+      name: "S1DedicatedServers",
+      sourceUrl: "https://github.com/ifBars/S1DedicatedServers",
+      projectUrl: "https://github.com/ifBars/S1DedicatedServers",
+      description: "A dedicated server framework for Schedule I.",
+      subDescription: "A comprehensive dedicated server solution enabling persistent multiplayer sessions for Schedule I as the community moves toward larger, always-on multiplayer servers.",
+      tags: ["C#", "Schedule 1", "Multiplayer", "Game Server"],
+      image: "/s1dedicatedservers.png",
+      statSources: [
+        {
+          kind: "github-release",
+          owner: "ifBars",
+          repo: "S1DedicatedServers",
+          label: "GitHub Releases"
         }
       ]
     },
@@ -252,83 +269,6 @@ export default function Projects() {
       ]
     },
     {
-      name: "RatScanner",
-      sourceUrl: "https://github.com/RatScanner/RatScanner",
-      projectUrl: "https://ratscanner.com/",
-      statSources: [
-        {
-          kind: "github-release",
-          owner: "RatScanner",
-          repo: "RatScanner",
-          label: "GitHub Releases"
-        }
-      ],
-      description: "Escape from Tarkov item value scanner that accelerates loot decisions.",
-      subDescription: "Added a tray icon context menu to provide better user experience.",
-      tags: ["C#", "OCR", "Game Tools"],
-      image: "/ratscanner.png",
-      demoImage: "/ratscanner-demo.gif",
-      isContribution: true
-    },
-    {
-      name: "ProTVConvertor",
-      sourceUrl: "https://github.com/ifBars/VRChat-ProTVConvertor",
-      projectUrl: "https://protv-convertor.onrender.com/",
-      description: "Pipeline for converting youtube playlists into VRChat ProTV-friendly formats.",
-      subDescription: "My first project I published publicly. Used by VRChat world developers to easily integrate youtube playlists into ProTV video players.",
-      tags: ["C#", "Python", "VRChat", "Media"],
-      image: "/protvconvertor.png",
-      statSources: [
-        {
-          kind: "github-release",
-          owner: "ifBars",
-          repo: "VRChat-ProTVConvertor",
-          label: "GitHub Releases"
-        }
-      ]
-    },
-    {
-      name: "CS2 External ESP",
-      sourceUrl: "https://github.com/IMXNOOBX/cs2-external-esp",
-      projectUrl: "https://github.com/IMXNOOBX/cs2-external-esp",
-      description: "One of the first widely adopted external ESPs for CS2 with player visualization.",
-      subDescription: "I made over 100 commits to this project, including major feature additions and improvements to the codebase, around it's time of release.",
-      tags: ["C++", "Game Hacking", "CS2"],
-      image: "/cs2-external-esp.png",
-      isContribution: true
-    },
-    {
-      name: "Marvel Rivals Jarvis AI",
-      sourceUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
-      projectUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
-      description: "Voice-driven AI assistant for Marvel Rivals.",
-      subDescription: "I contributed to this project by extending the feature set with command routing, richer responses, and a complete codebase refactor for scalability.",
-      tags: ["Python", "AI", "Marvel Rivals"],
-      image: "/jarvis-ai.png",
-      youtubeVideos: [
-        "https://www.youtube.com/watch?v=CQFnD5ddRFc",
-        "https://www.youtube.com/watch?v=G376sv2jNhw"
-      ],
-      isContribution: true
-    },
-    {
-      name: "S1DedicatedServers",
-      sourceUrl: "https://github.com/ifBars/S1DedicatedServers",
-      projectUrl: "https://github.com/ifBars/S1DedicatedServers",
-      description: "A dedicated server framework for Schedule I.",
-      subDescription: "A comprehensive dedicated server solution enabling persistent multiplayer sessions for Schedule I.",
-      tags: ["C#", "Schedule 1", "Multiplayer", "Game Server"],
-      image: "/s1dedicatedservers.png",
-      statSources: [
-        {
-          kind: "github-release",
-          owner: "ifBars",
-          repo: "S1DedicatedServers",
-          label: "GitHub Releases"
-        }
-      ]
-    },
-    {
       name: "BigWillyMod",
       sourceUrl: "https://github.com/ifBars/BigWillyMod",
       projectUrl: "https://www.nexusmods.com/schedule1/mods/1413",
@@ -354,6 +294,52 @@ export default function Projects() {
     }
   ];
 
+  const contributedProjects: Project[] = [
+    {
+      name: "RatScanner",
+      sourceUrl: "https://github.com/RatScanner/RatScanner",
+      projectUrl: "https://ratscanner.com/",
+      statSources: [
+        {
+          kind: "github-release",
+          owner: "RatScanner",
+          repo: "RatScanner",
+          label: "GitHub Releases"
+        }
+      ],
+      description: "Escape from Tarkov item value scanner that accelerates loot decisions.",
+      subDescription: "Contributed focused UX improvements, including a tray icon context menu for faster access while the scanner is running.",
+      tags: ["C#", "OCR", "Game Tools"],
+      image: "/ratscanner.png",
+      demoImage: "/ratscanner-demo.gif",
+      isContribution: true
+    },
+    {
+      name: "Marvel Rivals Jarvis AI",
+      sourceUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
+      projectUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
+      description: "Voice-driven AI assistant for Marvel Rivals.",
+      subDescription: "Contributed command routing, richer response behavior, and a codebase refactor to make the assistant easier to extend.",
+      tags: ["Python", "AI", "Marvel Rivals"],
+      image: "/jarvis-ai.png",
+      youtubeVideos: [
+        "https://www.youtube.com/watch?v=CQFnD5ddRFc",
+        "https://www.youtube.com/watch?v=G376sv2jNhw"
+      ],
+      isContribution: true
+    },
+    {
+      name: "CS2 External ESP",
+      sourceUrl: "https://github.com/IMXNOOBX/cs2-external-esp",
+      projectUrl: "https://github.com/IMXNOOBX/cs2-external-esp",
+      description: "One of the first widely adopted external ESPs for CS2 with player visualization.",
+      subDescription: "Contributed over 100 commits around the project's release window, including feature additions and maintainability improvements.",
+      tags: ["C++", "Game Hacking", "CS2"],
+      image: "/cs2-external-esp.png",
+      isContribution: true
+    }
+  ];
+
   return (
     <section ref={sectionRef} id="projects" className="py-10 relative z-10 overflow-hidden">
       <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -368,7 +354,7 @@ export default function Projects() {
           data-projects-grid
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6"
         >
-          {bestWork.map((project) => (
+          {ownedProjects.map((project) => (
             <ProjectCard
               key={project.name}
               project={project}
@@ -376,6 +362,31 @@ export default function Projects() {
               className="project-card"
             />
           ))}
+        </div>
+
+        <div className="mt-16 border-t border-white/5 pt-10">
+          <div className="mb-8 max-w-3xl">
+            <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#D4AF37]">
+              Open source contributions
+            </p>
+            <h3 className="mt-3 font-serif-heading text-3xl font-semibold text-white md:text-4xl">
+              Projects I helped improve
+            </h3>
+            <p className="mt-3 font-serif-body text-sm leading-relaxed text-neutral-400 md:text-base">
+              These are not my products. They are community projects where I contributed targeted features, refactors, or quality-of-life improvements.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {contributedProjects.map((project) => (
+              <ProjectCard
+                key={project.name}
+                project={project}
+                onClick={() => setSelectedProject(project)}
+                className="project-card"
+              />
+            ))}
+          </div>
         </div>
       </div>
 

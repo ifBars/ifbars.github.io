@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import Header from './Header';
+import Footer from './Footer';
 import ScrollManager from '../ScrollManager';
 import CustomScrollbar from '../CustomScrollbar';
 import { usePortfolioStore } from '../../store/usePortfolioStore';
@@ -24,6 +25,12 @@ export default function Layout({ children }: LayoutProps) {
       <main className="flex-grow flex flex-col relative w-full z-10">
         {children}
       </main>
+      <div
+        className={`transition-opacity duration-1000 ${introComplete ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+        style={{ transitionDelay: introComplete ? '0.3s' : '0s' }}
+      >
+        <Footer />
+      </div>
     </div>
   );
-} 
+}

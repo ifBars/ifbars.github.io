@@ -92,6 +92,11 @@ export default function ProjectCard({ project, onClick, className = '' }: Projec
                     )}
                     
                     <div data-project-card-body className="p-6 flex-1">
+                        {project.isContribution && (
+                            <div className="mb-3 inline-flex items-center rounded-md border border-[#8BE9FD]/25 bg-[#8BE9FD]/10 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-[#8BE9FD]">
+                                Contribution
+                            </div>
+                        )}
                         <h3 className="min-w-0 font-serif-heading text-2xl font-semibold text-white group-hover:text-[#D4AF37] transition-colors duration-300 leading-tight">
                             {project.name}
                         </h3>

@@ -45,15 +45,20 @@ export default function WorkWithMe() {
               </div>
 
               <p className="font-serif-body text-sm leading-relaxed text-neutral-300 md:text-base">
-                I like building things that have to actually work - security tooling, reverse engineering-heavy systems, game modding infrastructure, and focused web products.
+                <span className="block">
+                  I like building things that have to actually work.
+                </span>
+                <span className="block">
+                  Security tooling, reverse engineering-heavy systems, game modding infrastructure, and focused web products.
+                </span>
               </p>
 
               <p className="font-serif-body text-sm leading-relaxed text-neutral-400 md:text-base">
-                If you&apos;re working on something weird, useful, or difficult to get right, I&apos;m probably interested.
+                If you&apos;re building something useful, technical, or difficult to get right, reach out with what you&apos;re working on and where you need help.
               </p>
 
               <p className="font-mono text-xs uppercase tracking-[0.24em] text-neutral-500 md:text-sm">
-                Discord: <span className="text-[#D4AF37]">ifbars</span>
+                Community / mod support: <span className="text-[#D4AF37]">Discord ifbars</span> or Nexus Mods
               </p>
 
               <div className="flex flex-wrap gap-3 pt-2">
