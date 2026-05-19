@@ -197,25 +197,10 @@ export default function Projects() {
           label: "GitHub",
           url: "https://github.com/ifBars/S1DedicatedServers",
           description: "Open-source dedicated server framework"
-        },
-        {
-          label: "Solace Servers",
-          url: "https://solaceservers.com/schedule-1",
-          description: "Commercial hosting with the mod pre-installed"
-        },
-        {
-          label: "Kinetic Hosting",
-          url: "https://www.kinetichosting.com/game-servers/schedule-1",
-          description: "Schedule 1 hosting and mod support"
-        },
-        {
-          label: "XGamingServer Guide",
-          url: "https://xgamingserver.com/blog/schedule-1-dedicatedservermod-melonloader-setup/",
-          description: "Provider guide for DedicatedServerMod setup"
         }
       ],
       description: "A dedicated server framework for Schedule I, adopted by commercial game-server hosts.",
-      subDescription: "Built the community server stack that lets a P2P-only game run persistent, headless multiplayer sessions. Hosting providers now list, pre-install, or document S1DedicatedServers for real customer servers, including Solace Servers, Kinetic Hosting, and XGamingServer.",
+      subDescription: "Built the community server stack that lets a P2P-only game run persistent, headless multiplayer sessions. Hosting providers now list, pre-install, or document S1DedicatedServers for real customer servers, including Solace Servers, Kinetic Hosting, Survival Servers, XGamingServer, and more.",
       tags: ["C#", "Schedule 1", "Multiplayer", "Commercial Hosting"],
       image: "/s1dedicatedservers.png",
       statSources: [
