@@ -1,11 +1,12 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useLayoutEffect, useRef, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ProjectCard, { Project } from '../ProjectCard';
-import ProjectModal from '../ProjectModal';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const ProjectModal = lazy(() => import('../ProjectModal'));
 
 export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -399,7 +400,9 @@ export default function Projects() {
       {/* Project Modal */}
       <AnimatePresence>
         {selectedProject && (
-          <ProjectModal selectedProject={selectedProject} onClose={() => setSelectedProject(null)} />
+          <Suspense fallback={null}>
+            <ProjectModal selectedProject={selectedProject} onClose={() => setSelectedProject(null)} />
+          </Suspense>
         )}
       </AnimatePresence>
     </section>

@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
-import HeroShader from '../HeroShader';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import HeroProfileCard from '../HeroProfileCard';
 import { usePortfolioStore } from '../../store/usePortfolioStore';
 import DoThingsEmphasis from '../DoThingsEmphasis';
+
+const HeroShader = lazy(() => import('../HeroShader'));
 
 export default function Hero() {
   const [contentVisible, setContentVisible] = useState(false);
@@ -26,7 +27,9 @@ export default function Hero() {
 
   return (
     <section id="hero" className="h-[calc(100vh-70px)] md:h-[calc(100vh-75px)] relative flex flex-col justify-center items-start px-6 md:px-16 lg:px-24 pb-8 overflow-x-clip">
-      <HeroShader />
+      <Suspense fallback={null}>
+        <HeroShader />
+      </Suspense>
 
       <div
         className={`absolute inset-x-0 top-0 bg-gradient-to-b from-[#050505]/40 via-transparent to-[#050505]/70 transition-opacity duration-700 pointer-events-none ${contentVisible ? 'opacity-100' : 'opacity-0'}`}

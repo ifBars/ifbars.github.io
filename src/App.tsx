@@ -1,9 +1,11 @@
+import { lazy, Suspense } from 'react';
 import Layout from './components/layout/Layout';
 import { ReactLenis } from 'lenis/react';
 import Hero from './components/sections/Hero';
-import Projects from './components/sections/Projects';
-import WorkWithMe from './components/sections/WorkWithMe';
 import { usePortfolioStore } from './store/usePortfolioStore';
+
+const Projects = lazy(() => import('./components/sections/Projects'));
+const WorkWithMe = lazy(() => import('./components/sections/WorkWithMe'));
 
 function App() {
   const { introComplete } = usePortfolioStore();
@@ -29,8 +31,12 @@ function App() {
           className={`transition-opacity duration-1000 ${introComplete ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
           style={{ transitionDelay: introComplete ? '0.3s' : '0s' }}
         >
-          <Projects />
-          <WorkWithMe />
+          {introComplete && (
+            <Suspense fallback={null}>
+              <Projects />
+              <WorkWithMe />
+            </Suspense>
+          )}
         </div>
       </Layout>
     </ReactLenis>
