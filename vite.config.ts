@@ -12,31 +12,44 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (!id.includes('node_modules')) {
+          const normalizedId = id.replace(/\\/g, '/');
+
+          if (!normalizedId.includes('/node_modules/')) {
             return;
           }
 
-          if (id.includes('react') || id.includes('scheduler')) {
-            return 'react-vendor';
-          }
-
-          if (id.includes('framer-motion') || id.includes('gsap') || id.includes('lenis')) {
-            return 'motion-vendor';
-          }
-
-          if (id.includes('shaders')) {
+          if (normalizedId.includes('/node_modules/shaders/')) {
             return 'shader-vendor';
           }
 
-          if (id.includes('three') || id.includes('@react-three')) {
+          if (normalizedId.includes('/node_modules/three/') || normalizedId.includes('/node_modules/@react-three/')) {
             return 'three-vendor';
           }
 
-          if (id.includes('zustand') || id.includes('use-sync-external-store')) {
+          if (
+            normalizedId.includes('/node_modules/framer-motion/') ||
+            normalizedId.includes('/node_modules/motion-dom/') ||
+            normalizedId.includes('/node_modules/motion-utils/') ||
+            normalizedId.includes('/node_modules/gsap/') ||
+            normalizedId.includes('/node_modules/lenis/')
+          ) {
+            return 'motion-vendor';
+          }
+
+          if (
+            normalizedId.includes('/node_modules/react/') ||
+            normalizedId.includes('/node_modules/react-dom/') ||
+            normalizedId.includes('/node_modules/react-reconciler/') ||
+            normalizedId.includes('/node_modules/scheduler/')
+          ) {
+            return 'react-vendor';
+          }
+
+          if (normalizedId.includes('/node_modules/zustand/') || normalizedId.includes('/node_modules/use-sync-external-store/')) {
             return 'state-vendor';
           }
 
-          if (id.includes('lucide-react')) {
+          if (normalizedId.includes('/node_modules/lucide-react/')) {
             return 'icons-vendor';
           }
 
