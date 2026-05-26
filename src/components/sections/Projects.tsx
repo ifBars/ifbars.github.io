@@ -409,7 +409,7 @@ export default function Projects() {
               Projects I helped improve
             </h3>
             <p className="mt-3 font-serif-body text-sm leading-relaxed text-neutral-400 md:text-base">
-              These are not my products. They are external projects where I landed focused fixes, product improvements, or maintainability work that made the software easier to use or ship.
+              These are not my products. They are external projects where I made focused fixes, product improvements, or maintainability work that made the software easier to use or ship.
             </p>
           </div>
 
