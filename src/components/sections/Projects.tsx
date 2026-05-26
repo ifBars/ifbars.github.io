@@ -303,6 +303,26 @@ export default function Projects() {
 
   const contributedProjects: Project[] = [
     {
+      name: "T3Code",
+      sourceUrl: "https://github.com/pingdotgg/t3code",
+      projectUrl: "https://github.com/pingdotgg/t3code/pull/1403",
+      description: "AI desktop coding app from T3 / Theo's company.",
+      subDescription: "Landed a focused UI regression fix for the provider/model picker, including browser coverage for the nested submenu positioning bug.",
+      tags: ["TypeScript", "React", "AI Tools"],
+      image: "https://opengraph.githubassets.com/ifbars-t3code-pr/pingdotgg/t3code/pull/1403",
+      isContribution: true
+    },
+    {
+      name: "SIMM",
+      sourceUrl: "https://github.com/SirTidez/simm",
+      projectUrl: "https://github.com/SirTidez/simm/pulls?q=author%3AifBars",
+      description: "Tauri mod manager for Schedule I.",
+      subDescription: "Contributed practical product work across Nexus file handling, mod download security scanning, and narrow UI fixes with frontend, backend, and Rust validation.",
+      tags: ["Tauri", "React", "Rust"],
+      image: "https://opengraph.githubassets.com/ifbars-simm-prs/SirTidez/simm/pulls?q=author%3AifBars",
+      isContribution: true
+    },
+    {
       name: "RatScanner",
       sourceUrl: "https://github.com/RatScanner/RatScanner",
       projectUrl: "https://ratscanner.com/",
@@ -319,30 +339,6 @@ export default function Projects() {
       tags: ["C#", "OCR", "Game Tools"],
       image: "/ratscanner.png",
       demoImage: "/ratscanner-demo.gif",
-      isContribution: true
-    },
-    {
-      name: "Marvel Rivals Jarvis AI",
-      sourceUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
-      projectUrl: "https://github.com/PatchiPup/Jarvis-Mark-II",
-      description: "Voice-driven AI assistant for Marvel Rivals.",
-      subDescription: "Contributed command routing, richer response behavior, and a codebase refactor to make the assistant easier to extend.",
-      tags: ["Python", "AI", "Marvel Rivals"],
-      image: "/jarvis-ai.png",
-      youtubeVideos: [
-        "https://www.youtube.com/watch?v=CQFnD5ddRFc",
-        "https://www.youtube.com/watch?v=G376sv2jNhw"
-      ],
-      isContribution: true
-    },
-    {
-      name: "CS2 External ESP",
-      sourceUrl: "https://github.com/IMXNOOBX/cs2-external-esp",
-      projectUrl: "https://github.com/IMXNOOBX/cs2-external-esp",
-      description: "One of the first widely adopted external ESPs for CS2 with player visualization.",
-      subDescription: "Contributed over 100 commits around the project's release window, including feature additions and maintainability improvements.",
-      tags: ["C++", "Game Hacking", "CS2"],
-      image: "/cs2-external-esp.png",
       isContribution: true
     }
   ];
@@ -380,7 +376,7 @@ export default function Projects() {
               Projects I helped improve
             </h3>
             <p className="mt-3 font-serif-body text-sm leading-relaxed text-neutral-400 md:text-base">
-              These are not my products. They are community projects where I contributed targeted features, refactors, or quality-of-life improvements.
+              These are not my products. They are external projects where I landed focused fixes, product improvements, or maintainability work that made the software easier to use or ship.
             </p>
           </div>
 
