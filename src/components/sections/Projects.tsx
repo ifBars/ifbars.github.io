@@ -310,6 +310,14 @@ export default function Projects() {
       subDescription: "Landed a focused UI regression fix for the provider/model picker, including browser coverage for the nested submenu positioning bug.",
       tags: ["TypeScript", "React", "AI Tools"],
       image: "https://opengraph.githubassets.com/ifbars-t3code-pr/pingdotgg/t3code/pull/1403",
+      statSources: [
+        {
+          kind: "github-release",
+          owner: "pingdotgg",
+          repo: "t3code",
+          label: "GitHub Releases"
+        }
+      ],
       isContribution: true
     },
     {
@@ -320,6 +328,14 @@ export default function Projects() {
       subDescription: "Contributed practical product work across Nexus file handling, mod download security scanning, and narrow UI fixes with frontend, backend, and Rust validation.",
       tags: ["Tauri", "React", "Rust"],
       image: "https://opengraph.githubassets.com/ifbars-simm-prs/SirTidez/simm/pulls?q=author%3AifBars",
+      statSources: [
+        {
+          kind: "github-release",
+          owner: "SirTidez",
+          repo: "simm",
+          label: "GitHub Releases"
+        }
+      ],
       isContribution: true
     },
     {
