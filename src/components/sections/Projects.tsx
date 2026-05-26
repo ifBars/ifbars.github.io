@@ -305,7 +305,7 @@ export default function Projects() {
     {
       name: "T3Code",
       sourceUrl: "https://github.com/pingdotgg/t3code",
-      projectUrl: "https://github.com/pingdotgg/t3code/pull/1403",
+      projectUrl: "https://t3.codes/",
       description: "AI desktop coding app from T3 / Theo's company.",
       subDescription: "Landed a focused UI regression fix for the provider/model picker, including browser coverage for the nested submenu positioning bug.",
       tags: ["TypeScript", "React", "AI Tools"],
