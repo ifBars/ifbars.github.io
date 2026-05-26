@@ -323,12 +323,29 @@ export default function Projects() {
     {
       name: "SIMM",
       sourceUrl: "https://github.com/SirTidez/simm",
-      projectUrl: "https://github.com/SirTidez/simm/pulls?q=author%3AifBars",
+      projectUrl: [
+        {
+          label: "Contributed PRs",
+          url: "https://github.com/SirTidez/simm/pulls?q=author%3AifBars",
+          description: "Merged contribution history"
+        },
+        {
+          label: "Nexus Mods",
+          url: "https://www.nexusmods.com/schedule1/mods/1750",
+          description: "Public mod manager downloads"
+        }
+      ],
       description: "Tauri mod manager for Schedule I.",
       subDescription: "Contributed practical product work across Nexus file handling, mod download security scanning, and narrow UI fixes with frontend, backend, and Rust validation.",
       tags: ["Tauri", "React", "Rust"],
       image: "https://opengraph.githubassets.com/ifbars-simm-prs/SirTidez/simm/pulls?q=author%3AifBars",
       statSources: [
+        {
+          kind: "nexus",
+          gameId: "7381",
+          modId: "1750",
+          label: "Nexus Mods"
+        },
         {
           kind: "github-release",
           owner: "SirTidez",
