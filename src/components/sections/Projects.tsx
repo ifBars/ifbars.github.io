@@ -309,7 +309,7 @@ export default function Projects() {
       description: "AI desktop coding app from T3 / Theo's company.",
       subDescription: "Landed a focused UI regression fix for the provider/model picker, including browser coverage for the nested submenu positioning bug.",
       tags: ["TypeScript", "React", "AI Tools"],
-      image: "https://opengraph.githubassets.com/ifbars-t3code-pr/pingdotgg/t3code/pull/1403",
+      image: "/t3code.png",
       statSources: [
         {
           kind: "github-release",

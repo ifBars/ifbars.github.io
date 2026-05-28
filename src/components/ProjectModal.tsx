@@ -6,6 +6,7 @@ import { Project } from './ProjectCard';
 import { useGithubStats } from '../hooks/useGithubStats';
 import { useDownloadStats } from '../hooks/useDownloadStats';
 import { formatFullNumber } from '../utils/numberFormat';
+import ProjectImage from './ProjectImage';
 
 interface ProjectModalProps {
     selectedProject: Project;
@@ -40,6 +41,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
     const downloadStats = useDownloadStats(selectedProject.statSources);
     const showDownloadStats = downloadStats.loading || Boolean(downloadStats.totalDownloads);
     const showDownloadBreakdown = downloadStats.sources.length > 1;
+    const previewImage = selectedProject.demoImage || selectedProject.image;
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
     useEffect(() => {
@@ -209,12 +211,13 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                             )}
 
                             {/* Demo Image/GIF - positioned inline with description */}
-                            {!selectedProject.youtubeVideos && (selectedProject.demoImage || selectedProject.image) && (
+                            {!selectedProject.youtubeVideos && previewImage && (
                                 <div className="rounded-xl overflow-hidden border border-neutral-800/50 bg-neutral-900/30">
-                                    <img 
-                                        src={selectedProject.demoImage || selectedProject.image} 
+                                    <ProjectImage
+                                        src={previewImage}
                                         alt={`${selectedProject.name} demo`}
                                         className="w-full h-auto object-contain"
+                                        fallbackClassName="min-h-40"
                                         style={{ maxHeight: '300px' }}
                                     />
                                 </div>

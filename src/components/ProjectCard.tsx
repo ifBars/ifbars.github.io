@@ -1,6 +1,7 @@
 import { useGithubStats } from '../hooks/useGithubStats';
 import { useDownloadStats } from '../hooks/useDownloadStats';
 import { formatCompactNumber, formatFullNumber } from '../utils/numberFormat';
+import ProjectImage from './ProjectImage';
 
 export interface ProjectLink {
     label: string;
@@ -82,8 +83,8 @@ export default function ProjectCard({ project, onClick, className = '' }: Projec
                     {/* Project Image */}
                     {project.image && (
                         <div data-project-card-media className="relative w-full h-48 overflow-hidden bg-neutral-900/50">
-                            <img 
-                                src={project.image} 
+                            <ProjectImage
+                                src={project.image}
                                 alt={`${project.name} preview`}
                                 className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
                             />
