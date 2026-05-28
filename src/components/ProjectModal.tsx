@@ -110,7 +110,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                 <button
                     type="button"
                     onClick={onClose}
-                    className="absolute right-3 top-3 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/70 text-neutral-300 shadow-[0_8px_24px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all hover:border-[#D4AF37]/50 hover:text-white focus-gold md:right-4 md:top-4"
+                    className="absolute right-3 top-3 z-40 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/10 bg-black/70 text-neutral-300 shadow-[0_8px_24px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all hover:border-[#D4AF37]/50 hover:text-white focus-gold md:right-4 md:top-4"
                     aria-label="Close project details"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
