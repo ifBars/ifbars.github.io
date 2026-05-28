@@ -212,6 +212,10 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
+.project-modal-scroll {
+  -webkit-overflow-scrolling: touch;
+}
+
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 ::-webkit-scrollbar {

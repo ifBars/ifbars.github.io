@@ -46,6 +46,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
 
     useEffect(() => {
         if (lenis) lenis.stop();
+        const previousBodyOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
 
         const handleEsc = (e: KeyboardEvent) => {
@@ -55,7 +56,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
 
         return () => {
             if (lenis) lenis.start();
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = previousBodyOverflow;
             window.removeEventListener('keydown', handleEsc);
         };
     }, [lenis, onClose]);
@@ -83,7 +84,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
 
     return createPortal(
         <motion.div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6"
+            className="fixed inset-0 z-[100] flex items-start justify-center p-3 pt-4 sm:p-4 md:items-center md:p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -100,15 +101,26 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
                 transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-                className="relative w-full max-w-4xl bg-[#0a0a0a] border border-neutral-800 rounded-3xl shadow-2xl overflow-hidden z-20 flex flex-col"
+                className="relative z-20 flex max-h-[calc(100svh-2rem)] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-neutral-800 bg-[#0a0a0a] shadow-2xl sm:max-h-[calc(100svh-2.5rem)] md:rounded-3xl"
                 onClick={(e) => e.stopPropagation()}
                 role="dialog"
                 aria-modal="true"
                 aria-labelledby="project-modal-title"
             >
+                <button
+                    type="button"
+                    onClick={onClose}
+                    className="absolute right-3 top-3 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/70 text-neutral-300 shadow-[0_8px_24px_rgba(0,0,0,0.35)] backdrop-blur-md transition-all hover:border-[#D4AF37]/50 hover:text-white focus-gold md:right-4 md:top-4"
+                    aria-label="Close project details"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 6l12 12M18 6L6 18" />
+                    </svg>
+                </button>
+
                 {/* ESC Hint */}
                 <motion.div
-                    className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2 text-neutral-500 text-xs font-mono pointer-events-none z-30 opacity-50"
+                    className="pointer-events-none absolute left-1/2 top-4 z-30 hidden -translate-x-1/2 items-center gap-2 font-mono text-xs text-neutral-500 opacity-50 md:flex"
                     initial={{ opacity: 0, y: -10 }}
                     animate={{
                         opacity: 0.5,
@@ -130,28 +142,28 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                 <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
 
                 {/* Main Content Container */}
-                <div className="p-8 md:p-10 relative">
+                <div data-lenis-prevent className="project-modal-scroll relative overflow-y-auto overscroll-contain px-5 pb-6 pt-7 sm:px-6 sm:pb-7 sm:pt-8 md:p-10">
                     {/* Header Section */}
-                    <div className="mb-8">
-                        <div className="flex items-center gap-3 mb-4 opacity-75">
-                            <div className="flex items-center gap-2 font-mono text-xs md:text-sm tracking-wide">
-                                <span className="text-[#FF79C6]">{repoPath.owner}</span>
+                    <div className="mb-6 pr-10 md:mb-8 md:pr-0">
+                        <div className="mb-4 flex flex-wrap items-center gap-2 opacity-75 sm:gap-3">
+                            <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] tracking-wide sm:text-xs md:text-sm">
+                                <span className="max-w-full break-all text-[#FF79C6]">{repoPath.owner}</span>
                                 <span className="text-neutral-600">/</span>
-                                <span className="text-[#50FA7B]">{repoPath.repo}</span>
+                                <span className="max-w-full break-all text-[#50FA7B]">{repoPath.repo}</span>
                             </div>
-                            <span className="px-2 py-0.5 rounded-full bg-neutral-800/80 border border-neutral-700/50 text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Public</span>
+                            <span className="rounded-full border border-neutral-700/50 bg-neutral-800/80 px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-neutral-400">Public</span>
                         </div>
 
-                        <h2 id="project-modal-title" className="font-serif-heading text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+                        <h2 id="project-modal-title" className="break-words font-serif-heading text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl md:text-5xl">
                             {selectedProject.name}
                         </h2>
                     </div>
 
                     {/* Two Column Layout */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                    <div className="grid grid-cols-1 gap-7 md:grid-cols-3 md:gap-12">
 
                         {/* Left Column: Description (Span 2) */}
-                        <div className="md:col-span-2 space-y-6">
+                        <div className="space-y-5 md:col-span-2 md:space-y-6">
                             <div className="prose prose-invert max-w-none">
                                 {selectedProject.isContribution && (
                                     <div className="flex items-center gap-2 mb-3">
@@ -163,14 +175,14 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                                 <h3 className="text-xl font-serif-heading text-neutral-200 mb-3">
                                     {selectedProject.description}
                                 </h3>
-                                <p className="text-neutral-400 font-serif-body leading-relaxed text-sm md:text-base">
+                                <p className="font-serif-body text-sm leading-relaxed text-neutral-400 md:text-base">
                                     {selectedProject.subDescription || selectedProject.description}
                                 </p>
                             </div>
 
                             {/* YouTube Video Carousel */}
                             {selectedProject.youtubeVideos && selectedProject.youtubeVideos.length > 0 && (
-                                <div className="rounded-xl overflow-hidden border border-neutral-800/50 bg-neutral-900/30 max-w-md">
+                                <div className="max-w-md overflow-hidden rounded-xl border border-neutral-800/50 bg-neutral-900/30">
                                     <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
                                         <iframe
                                             src={getYouTubeEmbedUrl(selectedProject.youtubeVideos[currentVideoIndex])}
@@ -212,13 +224,13 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
 
                             {/* Demo Image/GIF - positioned inline with description */}
                             {!selectedProject.youtubeVideos && previewImage && (
-                                <div className="rounded-xl overflow-hidden border border-neutral-800/50 bg-neutral-900/30">
+                                <div className="overflow-hidden rounded-xl border border-neutral-800/50 bg-neutral-900/30">
                                     <ProjectImage
                                         src={previewImage}
                                         alt={`${selectedProject.name} demo`}
                                         className="w-full h-auto object-contain"
                                         fallbackClassName="min-h-40"
-                                        style={{ maxHeight: '300px' }}
+                                        style={{ maxHeight: 'min(300px, 42svh)' }}
                                     />
                                 </div>
                             )}
@@ -242,7 +254,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                         </div>
 
                         {/* Right Column: Actions & Stats (Span 1) */}
-                        <div className="flex flex-col gap-6">
+                        <div className="flex flex-col gap-5 md:sticky md:top-0 md:self-start md:gap-6">
                             {/* Action Buttons */}
                             <div className="flex flex-col gap-3">
                                 {projectLinks.length > 0 && (
