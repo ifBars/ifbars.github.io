@@ -27,13 +27,13 @@ const TERMINAL_ENTRIES: TerminalEntry[] = [
   {
     command: '> ship(S1API)',
     detail: "Schedule 1's unofficial modding framework powering most community releases.",
-    impact: '25k+ downloads',
+    impact: '150k+ downloads',
     stack: ['C#', 'MelonLoader', 'Framework'],
   },
   {
     command: '> harden(MLVScan)',
     detail: 'Security-first scanner that disables malicious MelonLoader mods before they boot.',
-    impact: 'Protecting 25k+ users',
+    impact: 'Protecting 50k+ users',
     stack: ['C#', 'Security', 'Reverse Engineering'],
   },
   {
@@ -110,7 +110,7 @@ export default function DoThingsEmphasis() {
       updatePosition();
     });
   };
-  
+
   const hideIfUnlocked = () => {
     if (!locked) {
       // Small delay to allow moving mouse to tooltip
@@ -140,7 +140,7 @@ export default function DoThingsEmphasis() {
   // Keyboard navigation
   useEffect(() => {
     if (!active) return;
-    
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') {
         nextEntry();
@@ -202,19 +202,19 @@ export default function DoThingsEmphasis() {
           onMouseEnter={show}
           onMouseLeave={hideIfUnlocked}
         >
-          <div 
+          <div
             className="relative rounded-lg border border-[#D4AF37]/30 bg-gradient-to-br from-black/95 via-[#0a0a0a]/95 to-black/95 px-4 py-3 text-[11px] font-mono text-neutral-200 shadow-[0_8px_32px_rgba(0,0,0,0.8),0_0_0_1px_rgba(212,175,55,0.1),0_0_24px_rgba(212,175,55,0.15)] backdrop-blur-xl pointer-events-auto"
             onMouseEnter={show}
             onMouseLeave={hideIfUnlocked}
           >
             {/* Terminal top bar accent */}
             <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent rounded-t-lg" />
-            
+
             {/* Terminal label */}
             <div className="flex items-center gap-2 mb-2.5">
               <span className="flex-1 h-px bg-gradient-to-r from-[#D4AF37]/20 to-transparent" />
             </div>
-            
+
             <div key={currentIndex} className="animate-fade-in">
               {/* Command line */}
               <div className="flex items-center gap-1 mb-3">
@@ -223,7 +223,7 @@ export default function DoThingsEmphasis() {
                   {entry.command}
                 </span>
               </div>
-              
+
               {/* Proof */}
               <div className="space-y-2 mb-2.5">
                 <p className="text-[11px] leading-snug text-neutral-300">
@@ -235,7 +235,7 @@ export default function DoThingsEmphasis() {
                   </p>
                 )}
               </div>
-              
+
               {/* Stack */}
               <div className="flex flex-wrap gap-1.5 mb-2">
                 {entry.stack.map((tag) => (
@@ -248,7 +248,7 @@ export default function DoThingsEmphasis() {
                 ))}
               </div>
             </div>
-            
+
             {/* Footer hint with carousel controls */}
             <div className="flex items-center justify-between pt-1.5 border-t border-white/5">
               <span className="text-[9px] text-neutral-500/80 italic">
@@ -314,5 +314,3 @@ export default function DoThingsEmphasis() {
     </>
   );
 }
-
-
