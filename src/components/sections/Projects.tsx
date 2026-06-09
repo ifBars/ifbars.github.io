@@ -195,13 +195,13 @@ export default function Projects() {
       sourceUrl: "https://github.com/ifBars/S1DedicatedServers",
       projectUrl: [
         {
-          label: "GitHub",
-          url: "https://github.com/ifBars/S1DedicatedServers",
-          description: "Open-source dedicated server framework"
+          label: "Project Site",
+          url: "https://s1servers.com/",
+          description: "Public Schedule I server listing"
         }
       ],
       description: "A dedicated server framework for Schedule I, adopted by commercial game-server hosts.",
-      subDescription: "Built the community server stack that lets a P2P-only game run persistent, headless multiplayer sessions. Hosting providers now list, pre-install, or document S1DedicatedServers for real customer servers, including Solace Servers, Kinetic Hosting, Survival Servers, XGamingServer, and more.",
+      subDescription: "Built the community server stack that lets a P2P-only game run persistent, headless multiplayer sessions. Hosting providers now list, pre-install, or document S1DedicatedServers for real customer servers, including Solace Servers, Kinetic Hosting, Survival Servers, Cybrancee, and more.",
       tags: ["C#", "Schedule 1", "Multiplayer", "Commercial Hosting"],
       image: "/s1dedicatedservers.png",
       statSources: [
