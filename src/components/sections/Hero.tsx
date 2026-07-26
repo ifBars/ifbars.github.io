@@ -75,7 +75,7 @@ export default function Hero() {
             </button>
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400 font-serif-body">
-            {['Game Modding', 'Web & React', 'APIs & Tools'].map((pill) => (
+            {['Game Modding', 'Web Development', 'APIs & Tools'].map((pill) => (
               <span
                 key={pill}
                 className="px-3 py-2 rounded-full bg-white/5 border border-white/5 backdrop-blur-sm text-neutral-300"
