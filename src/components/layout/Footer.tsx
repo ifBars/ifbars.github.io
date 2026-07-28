@@ -3,7 +3,7 @@ export default function Footer() {
     <footer className="relative z-10 mt-auto w-full border-t border-white/5">
       <div className="mx-auto flex w-full max-w-[1800px] flex-col gap-3 px-4 py-5 text-xs text-neutral-500 md:flex-row md:items-center md:justify-between md:px-6">
         <p className="font-serif-body">
-          IfBars
+          IfBars / Founder &amp; Lead Developer at Bars Studio
         </p>
 
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-serif-body">
