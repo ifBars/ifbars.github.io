@@ -52,7 +52,15 @@ export default function Hero() {
               Hi, I'm IfBars.
             </h1>
             <p className="font-serif-heading text-xl sm:text-2xl md:text-3xl text-white/80 italic fade-up delay-200">
-              Founder &amp; Lead Developer at Bars Studio
+              Founder &amp; Lead Developer at{' '}
+              <a
+                href="https://ifbars.github.io/bars-studio/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-sm underline decoration-white/30 underline-offset-[0.18em] transition-colors hover:text-white hover:decoration-[#D4AF37]/80 focus-gold"
+              >
+                Bars Studio
+              </a>
             </p>
           </div>
           <p className="font-serif-body text-sm md:text-base text-neutral-300 max-w-2xl fade-up delay-200">
