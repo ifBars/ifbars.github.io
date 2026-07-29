@@ -5,7 +5,7 @@ export default function Footer() {
         <p className="font-serif-body">
           IfBars / Founder &amp; Lead Developer at{' '}
           <a
-            href="https://ifbars.github.io/bars-studio/"
+            href="https://barsstudio.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="rounded-sm text-neutral-300 underline decoration-white/20 underline-offset-2 transition-colors hover:text-[#D4AF37] focus-gold"
