@@ -50,7 +50,7 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse flex-shrink-0 shadow-[0_0_8px_rgba(212,175,55,0.5)]"></span>
           <span className="font-serif-body text-xs text-white leading-tight">
-            Open to Opportunities
+            Open to Full-Time Roles
           </span>
         </div>
       </div>

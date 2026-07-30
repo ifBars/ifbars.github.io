@@ -52,19 +52,20 @@ export default function Hero() {
               Hi, I'm IfBars.
             </h1>
             <p className="font-serif-heading text-xl sm:text-2xl md:text-3xl text-white/80 italic fade-up delay-200">
-              Founder &amp; Lead Developer at{' '}
-              <a
-                href="https://barsstudio.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-sm underline decoration-white/30 underline-offset-[0.18em] transition-colors hover:text-white hover:decoration-[#D4AF37]/80 focus-gold"
-              >
-                Bars Studio
-              </a>
+              Independent Software Engineer
             </p>
           </div>
           <p className="font-serif-body text-sm md:text-base text-neutral-300 max-w-2xl fade-up delay-200">
-            I build high-performance game mods and security tooling used by 200,000+ users, with projects that have grown into real-world infrastructure. Specializing in C# reverse engineering, scalable systems, and <DoThingsEmphasis />.
+            I build Unity tools, security systems, and infrastructure used by 200,000+ users.{' '}
+            <a
+              href="https://barsstudio.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-sm text-white underline decoration-white/30 underline-offset-[0.18em] transition-colors hover:decoration-[#D4AF37]/80 focus-gold"
+            >
+              Bars Studio
+            </a>{' '}
+            is the name I use to publish and support my independent work. I specialize in C# reverse engineering, scalable systems, and <DoThingsEmphasis />.
           </p>
         </div>
 
