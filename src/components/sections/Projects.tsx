@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ProjectCard, { Project } from '../ProjectCard';
+import SecurityProjectCard from '../SecurityProjectCard';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -129,6 +130,29 @@ export default function Projects() {
       ctx.revert();
     };
   }, []);
+
+  const s1NetGuardProject: Project = {
+    name: "S1 Net Guard",
+    sourceUrl: "https://github.com/ifBars/S1NetGuard",
+    projectUrl: [
+      {
+        label: "Security Write-up",
+        url: "https://github.com/ifBars/S1NetGuard/blob/main/reports/schedule-i-unauthenticated-p2p-rpc-abuse.md",
+        description: "Controlled research, evidence boundaries, and remediation"
+      },
+      {
+        label: "Official Patch Notes",
+        url: "https://store.steampowered.com/news/app/3164500/view/701024152480383213?l=english",
+        description: "Schedule I v0.4.6f12 fix and public credit"
+      }
+    ],
+    description: "Security research and host-side protection for a Schedule I multiplayer admission vulnerability.",
+    subDescription: "Reproduced the issue in a controlled environment, documented its impact, built a defensive Mono and IL2CPP mod, and reported it to the developer. The vulnerability was fixed in the official v0.4.6f12 update with public credit for the write-up.",
+    tags: ["C#", "Security Research", "Game Networking", "Responsible Disclosure"],
+    image: "/s1netguard.png",
+    hideRepoStats: true,
+    showTagsInSidebar: true
+  };
 
   const ownedProjects: Project[] = [
     {
@@ -399,6 +423,11 @@ export default function Projects() {
             />
           ))}
         </div>
+
+        <SecurityProjectCard
+          project={s1NetGuardProject}
+          onClick={() => setSelectedProject(s1NetGuardProject)}
+        />
 
         <div className="mt-16 border-t border-white/5 pt-10">
           <div className="mb-8 max-w-3xl">

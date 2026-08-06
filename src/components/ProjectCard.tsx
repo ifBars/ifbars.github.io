@@ -42,6 +42,8 @@ export interface Project {
     subDescription?: string;
     isContribution?: boolean;
     statSources?: ProjectStatSource[];
+    hideRepoStats?: boolean;
+    showTagsInSidebar?: boolean;
 }
 
 interface ProjectCardProps {

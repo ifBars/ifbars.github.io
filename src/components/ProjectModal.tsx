@@ -37,7 +37,10 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
     };
     
     const repoPath = getRepoPath(primarySourceUrl);
-    const repoStats = useGithubStats(primarySourceUrl, selectedProject.name);
+    const repoStats = useGithubStats(
+        selectedProject.hideRepoStats ? undefined : primarySourceUrl,
+        selectedProject.name
+    );
     const downloadStats = useDownloadStats(selectedProject.statSources);
     const showDownloadStats = downloadStats.loading || Boolean(downloadStats.totalDownloads);
     const showDownloadBreakdown = downloadStats.sources.length > 1;
@@ -236,7 +239,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                             )}
 
                             {/* Tags Row */}
-                            <div className="flex flex-wrap gap-2 pt-2">
+                            <div className={`flex flex-wrap gap-2 pt-2 ${selectedProject.showTagsInSidebar ? 'md:hidden' : ''}`}>
                                 {selectedProject.tags.map((tag, i) => (
                                     <span
                                         key={i}
@@ -360,7 +363,26 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                                 )}
                             </div>
 
+                            {selectedProject.showTagsInSidebar && (
+                                <div className="hidden flex-wrap gap-2 md:flex">
+                                    {selectedProject.tags.map((tag, i) => (
+                                        <span
+                                            key={i}
+                                            className={`
+                                                px-3 py-1 rounded-md text-xs font-mono border
+                                                ${i % 3 === 0 ? 'bg-[#FF79C6]/5 border-[#FF79C6]/20 text-[#FF79C6]' : ''}
+                                                ${i % 3 === 1 ? 'bg-[#50FA7B]/5 border-[#50FA7B]/20 text-[#50FA7B]' : ''}
+                                                ${i % 3 === 2 ? 'bg-[#8BE9FD]/5 border-[#8BE9FD]/20 text-[#8BE9FD]' : ''}
+                                            `}
+                                        >
+                                            {tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+
                             {/* Stats Card */}
+                            {!selectedProject.hideRepoStats && (
                             <div className="bg-neutral-900/50 rounded-2xl border border-white/5 p-5 space-y-4">
                                 <div className="grid grid-cols-2 gap-x-6 gap-y-4">
                                     {showDownloadStats && (
@@ -464,6 +486,7 @@ export default function ProjectModal({ selectedProject, onClose }: ProjectModalP
                                     </div>
                                 </div>
                             </div>
+                            )}
                         </div>
                     </div>
                 </div>
