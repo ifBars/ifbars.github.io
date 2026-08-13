@@ -8,7 +8,7 @@ export default function Footer() {
 
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 font-serif-body">
           <span>
-            Contact: <span className="text-neutral-300">Discord ifbars</span>
+            Discord: <span className="text-neutral-300">@ifbars</span>
           </span>
           <span>
             Projects: <a href="https://github.com/ifBars" target="_blank" rel="noopener noreferrer" className="text-neutral-300 transition-colors hover:text-[#D4AF37] focus-gold rounded-sm px-1 -mx-1">GitHub</a> / <a href="https://next.nexusmods.com/profile/IfBars/mods" target="_blank" rel="noopener noreferrer" className="text-neutral-300 transition-colors hover:text-[#D4AF37] focus-gold rounded-sm px-1 -mx-1">Nexus Mods</a> / <a href="https://barsstudio.com/" target="_blank" rel="noopener noreferrer" className="text-neutral-300 transition-colors hover:text-[#D4AF37] focus-gold rounded-sm px-1 -mx-1">Bars Studio</a>

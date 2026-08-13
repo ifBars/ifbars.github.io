@@ -397,6 +397,30 @@ export default function Projects() {
       image: "/ratscanner.png",
       demoImage: "/ratscanner-demo.gif",
       isContribution: true
+    },
+    {
+      name: "MelonLoader",
+      sourceUrl: "https://github.com/LavaGang/MelonLoader/pull/1193",
+      projectUrl: [
+        {
+          label: "View pull request",
+          url: "https://github.com/LavaGang/MelonLoader/pull/1193",
+          description: "Fix stale Cpp2IL output cleanup"
+        }
+      ],
+      description: "Universal mod loader for Unity games.",
+      subDescription: "Fixed stale Cpp2IL output cleanup so Il2CppInterop only consumes assemblies generated for the current game build.",
+      tags: ["C#", "IL2CPP", "Tooling"],
+      image: "https://opengraph.githubassets.com/ifbars-melonloader-pr-1193/LavaGang/MelonLoader/pull/1193",
+      statSources: [
+        {
+          kind: "github-release",
+          owner: "LavaGang",
+          repo: "MelonLoader",
+          label: "GitHub Releases"
+        }
+      ],
+      isContribution: true
     }
   ];
 
@@ -442,7 +466,7 @@ export default function Projects() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {contributedProjects.map((project) => (
               <ProjectCard
                 key={project.name}
