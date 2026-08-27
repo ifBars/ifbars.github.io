@@ -9,7 +9,7 @@ interface SecurityProjectCardProps {
 export default function SecurityProjectCard({ project, onClick }: SecurityProjectCardProps) {
   return (
     <div
-      className="project-card group mt-8 cursor-pointer transition-transform duration-200 ease-out hover:-translate-y-[5px]"
+      className="project-card group cursor-pointer transition-transform duration-200 ease-out hover:-translate-y-[5px]"
       onClick={onClick}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {

@@ -151,7 +151,8 @@ export default function Projects() {
     tags: ["C#", "Security Research", "Game Networking", "Responsible Disclosure"],
     image: "/s1netguard.png",
     hideRepoStats: true,
-    showTagsInSidebar: true
+    showTagsInSidebar: true,
+    isContribution: true
   };
 
   const ownedProjects: Project[] = [
@@ -265,61 +266,6 @@ export default function Projects() {
           namespace: "ifBars",
           packageName: "SteamNetworkLib_Il2Cpp",
           label: "TS IL2CPP"
-        }
-      ]
-    },
-    {
-      name: "S1 Fuel Mod",
-      sourceUrl: "https://github.com/ifBars/S1FuelMod",
-      projectUrl: "https://www.nexusmods.com/schedule1/mods/1153",
-      description: "Comprehensive fuel system mod for Schedule I.",
-      subDescription: "Adds realistic fuel consumption, fuel stations, HUD integration, persistent vehicle fuel states, and multiplayer synchronization.",
-      tags: ["C#", "Schedule 1", "Game Modding", "Multiplayer"],
-      image: "/fuelmod.png",
-      statSources: [
-        {
-          kind: "nexus",
-          gameId: "7381",
-          modId: "1153",
-          label: "Nexus Mods"
-        },
-        {
-          kind: "thunderstore",
-          community: "schedule-i",
-          namespace: "ifBars",
-          packageName: "S1FuelMod_Mono",
-          label: "TS Mono"
-        },
-        {
-          kind: "thunderstore",
-          community: "schedule-i",
-          namespace: "ifBars",
-          packageName: "S1FuelMod_Il2Cpp",
-          label: "TS IL2CPP"
-        }
-      ]
-    },
-    {
-      name: "BigWillyMod",
-      sourceUrl: "https://github.com/ifBars/BigWillyMod",
-      projectUrl: "https://www.nexusmods.com/schedule1/mods/1413",
-      description: "Schedule 1 mod featuring Big Willy NPC, custom quests, and live stream integrations.",
-      subDescription: "A comprehensive mod adding an interactive NPC, quest system with graffiti mechanics, and Twitch live stream detection.",
-      tags: ["C#", "Schedule 1", "Game Modding"],
-      image: "/bigwilly.png",
-      statSources: [
-        {
-          kind: "nexus",
-          gameId: "7381",
-          modId: "1413",
-          label: "Nexus Mods"
-        },
-        {
-          kind: "thunderstore",
-          community: "schedule-i",
-          namespace: "ifBars",
-          packageName: "BigWillyMod",
-          label: "Thunderstore"
         }
       ]
     }
@@ -448,11 +394,6 @@ export default function Projects() {
           ))}
         </div>
 
-        <SecurityProjectCard
-          project={s1NetGuardProject}
-          onClick={() => setSelectedProject(s1NetGuardProject)}
-        />
-
         <div className="mt-16 border-t border-white/5 pt-10">
           <div className="mb-8 max-w-3xl">
             <p className="font-mono text-xs uppercase tracking-[0.24em] text-[#D4AF37]">
@@ -462,11 +403,16 @@ export default function Projects() {
               Projects I helped improve
             </h3>
             <p className="mt-3 font-serif-body text-sm leading-relaxed text-neutral-400 md:text-base">
-              These are not my products. They are external projects where I made focused fixes, product improvements, or maintainability work that made the software easier to use or ship.
+              Focused fixes, product improvements, and security research contributed to other projects and ecosystems—including a responsible disclosure that led to an official Steam game patch with public credit.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <SecurityProjectCard
+            project={s1NetGuardProject}
+            onClick={() => setSelectedProject(s1NetGuardProject)}
+          />
+
+          <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {contributedProjects.map((project) => (
               <ProjectCard
                 key={project.name}
