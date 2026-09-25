@@ -61,7 +61,7 @@ export default function Hero() {
               href="https://barsstudio.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-sm text-white underline decoration-white/30 underline-offset-[0.18em] transition-colors hover:decoration-[#D4AF37]/80 focus-gold"
+              className="whitespace-nowrap rounded-sm text-white underline decoration-white/30 underline-offset-[0.18em] transition-colors hover:decoration-[#D4AF37]/80 focus-gold"
             >
               Bars Studio
             </a>{' '}

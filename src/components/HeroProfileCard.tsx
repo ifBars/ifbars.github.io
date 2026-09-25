@@ -8,8 +8,8 @@ export default function HeroProfileCard() {
       className="hero-profile-card hidden lg:flex-row lg:flex items-start gap-5 w-[400px] xl:w-[440px] p-5 rounded-2xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
       aria-label="Developer profile summary"
     >
-      <div className="relative flex-shrink-0 group/avatar">
-        <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-[#D4AF37]/20 ring-offset-2 ring-offset-[#0a0a0a] transition-all duration-500 group-hover/avatar:ring-[#D4AF37]/70 group-hover/avatar:shadow-[0_0_20px_rgba(212,175,55,0.25)]">
+      <div className="relative flex-shrink-0">
+        <div className="w-16 h-16 rounded-full overflow-hidden ring-2 ring-[#D4AF37]/20 ring-offset-2 ring-offset-[#0a0a0a]">
           <img
             src={profile.avatarUrl}
             alt="IfBars GitHub avatar"
@@ -25,7 +25,7 @@ export default function HeroProfileCard() {
         </div>
 
         <p className="font-serif-body text-[11px] text-neutral-400 leading-relaxed">
-          I started programming in 2013 as a kid who had a huge passion for computers and wanted to learn how to make them do things. 12 years later, younger me would be proud of what I've accomplished.
+          I started coding around age 11 with batch scripts, then moved through Java to C#. ProTV Converter was the first project I shared and maintained for others. Younger me would be proud of how far that curiosity has taken me.
         </p>
 
         <div className="flex items-center gap-5">

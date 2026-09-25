@@ -268,6 +268,23 @@ export default function Projects() {
           label: "TS IL2CPP"
         }
       ]
+    },
+    {
+      name: "Blender Agent Studio",
+      sourceUrl: "https://github.com/ifBars/blender-agent-studio",
+      description: "A Codex plugin for building, inspecting, and refining Blender scenes.",
+      subDescription: "I built this for my own workflow and shared it with a few developer friends. It has since found a wider audience on GitHub. It brings modeling, animation, rendering, and validation into one workflow, with editable Blender files and Python source to rebuild them.",
+      tags: ["Blender", "Codex Plugin", "MCP", "3D Tools"],
+      image: "/blender-agent-studio.png"
+    },
+    {
+      name: "ProTV Converter",
+      sourceUrl: "https://github.com/ifBars/VRChat-ProTVConverter",
+      projectUrl: "https://ifbars.github.io/VRChat-ProTVConverter/",
+      description: "A playlist converter for VRChat, and my first project maintained for other people.",
+      subDescription: "This is where I started sharing useful software on GitHub. What began as a C# desktop tool grew into a browser app for building and converting Architech ProTV playlists. It marks an important step in my coding journey: making something other people could use, then continuing to support it.",
+      tags: ["C#", "TypeScript", "React", "VRChat"],
+      image: "/protv-converter.png"
     }
   ];
 

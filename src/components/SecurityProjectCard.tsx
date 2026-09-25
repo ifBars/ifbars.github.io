@@ -27,18 +27,13 @@ export default function SecurityProjectCard({ project, onClick }: SecurityProjec
       >
         <div className="grid md:grid-cols-[minmax(17rem,0.78fr)_minmax(0,1.22fr)]">
           <div
-            data-project-card-media
-            className="relative min-h-64 overflow-hidden bg-neutral-900 md:min-h-full"
+            className="relative flex items-center overflow-hidden bg-neutral-900"
           >
             <ProjectImage
               src={project.image ?? ''}
-              alt={`${project.name} preview`}
-              className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+              alt="Official Schedule I v0.4.6f12 patch notes crediting ifBars for reporting the multiplayer security vulnerability"
+              className="h-auto w-full object-contain"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
-            <div className="absolute bottom-4 left-4 inline-flex items-center rounded-md border border-[#8BE9FD]/25 bg-black/65 px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[#8BE9FD] backdrop-blur-md">
-              Security research
-            </div>
           </div>
 
           <div className="flex flex-col justify-between p-6 sm:p-8">
