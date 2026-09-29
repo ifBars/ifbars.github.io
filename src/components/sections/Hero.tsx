@@ -56,7 +56,7 @@ export default function Hero() {
             </p>
           </div>
           <p className="font-serif-body text-sm md:text-base text-neutral-300 max-w-2xl fade-up delay-200">
-            I build Unity tools, security systems, and infrastructure used by 200,000+ users.{' '}
+            I build Unity tools, security systems, and infrastructure used by 300,000+ users.{' '}
             <a
               href="https://barsstudio.com/"
               target="_blank"
