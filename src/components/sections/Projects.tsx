@@ -272,10 +272,22 @@ export default function Projects() {
     {
       name: "Blender Agent Studio",
       sourceUrl: "https://github.com/ifBars/blender-agent-studio",
-      description: "A Codex plugin for building, inspecting, and refining Blender scenes.",
-      subDescription: "I built this for my own workflow and shared it with a few developer friends. It has since found a wider audience on GitHub. It brings modeling, animation, rendering, and validation into one workflow, with editable Blender files and Python source to rebuild them.",
-      tags: ["Blender", "Codex Plugin", "MCP", "3D Tools"],
-      image: "/blender-agent-studio.png"
+      projectUrl: [
+        {
+          label: "Docs & Installation",
+          url: "https://ifbars.github.io/blender-agent-studio/",
+          description: "Setup and workflows for Codex and Claude Code"
+        },
+        {
+          label: "Comparison Gallery",
+          url: "https://ifbars.github.io/blender-agent-studio/comparisons/",
+          description: "Paired renders with and without the plugin"
+        }
+      ],
+      description: "A free, open-source Blender AI plugin for Codex and Claude Code.",
+      subDescription: "I built this to bring modeling, animation, rendering, and validation into my agent workflow. It runs Blender locally through specialist skills and MCP tools, producing editable .blend files, Python source to rebuild them, and renders for review. The docs include paired examples with and without the plugin, along with validation results and visual reviews.",
+      tags: ["Blender", "Codex", "Claude Code", "MCP", "3D Tools"],
+      image: "https://opengraph.githubassets.com/ifbars-blender-agent-studio/ifBars/blender-agent-studio"
     },
     {
       name: "ProTV Converter",
